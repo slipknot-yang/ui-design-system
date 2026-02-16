@@ -3,12 +3,6 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { isRtl, type Locale } from "@/i18n/config";
-import { AppSidebar } from "@/components/app-sidebar";
-import { AppHeader } from "@/components/app-header";
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@workspace/ui/components/sidebar";
 
 export default async function LocaleLayout({
   children,
@@ -29,13 +23,7 @@ export default async function LocaleLayout({
   return (
     <div dir={dir}>
       <NextIntlClientProvider messages={messages}>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <AppHeader />
-            <main className="flex-1 p-4 lg:p-6">{children}</main>
-          </SidebarInset>
-        </SidebarProvider>
+        {children}
       </NextIntlClientProvider>
     </div>
   );
