@@ -1,0 +1,97 @@
+{
+  "common": {
+    "appName": "CUPIA Design System",
+    "search": "Rechercher",
+    "reset": "Réinitialiser",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "close": "Fermer",
+    "new": "Nouveau",
+    "edit": "Modifier",
+    "export": "Exporter",
+    "import": "Importer",
+    "total": "Total",
+    "loading": "Chargement...",
+    "noData": "Aucune donnée disponible",
+    "pageSize": "Taille de la page",
+    "lightMode": "Mode clair",
+    "darkMode": "Mode sombre",
+    "system": "Système",
+    "language": "Langue",
+    "country": "Pays"
+  },
+  "nav": {
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "patterns": "Modèles d'UI",
+    "components": "Composants",
+    "themes": "Thèmes",
+    "i18n": "i18n",
+    "searchTable": "Recherche + Tableau",
+    "advancedSearch": "Recherche avancée",
+    "masterDetail": "Maître-Détail",
+    "complexForm": "Formulaire complexe",
+    "calendar": "Calendrier",
+    "workflow": "Flux de travail",
+    "dashboardPattern": "Tableau de bord"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "exports": "Exportations",
+    "imports": "Importations",
+    "clearance": "Dédouanement",
+    "amount": "Montant",
+    "count": "Nombre",
+    "recentActivity": "Activité récente",
+    "notices": "Avis"
+  },
+  "patterns": {
+    "title": "Catalogue de modèles d'UI",
+    "description": "7 modèles d'UI principaux du système d'administration douanière CUPIA",
+    "searchTable": {
+      "title": "Recherche + Tableau de résultats",
+      "description": "Le modèle le plus courant, couvrant 60 % de tous les écrans"
+    },
+    "advancedSearch": {
+      "title": "Recherche avancée + Tableau de résultats",
+      "description": "Modèle étendu avec recherche multicritère et exportation Excel"
+    },
+    "masterDetail": {
+      "title": "Maître-Détail (CRUD)",
+      "description": "Liste + formulaire d'édition détaillée combinés pour la gestion des codes"
+    },
+    "complexForm": {
+      "title": "Formulaire complexe + Onglets",
+      "description": "Plus de 200 champs de saisie avec navigation par onglets pour les déclarations"
+    },
+    "calendar": {
+      "title": "Calendrier / Planning",
+      "description": "Modèle CRUD de gestion de planning basé sur les dates"
+    },
+    "workflow": {
+      "title": "Approbation / Flux de travail",
+      "description": "Filtrage basé sur le statut avec processus d'approbation"
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "description": "Graphiques et cartes récapitulatives pour les statistiques"
+    }
+  },
+  "customs": {
+    "hsCode": "Code SH",
+    "declarationNo": "N° de déclaration",
+    "declarationType": "Type de déclaration",
+    "customsOffice": "Bureau de douane",
+    "status": "Statut",
+    "declarer": "Déclarant",
+    "importer": "Importateur",
+    "exporter": "Exportateur",
+    "country": "Pays",
+    "currency": "Devise",
+    "amount": "Montant",
+    "weight": "Poids",
+    "quantity": "Quantité"
+  }
+}

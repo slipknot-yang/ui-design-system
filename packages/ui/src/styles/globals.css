@@ -117,6 +117,170 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* ===== Country Themes (Light Mode) ===== */
+
+/* Korea (Default) — CUPIA Blue */
+[data-country-theme="korea"] {
+  --primary: oklch(0.45 0.2 260);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.45 0.2 260);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.45 0.2 260);
+  --chart-1: oklch(0.45 0.2 260);
+}
+
+/* Ecuador — Green (#2C7652) */
+[data-country-theme="ecuador"] {
+  --primary: oklch(0.52 0.14 155);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.52 0.14 155);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.52 0.14 155);
+  --chart-1: oklch(0.52 0.14 155);
+}
+
+/* Ethiopia — Green/Yellow */
+[data-country-theme="ethiopia"] {
+  --primary: oklch(0.55 0.15 145);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.55 0.15 145);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.55 0.15 145);
+  --chart-1: oklch(0.55 0.15 145);
+}
+
+/* Algeria — Dark Green (#006233) */
+[data-country-theme="algeria"] {
+  --primary: oklch(0.45 0.15 155);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.45 0.15 155);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.45 0.15 155);
+  --chart-1: oklch(0.45 0.15 155);
+}
+
+/* Ghana — Red/Gold/Green */
+[data-country-theme="ghana"] {
+  --primary: oklch(0.55 0.2 25);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.55 0.2 25);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.55 0.2 25);
+  --chart-1: oklch(0.55 0.2 25);
+}
+
+/* Cameroon — Green/Red/Yellow */
+[data-country-theme="cameroon"] {
+  --primary: oklch(0.5 0.16 150);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.5 0.16 150);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.5 0.16 150);
+  --chart-1: oklch(0.5 0.16 150);
+}
+
+/* Uzbekistan — Blue (#1EB53A) */
+[data-country-theme="uzbekistan"] {
+  --primary: oklch(0.5 0.18 235);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.5 0.18 235);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.5 0.18 235);
+  --chart-1: oklch(0.5 0.18 235);
+}
+
+/* Tanzania — Blue/Green/Yellow */
+[data-country-theme="tanzania"] {
+  --primary: oklch(0.5 0.17 220);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.5 0.17 220);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.5 0.17 220);
+  --chart-1: oklch(0.5 0.17 220);
+}
+
+/* Nepal — Crimson (#DC143C) */
+[data-country-theme="nepal"] {
+  --primary: oklch(0.5 0.22 20);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.5 0.22 20);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.5 0.22 20);
+  --chart-1: oklch(0.5 0.22 20);
+}
+
+/* Guatemala — Blue/White */
+[data-country-theme="guatemala"] {
+  --primary: oklch(0.5 0.18 250);
+  --primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.5 0.18 250);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.5 0.18 250);
+  --chart-1: oklch(0.5 0.18 250);
+}
+
+/* ===== Country Themes (Dark Mode) ===== */
+
+.dark[data-country-theme="korea"],
+.dark [data-country-theme="korea"] {
+  --primary: oklch(0.65 0.2 260);
+  --sidebar-primary: oklch(0.65 0.2 260);
+}
+
+.dark[data-country-theme="ecuador"],
+.dark [data-country-theme="ecuador"] {
+  --primary: oklch(0.65 0.14 155);
+  --sidebar-primary: oklch(0.65 0.14 155);
+}
+
+.dark[data-country-theme="ethiopia"],
+.dark [data-country-theme="ethiopia"] {
+  --primary: oklch(0.68 0.15 145);
+  --sidebar-primary: oklch(0.68 0.15 145);
+}
+
+.dark[data-country-theme="algeria"],
+.dark [data-country-theme="algeria"] {
+  --primary: oklch(0.6 0.15 155);
+  --sidebar-primary: oklch(0.6 0.15 155);
+}
+
+.dark[data-country-theme="ghana"],
+.dark [data-country-theme="ghana"] {
+  --primary: oklch(0.65 0.2 25);
+  --sidebar-primary: oklch(0.65 0.2 25);
+}
+
+.dark[data-country-theme="cameroon"],
+.dark [data-country-theme="cameroon"] {
+  --primary: oklch(0.63 0.16 150);
+  --sidebar-primary: oklch(0.63 0.16 150);
+}
+
+.dark[data-country-theme="uzbekistan"],
+.dark [data-country-theme="uzbekistan"] {
+  --primary: oklch(0.63 0.18 235);
+  --sidebar-primary: oklch(0.63 0.18 235);
+}
+
+.dark[data-country-theme="tanzania"],
+.dark [data-country-theme="tanzania"] {
+  --primary: oklch(0.63 0.17 220);
+  --sidebar-primary: oklch(0.63 0.17 220);
+}
+
+.dark[data-country-theme="nepal"],
+.dark [data-country-theme="nepal"] {
+  --primary: oklch(0.63 0.22 20);
+  --sidebar-primary: oklch(0.63 0.22 20);
+}
+
+.dark[data-country-theme="guatemala"],
+.dark [data-country-theme="guatemala"] {
+  --primary: oklch(0.63 0.18 250);
+  --sidebar-primary: oklch(0.63 0.18 250);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

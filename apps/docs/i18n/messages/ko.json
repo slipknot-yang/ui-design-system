@@ -1,0 +1,97 @@
+{
+  "common": {
+    "appName": "CUPIA 디자인 시스템",
+    "search": "검색",
+    "reset": "초기화",
+    "save": "저장",
+    "delete": "삭제",
+    "cancel": "취소",
+    "confirm": "확인",
+    "close": "닫기",
+    "new": "신규",
+    "edit": "수정",
+    "export": "내보내기",
+    "import": "가져오기",
+    "total": "합계",
+    "loading": "로딩 중...",
+    "noData": "데이터가 없습니다",
+    "pageSize": "페이지 크기",
+    "lightMode": "라이트 모드",
+    "darkMode": "다크 모드",
+    "system": "시스템",
+    "language": "언어",
+    "country": "국가"
+  },
+  "nav": {
+    "home": "홈",
+    "dashboard": "대시보드",
+    "patterns": "UI 패턴",
+    "components": "컴포넌트",
+    "themes": "테마",
+    "i18n": "다국어",
+    "searchTable": "검색 + 테이블",
+    "advancedSearch": "고급 검색",
+    "masterDetail": "마스터-디테일",
+    "complexForm": "복합 폼",
+    "calendar": "일정 관리",
+    "workflow": "결재/워크플로우",
+    "dashboardPattern": "대시보드"
+  },
+  "dashboard": {
+    "title": "대시보드",
+    "exports": "수출",
+    "imports": "수입",
+    "clearance": "통관",
+    "amount": "금액",
+    "count": "건수",
+    "recentActivity": "최근 활동",
+    "notices": "공지사항"
+  },
+  "patterns": {
+    "title": "UI 패턴 카탈로그",
+    "description": "CUPIA 관세행정시스템에서 사용되는 7가지 핵심 UI 패턴",
+    "searchTable": {
+      "title": "검색 + 결과 테이블",
+      "description": "전체 화면의 60%를 차지하는 가장 기본적인 패턴"
+    },
+    "advancedSearch": {
+      "title": "고급 검색 + 결과 테이블",
+      "description": "다중 조건 검색과 Excel 다운로드를 지원하는 확장 패턴"
+    },
+    "masterDetail": {
+      "title": "마스터-디테일 (CRUD)",
+      "description": "목록 + 상세 편집 폼이 결합된 코드 관리 패턴"
+    },
+    "complexForm": {
+      "title": "복합 폼 + 탭",
+      "description": "200+ 입력 필드와 탭 네비게이션이 결합된 신고서 패턴"
+    },
+    "calendar": {
+      "title": "일정/캘린더",
+      "description": "날짜 기반 일정 관리 CRUD 패턴"
+    },
+    "workflow": {
+      "title": "결재/워크플로우",
+      "description": "상태 기반 필터링과 결재 프로세스 패턴"
+    },
+    "dashboard": {
+      "title": "대시보드",
+      "description": "차트와 요약 카드가 결합된 통계 패턴"
+    }
+  },
+  "customs": {
+    "hsCode": "HS 코드",
+    "declarationNo": "신고번호",
+    "declarationType": "신고유형",
+    "customsOffice": "관할세관",
+    "status": "처리상태",
+    "declarer": "신고인",
+    "importer": "수입자",
+    "exporter": "수출자",
+    "country": "국가",
+    "currency": "통화",
+    "amount": "금액",
+    "weight": "중량",
+    "quantity": "수량"
+  }
+}

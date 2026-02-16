@@ -1,0 +1,97 @@
+{
+  "common": {
+    "appName": "CUPIA Design System",
+    "search": "Buscar",
+    "reset": "Restablecer",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "new": "Nuevo",
+    "edit": "Editar",
+    "export": "Exportar",
+    "import": "Importar",
+    "total": "Total",
+    "loading": "Cargando...",
+    "noData": "No hay datos disponibles",
+    "pageSize": "Tamaño de página",
+    "lightMode": "Modo claro",
+    "darkMode": "Modo oscuro",
+    "system": "Sistema",
+    "language": "Idioma",
+    "country": "País"
+  },
+  "nav": {
+    "home": "Inicio",
+    "dashboard": "Panel de control",
+    "patterns": "Patrones de UI",
+    "components": "Componentes",
+    "themes": "Temas",
+    "i18n": "i18n",
+    "searchTable": "Búsqueda + Tabla",
+    "advancedSearch": "Búsqueda avanzada",
+    "masterDetail": "Maestro-Detalle",
+    "complexForm": "Formulario complejo",
+    "calendar": "Calendario",
+    "workflow": "Flujo de trabajo",
+    "dashboardPattern": "Panel de control"
+  },
+  "dashboard": {
+    "title": "Panel de control",
+    "exports": "Exportaciones",
+    "imports": "Importaciones",
+    "clearance": "Despacho aduanero",
+    "amount": "Monto",
+    "count": "Cantidad",
+    "recentActivity": "Actividad reciente",
+    "notices": "Avisos"
+  },
+  "patterns": {
+    "title": "Catálogo de patrones de UI",
+    "description": "7 patrones principales de UI del sistema de administración aduanera CUPIA",
+    "searchTable": {
+      "title": "Búsqueda + Tabla de resultados",
+      "description": "El patrón más común, que abarca el 60% de todas las pantallas"
+    },
+    "advancedSearch": {
+      "title": "Búsqueda avanzada + Tabla de resultados",
+      "description": "Patrón extendido con búsqueda multicriterio y exportación a Excel"
+    },
+    "masterDetail": {
+      "title": "Maestro-Detalle (CRUD)",
+      "description": "Lista + formulario de edición de detalle combinados para gestión de códigos"
+    },
+    "complexForm": {
+      "title": "Formulario complejo + Pestañas",
+      "description": "Más de 200 campos de entrada con navegación por pestañas para declaraciones"
+    },
+    "calendar": {
+      "title": "Calendario / Agenda",
+      "description": "Patrón CRUD de gestión de agenda basado en fechas"
+    },
+    "workflow": {
+      "title": "Aprobación / Flujo de trabajo",
+      "description": "Filtrado basado en estado con proceso de aprobación"
+    },
+    "dashboard": {
+      "title": "Panel de control",
+      "description": "Gráficos y tarjetas resumen para estadísticas"
+    }
+  },
+  "customs": {
+    "hsCode": "Código SA",
+    "declarationNo": "N.° de declaración",
+    "declarationType": "Tipo de declaración",
+    "customsOffice": "Oficina de aduanas",
+    "status": "Estado",
+    "declarer": "Declarante",
+    "importer": "Importador",
+    "exporter": "Exportador",
+    "country": "País",
+    "currency": "Moneda",
+    "amount": "Monto",
+    "weight": "Peso",
+    "quantity": "Cantidad"
+  }
+}

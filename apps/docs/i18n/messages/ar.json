@@ -1,0 +1,97 @@
+{
+  "common": {
+    "appName": "CUPIA Design System",
+    "search": "بحث",
+    "reset": "إعادة تعيين",
+    "save": "حفظ",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "close": "إغلاق",
+    "new": "جديد",
+    "edit": "تعديل",
+    "export": "تصدير",
+    "import": "استيراد",
+    "total": "الإجمالي",
+    "loading": "جارٍ التحميل...",
+    "noData": "لا توجد بيانات متاحة",
+    "pageSize": "حجم الصفحة",
+    "lightMode": "الوضع الفاتح",
+    "darkMode": "الوضع الداكن",
+    "system": "النظام",
+    "language": "اللغة",
+    "country": "الدولة"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "dashboard": "لوحة المعلومات",
+    "patterns": "أنماط واجهة المستخدم",
+    "components": "المكونات",
+    "themes": "السمات",
+    "i18n": "i18n",
+    "searchTable": "بحث + جدول",
+    "advancedSearch": "بحث متقدم",
+    "masterDetail": "رئيسي-تفصيلي",
+    "complexForm": "نموذج معقد",
+    "calendar": "التقويم",
+    "workflow": "سير العمل",
+    "dashboardPattern": "لوحة المعلومات"
+  },
+  "dashboard": {
+    "title": "لوحة المعلومات",
+    "exports": "الصادرات",
+    "imports": "الواردات",
+    "clearance": "التخليص الجمركي",
+    "amount": "المبلغ",
+    "count": "العدد",
+    "recentActivity": "النشاط الأخير",
+    "notices": "الإشعارات"
+  },
+  "patterns": {
+    "title": "كتالوج أنماط واجهة المستخدم",
+    "description": "7 أنماط أساسية لواجهة المستخدم من نظام الإدارة الجمركية CUPIA",
+    "searchTable": {
+      "title": "بحث + جدول النتائج",
+      "description": "النمط الأكثر شيوعاً، يغطي 60% من جميع الشاشات"
+    },
+    "advancedSearch": {
+      "title": "بحث متقدم + جدول النتائج",
+      "description": "نمط موسع مع بحث متعدد المعايير وتصدير إلى Excel"
+    },
+    "masterDetail": {
+      "title": "رئيسي-تفصيلي (CRUD)",
+      "description": "قائمة + نموذج تعديل تفصيلي مدمج لإدارة الأكواد"
+    },
+    "complexForm": {
+      "title": "نموذج معقد + علامات تبويب",
+      "description": "أكثر من 200 حقل إدخال مع التنقل بعلامات التبويب للبيانات الجمركية"
+    },
+    "calendar": {
+      "title": "التقويم / الجدول الزمني",
+      "description": "نمط CRUD لإدارة الجدول الزمني المستند إلى التاريخ"
+    },
+    "workflow": {
+      "title": "الموافقة / سير العمل",
+      "description": "تصفية مبنية على الحالة مع عملية الموافقة"
+    },
+    "dashboard": {
+      "title": "لوحة المعلومات",
+      "description": "رسوم بيانية وبطاقات ملخصة للإحصائيات"
+    }
+  },
+  "customs": {
+    "hsCode": "رمز النظام المنسق",
+    "declarationNo": "رقم البيان الجمركي",
+    "declarationType": "نوع البيان الجمركي",
+    "customsOffice": "المكتب الجمركي",
+    "status": "الحالة",
+    "declarer": "المُصرِّح",
+    "importer": "المستورد",
+    "exporter": "المصدِّر",
+    "country": "الدولة",
+    "currency": "العملة",
+    "amount": "المبلغ",
+    "weight": "الوزن",
+    "quantity": "الكمية"
+  }
+}

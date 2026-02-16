@@ -1,0 +1,97 @@
+{
+  "common": {
+    "appName": "CUPIA Design System",
+    "search": "検索",
+    "reset": "リセット",
+    "save": "保存",
+    "delete": "削除",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "close": "閉じる",
+    "new": "新規",
+    "edit": "編集",
+    "export": "エクスポート",
+    "import": "インポート",
+    "total": "合計",
+    "loading": "読み込み中...",
+    "noData": "データがありません",
+    "pageSize": "ページサイズ",
+    "lightMode": "ライトモード",
+    "darkMode": "ダークモード",
+    "system": "システム",
+    "language": "言語",
+    "country": "国"
+  },
+  "nav": {
+    "home": "ホーム",
+    "dashboard": "ダッシュボード",
+    "patterns": "UIパターン",
+    "components": "コンポーネント",
+    "themes": "テーマ",
+    "i18n": "i18n",
+    "searchTable": "検索 + テーブル",
+    "advancedSearch": "詳細検索",
+    "masterDetail": "マスター・ディテール",
+    "complexForm": "複合フォーム",
+    "calendar": "カレンダー",
+    "workflow": "ワークフロー",
+    "dashboardPattern": "ダッシュボード"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "exports": "輸出",
+    "imports": "輸入",
+    "clearance": "通関",
+    "amount": "金額",
+    "count": "件数",
+    "recentActivity": "最近のアクティビティ",
+    "notices": "お知らせ"
+  },
+  "patterns": {
+    "title": "UIパターンカタログ",
+    "description": "CUPIA税関管理システムの7つの主要UIパターン",
+    "searchTable": {
+      "title": "検索 + 結果テーブル",
+      "description": "最も一般的なパターンで、全画面の60%を占めます"
+    },
+    "advancedSearch": {
+      "title": "詳細検索 + 結果テーブル",
+      "description": "複数条件検索とExcelエクスポートを備えた拡張パターン"
+    },
+    "masterDetail": {
+      "title": "マスター・ディテール（CRUD）",
+      "description": "コード管理のためのリスト + 詳細編集フォームの組み合わせ"
+    },
+    "complexForm": {
+      "title": "複合フォーム + タブ",
+      "description": "申告書用の200以上の入力フィールドとタブナビゲーション"
+    },
+    "calendar": {
+      "title": "カレンダー / スケジュール",
+      "description": "日付ベースのスケジュール管理CRUDパターン"
+    },
+    "workflow": {
+      "title": "承認 / ワークフロー",
+      "description": "承認プロセスを伴うステータスベースのフィルタリング"
+    },
+    "dashboard": {
+      "title": "ダッシュボード",
+      "description": "統計用のグラフとサマリーカード"
+    }
+  },
+  "customs": {
+    "hsCode": "HSコード",
+    "declarationNo": "申告番号",
+    "declarationType": "申告種別",
+    "customsOffice": "税関官署",
+    "status": "ステータス",
+    "declarer": "申告者",
+    "importer": "輸入者",
+    "exporter": "輸出者",
+    "country": "国",
+    "currency": "通貨",
+    "amount": "金額",
+    "weight": "重量",
+    "quantity": "数量"
+  }
+}

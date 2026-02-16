@@ -1,0 +1,97 @@
+{
+  "common": {
+    "appName": "CUPIA Design System",
+    "search": "Search",
+    "reset": "Reset",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "new": "New",
+    "edit": "Edit",
+    "export": "Export",
+    "import": "Import",
+    "total": "Total",
+    "loading": "Loading...",
+    "noData": "No data available",
+    "pageSize": "Page size",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "system": "System",
+    "language": "Language",
+    "country": "Country"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "patterns": "UI Patterns",
+    "components": "Components",
+    "themes": "Themes",
+    "i18n": "i18n",
+    "searchTable": "Search + Table",
+    "advancedSearch": "Advanced Search",
+    "masterDetail": "Master-Detail",
+    "complexForm": "Complex Form",
+    "calendar": "Calendar",
+    "workflow": "Workflow",
+    "dashboardPattern": "Dashboard"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "exports": "Exports",
+    "imports": "Imports",
+    "clearance": "Clearance",
+    "amount": "Amount",
+    "count": "Count",
+    "recentActivity": "Recent Activity",
+    "notices": "Notices"
+  },
+  "patterns": {
+    "title": "UI Pattern Catalog",
+    "description": "7 core UI patterns from the CUPIA customs administration system",
+    "searchTable": {
+      "title": "Search + Result Table",
+      "description": "The most common pattern, covering 60% of all screens"
+    },
+    "advancedSearch": {
+      "title": "Advanced Search + Result Table",
+      "description": "Extended pattern with multi-criteria search and Excel export"
+    },
+    "masterDetail": {
+      "title": "Master-Detail (CRUD)",
+      "description": "List + detail edit form combined for code management"
+    },
+    "complexForm": {
+      "title": "Complex Form + Tabs",
+      "description": "200+ input fields with tab navigation for declarations"
+    },
+    "calendar": {
+      "title": "Calendar / Schedule",
+      "description": "Date-based schedule management CRUD pattern"
+    },
+    "workflow": {
+      "title": "Approval / Workflow",
+      "description": "Status-based filtering with approval process"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Charts and summary cards for statistics"
+    }
+  },
+  "customs": {
+    "hsCode": "HS Code",
+    "declarationNo": "Declaration No.",
+    "declarationType": "Declaration Type",
+    "customsOffice": "Customs Office",
+    "status": "Status",
+    "declarer": "Declarer",
+    "importer": "Importer",
+    "exporter": "Exporter",
+    "country": "Country",
+    "currency": "Currency",
+    "amount": "Amount",
+    "weight": "Weight",
+    "quantity": "Quantity"
+  }
+}
