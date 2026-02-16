@@ -1,18 +1,15 @@
 "use client";
 
+import { type LucideIcon } from "lucide-react";
 import {
-  LayoutDashboard,
-  Search,
-  SearchCheck,
-  SplitSquareVertical,
+  Globe,
   FileText,
-  CalendarDays,
-  GitPullRequest,
-  BarChart3,
-  Component,
-  Palette,
-  Languages,
-  Home,
+  Package,
+  ShieldCheck,
+  Banknote,
+  Settings,
+  ChevronRight,
+  Shield,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
@@ -26,114 +23,209 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarFooter,
+  SidebarSeparator,
 } from "@workspace/ui/components/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@workspace/ui/components/collapsible";
+
+interface NavItem {
+  title: string;
+  href: string;
+}
+
+interface NavSection {
+  label: string;
+  icon: LucideIcon;
+  items: NavItem[];
+}
 
 export function AppSidebar() {
   const t = useTranslations("nav");
   const pathname = usePathname();
 
-  const patternItems = [
-    {
-      title: t("searchTable"),
-      href: "/patterns/search-table",
-      icon: Search,
-    },
-    {
-      title: t("advancedSearch"),
-      href: "/patterns/advanced-search",
-      icon: SearchCheck,
-    },
-    {
-      title: t("masterDetail"),
-      href: "/patterns/master-detail",
-      icon: SplitSquareVertical,
-    },
-    {
-      title: t("complexForm"),
-      href: "/patterns/complex-form",
-      icon: FileText,
-    },
-    {
-      title: t("calendar"),
-      href: "/patterns/calendar",
-      icon: CalendarDays,
-    },
-    {
-      title: t("workflow"),
-      href: "/patterns/workflow",
-      icon: GitPullRequest,
-    },
-    {
-      title: t("dashboardPattern"),
-      href: "/patterns/dashboard",
-      icon: BarChart3,
-    },
+  const portalSection: NavSection = {
+    label: t("portal"),
+    icon: Globe,
+    items: [
+      { title: t("dashboard"), href: "/" },
+      { title: t("myPage"), href: "/patterns/complex-form" },
+      { title: t("documentBox"), href: "/patterns/master-detail" },
+      { title: t("companyMgmt"), href: "/patterns/search-table" },
+    ],
+  };
+
+  const declarationSection: NavSection = {
+    label: t("declaration"),
+    icon: FileText,
+    items: [
+      { title: t("newDeclaration"), href: "/patterns/complex-form" },
+      { title: t("declarationQuery"), href: "/patterns/search-table" },
+      { title: t("declarationList"), href: "/patterns/advanced-search" },
+    ],
+  };
+
+  const cargoSection: NavSection = {
+    label: t("cargo"),
+    icon: Package,
+    items: [
+      { title: t("cargoTracking"), href: "/patterns/search-table" },
+      { title: t("cargoDeclaration"), href: "/patterns/complex-form" },
+      { title: t("warehouse"), href: "/patterns/master-detail" },
+      { title: t("unloadLoad"), href: "/patterns/search-table" },
+    ],
+  };
+
+  const clearanceSection: NavSection = {
+    label: t("clearanceMenu"),
+    icon: ShieldCheck,
+    items: [
+      { title: t("clearanceDecl"), href: "/patterns/search-table" },
+      { title: t("pricing"), href: "/patterns/complex-form" },
+      { title: t("security"), href: "/patterns/master-detail" },
+    ],
+  };
+
+  const collectionSection: NavSection = {
+    label: t("collection"),
+    icon: Banknote,
+    items: [
+      { title: t("taxNotice"), href: "/patterns/search-table" },
+      { title: t("finesMgmt"), href: "/patterns/search-table" },
+      { title: t("deposit"), href: "/patterns/master-detail" },
+    ],
+  };
+
+  const systemSection: NavSection = {
+    label: t("system"),
+    icon: Settings,
+    items: [
+      { title: t("components"), href: "/components" },
+      { title: t("themes"), href: "/themes" },
+      { title: t("i18n"), href: "/i18n" },
+      { title: t("login"), href: "/login" },
+    ],
+  };
+
+  const mainSections: NavSection[] = [
+    portalSection,
+    declarationSection,
+    cargoSection,
+    clearanceSection,
+    collectionSection,
   ];
 
-  const mainItems = [
-    { title: t("home"), href: "/", icon: Home },
-    { title: t("dashboard"), href: "/dashboard", icon: LayoutDashboard },
-    { title: t("components"), href: "/components", icon: Component },
-    { title: t("themes"), href: "/themes", icon: Palette },
-    { title: t("i18n"), href: "/i18n", icon: Languages },
-  ];
+  function isSectionActive(section: NavSection): boolean {
+    return section.items.some((item) => pathname === item.href);
+  }
 
   return (
     <Sidebar>
       <SidebarHeader className="border-b px-4 py-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground text-sm font-bold">
-            C
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <Shield className="h-4 w-4" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-semibold">CUPIA</span>
-            <span className="text-xs text-muted-foreground">Design System</span>
+            <span className="text-sm font-semibold tracking-tight">CUPIA</span>
+            <span className="text-[10px] text-muted-foreground">
+              Customs Administration
+            </span>
           </div>
         </div>
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {mainItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <Link href={item.href}>
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {mainSections.map((section) => (
+          <SidebarGroup key={section.label}>
+            <Collapsible
+              defaultOpen={isSectionActive(section)}
+              className="group/collapsible"
+            >
+              <SidebarGroupLabel asChild>
+                <CollapsibleTrigger className="flex w-full items-center gap-2">
+                  <section.icon className="h-4 w-4" />
+                  <span className="flex-1 text-left">{section.label}</span>
+                  <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {section.items.map((item) => (
+                      <SidebarMenuItem key={`${section.label}-${item.title}`}>
+                        <SidebarMenuSub>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === item.href}
+                            >
+                              <Link href={item.href}>
+                                <span>{item.title}</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        </SidebarMenuSub>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </SidebarGroup>
+        ))}
+
+        <SidebarSeparator />
 
         <SidebarGroup>
-          <SidebarGroupLabel>{t("patterns")}</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {patternItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <Link href={item.href}>
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <Collapsible defaultOpen className="group/collapsible">
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger className="flex w-full items-center gap-2">
+                <Settings className="h-4 w-4" />
+                <span className="flex-1 text-left">{systemSection.label}</span>
+                <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {systemSection.items.map((item) => (
+                    <SidebarMenuItem key={`system-${item.title}`}>
+                      <SidebarMenuSub>
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={pathname === item.href}
+                          >
+                            <Link href={item.href}>
+                              <span>{item.title}</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      </SidebarMenuSub>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t p-4">
-        <p className="text-xs text-muted-foreground">&copy; 2026 CUPIA</p>
+      <SidebarFooter className="border-t px-4 py-3">
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">&copy; 2026 CUPIA</p>
+          <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+            v1.0.0
+          </span>
+        </div>
       </SidebarFooter>
     </Sidebar>
   );
