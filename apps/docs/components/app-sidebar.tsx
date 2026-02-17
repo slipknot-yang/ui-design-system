@@ -177,12 +177,12 @@ export function AppSidebar({
           className="flex items-center gap-2"
           onClick={() => setOpenMobile(false)}
         >
-          <CupiaLogo />
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold tracking-tight">
+          <CupiaLogo className="shrink-0" />
+          <div className="flex flex-col overflow-hidden group-data-[collapsible=icon]:hidden">
+            <span className="text-sm font-semibold tracking-tight truncate">
               {tCommon("appName")}
             </span>
-            <span className="text-[10px] text-muted-foreground">
+            <span className="text-[10px] text-muted-foreground truncate">
               {tCommon("appSubtitle")}
             </span>
           </div>
@@ -279,13 +279,13 @@ export function AppSidebar({
                   size="lg"
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <Avatar className="h-8 w-8 rounded-lg">
+                  <Avatar className="h-8 w-8 rounded-lg shrink-0">
                     <AvatarImage src="" alt="Admin" />
                     <AvatarFallback className="rounded-lg text-xs">
                       AD
                     </AvatarFallback>
                   </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
+                  <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                     <span className="truncate font-semibold">
                       {tCommon("adminUser")}
                     </span>
@@ -293,7 +293,7 @@ export function AppSidebar({
                       admin@cupia.or.kr
                     </span>
                   </div>
-                  <ChevronsUpDown className="ms-auto h-4 w-4" />
+                  <ChevronsUpDown className="ms-auto h-4 w-4 group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
