@@ -15,6 +15,8 @@ import {
   MoreHorizontal,
   Pencil,
   Trash2,
+  ChevronRight,
+  ChevronDown,
 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
@@ -200,15 +202,21 @@ import {
   ChartTooltipContent,
 } from "@workspace/ui/components/chart";
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
+  CartesianGrid,
   Line,
   LineChart,
   Pie,
   PieChart,
+  PolarAngleAxis,
+  PolarGrid,
+  Radar,
+  RadarChart,
   XAxis,
   YAxis,
-  CartesianGrid,
 } from "recharts";
 
 /* ── Calendar helper components (stateful) ─────────────────────────── */
@@ -340,6 +348,379 @@ function ComboboxWithCheckPreview() {
         </Command>
       </PopoverContent>
     </Popover>
+  );
+}
+
+/* ── Table helper components (stateful) ────────────────────────────── */
+
+const tableInvoiceData = [
+  { id: "INV-001", status: "Paid", method: "Credit Card", amount: "$250.00" },
+  { id: "INV-002", status: "Pending", method: "PayPal", amount: "$150.00" },
+  {
+    id: "INV-003",
+    status: "Overdue",
+    method: "Bank Transfer",
+    amount: "$350.00",
+  },
+  { id: "INV-004", status: "Paid", method: "Credit Card", amount: "$450.00" },
+  { id: "INV-005", status: "Pending", method: "PayPal", amount: "$550.00" },
+  { id: "INV-006", status: "Paid", method: "Bank Transfer", amount: "$200.00" },
+  {
+    id: "INV-007",
+    status: "Overdue",
+    method: "Credit Card",
+    amount: "$175.00",
+  },
+  { id: "INV-008", status: "Pending", method: "PayPal", amount: "$625.00" },
+  { id: "INV-009", status: "Paid", method: "Bank Transfer", amount: "$300.00" },
+  {
+    id: "INV-010",
+    status: "Overdue",
+    method: "Credit Card",
+    amount: "$125.00",
+  },
+  { id: "INV-011", status: "Paid", method: "PayPal", amount: "$475.00" },
+  {
+    id: "INV-012",
+    status: "Pending",
+    method: "Bank Transfer",
+    amount: "$380.00",
+  },
+];
+
+function TableRadioPreview() {
+  const [selectedRow, setSelectedRow] = React.useState<string | null>(null);
+  const data = tableInvoiceData.slice(0, 5);
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[40px]" />
+          <TableHead>Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((invoice) => (
+          <TableRow
+            key={invoice.id}
+            className={`cursor-pointer ${selectedRow === invoice.id ? "bg-muted" : ""}`}
+            onClick={() => setSelectedRow(invoice.id)}
+          >
+            <TableCell>
+              <span
+                className={`inline-flex h-4 w-4 items-center justify-center rounded-full border ${
+                  selectedRow === invoice.id
+                    ? "border-primary"
+                    : "border-muted-foreground/30"
+                }`}
+              >
+                {selectedRow === invoice.id && (
+                  <span className="h-2 w-2 rounded-full bg-primary" />
+                )}
+              </span>
+            </TableCell>
+            <TableCell className="font-medium">{invoice.id}</TableCell>
+            <TableCell>
+              <Badge
+                variant={
+                  invoice.status === "Paid"
+                    ? "outline"
+                    : invoice.status === "Pending"
+                      ? "secondary"
+                      : "destructive"
+                }
+              >
+                {invoice.status}
+              </Badge>
+            </TableCell>
+            <TableCell>{invoice.method}</TableCell>
+            <TableCell className="text-right">{invoice.amount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
+
+function TablePaginationPreview() {
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(tableInvoiceData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentData = tableInvoiceData.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
+
+  return (
+    <div className="space-y-4">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Invoice</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead className="text-right">Amount</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {currentData.map((invoice) => (
+            <TableRow key={invoice.id}>
+              <TableCell className="font-medium">{invoice.id}</TableCell>
+              <TableCell>
+                <Badge
+                  variant={
+                    invoice.status === "Paid"
+                      ? "outline"
+                      : invoice.status === "Pending"
+                        ? "secondary"
+                        : "destructive"
+                  }
+                >
+                  {invoice.status}
+                </Badge>
+              </TableCell>
+              <TableCell>{invoice.method}</TableCell>
+              <TableCell className="text-right">{invoice.amount}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <div className="flex items-center justify-between px-2">
+        <p className="text-sm text-muted-foreground">
+          Page {currentPage} of {totalPages}
+        </p>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              key={page}
+              variant={page === currentPage ? "default" : "outline"}
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </Button>
+          ))}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TableExpandablePreview() {
+  const [expandedRows, setExpandedRows] = React.useState<Set<string>>(
+    new Set(),
+  );
+  const data = tableInvoiceData.slice(0, 5);
+
+  const toggleRow = (id: string) => {
+    setExpandedRows((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[40px]" />
+          <TableHead>Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((invoice) => (
+          <React.Fragment key={invoice.id}>
+            <TableRow>
+              <TableCell>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  onClick={() => toggleRow(invoice.id)}
+                >
+                  {expandedRows.has(invoice.id) ? (
+                    <ChevronDown className="h-4 w-4" />
+                  ) : (
+                    <ChevronRight className="h-4 w-4" />
+                  )}
+                </Button>
+              </TableCell>
+              <TableCell className="font-medium">{invoice.id}</TableCell>
+              <TableCell>
+                <Badge
+                  variant={
+                    invoice.status === "Paid"
+                      ? "outline"
+                      : invoice.status === "Pending"
+                        ? "secondary"
+                        : "destructive"
+                  }
+                >
+                  {invoice.status}
+                </Badge>
+              </TableCell>
+              <TableCell>{invoice.method}</TableCell>
+              <TableCell className="text-right">{invoice.amount}</TableCell>
+            </TableRow>
+            {expandedRows.has(invoice.id) && (
+              <TableRow className="bg-muted/50 hover:bg-muted/50">
+                <TableCell colSpan={5} className="p-4">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="font-medium text-muted-foreground">
+                        Invoice ID
+                      </p>
+                      <p>{invoice.id}</p>
+                    </div>
+                    <div>
+                      <p className="font-medium text-muted-foreground">
+                        Payment Method
+                      </p>
+                      <p>{invoice.method}</p>
+                    </div>
+                    <div>
+                      <p className="font-medium text-muted-foreground">
+                        Status
+                      </p>
+                      <p>{invoice.status}</p>
+                    </div>
+                    <div>
+                      <p className="font-medium text-muted-foreground">
+                        Amount
+                      </p>
+                      <p className="font-semibold">{invoice.amount}</p>
+                    </div>
+                  </div>
+                </TableCell>
+              </TableRow>
+            )}
+          </React.Fragment>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
+
+function TableFilterPreview() {
+  const [filters, setFilters] = React.useState({
+    id: "",
+    status: "",
+    method: "",
+  });
+  const data = tableInvoiceData.slice(0, 5);
+  const filteredData = data.filter(
+    (invoice) =>
+      invoice.id.toLowerCase().includes(filters.id.toLowerCase()) &&
+      invoice.status.toLowerCase().includes(filters.status.toLowerCase()) &&
+      invoice.method.toLowerCase().includes(filters.method.toLowerCase()),
+  );
+
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+        <TableRow className="hover:bg-transparent">
+          <TableHead className="py-1">
+            <Input
+              placeholder="Filter..."
+              className="h-7 text-xs"
+              value={filters.id}
+              onChange={(e) =>
+                setFilters((f) => ({ ...f, id: e.target.value }))
+              }
+            />
+          </TableHead>
+          <TableHead className="py-1">
+            <Input
+              placeholder="Filter..."
+              className="h-7 text-xs"
+              value={filters.status}
+              onChange={(e) =>
+                setFilters((f) => ({ ...f, status: e.target.value }))
+              }
+            />
+          </TableHead>
+          <TableHead className="py-1">
+            <Input
+              placeholder="Filter..."
+              className="h-7 text-xs"
+              value={filters.method}
+              onChange={(e) =>
+                setFilters((f) => ({ ...f, method: e.target.value }))
+              }
+            />
+          </TableHead>
+          <TableHead />
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {filteredData.length > 0 ? (
+          filteredData.map((invoice) => (
+            <TableRow key={invoice.id}>
+              <TableCell className="font-medium">{invoice.id}</TableCell>
+              <TableCell>
+                <Badge
+                  variant={
+                    invoice.status === "Paid"
+                      ? "outline"
+                      : invoice.status === "Pending"
+                        ? "secondary"
+                        : "destructive"
+                  }
+                >
+                  {invoice.status}
+                </Badge>
+              </TableCell>
+              <TableCell>{invoice.method}</TableCell>
+              <TableCell className="text-right">{invoice.amount}</TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell
+              colSpan={4}
+              className="text-center text-muted-foreground"
+            >
+              No results found.
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
   );
 }
 
@@ -2214,6 +2595,10 @@ const examplePreviews: Record<string, React.ReactNode> = {
       </TableBody>
     </Table>
   ),
+  "table:with-radio": <TableRadioPreview />,
+  "table:with-pagination": <TablePaginationPreview />,
+  "table:expandable": <TableExpandablePreview />,
+  "table:with-filters": <TableFilterPreview />,
 
   // Chart
   "chart:bar": (
@@ -2295,6 +2680,168 @@ const examplePreviews: Record<string, React.ReactNode> = {
           innerRadius={50}
         />
       </PieChart>
+    </ChartContainer>
+  ),
+  "chart:area": (
+    <ChartContainer
+      config={{
+        revenue: { label: "Revenue ($)", color: "var(--chart-1)" },
+      }}
+      className="h-[250px] w-full max-w-md"
+    >
+      <AreaChart
+        data={[
+          { month: "Jan", revenue: 4000 },
+          { month: "Feb", revenue: 4500 },
+          { month: "Mar", revenue: 5200 },
+          { month: "Apr", revenue: 4800 },
+          { month: "May", revenue: 6100 },
+          { month: "Jun", revenue: 7200 },
+        ]}
+      >
+        <defs>
+          <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0.1} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="month" tickLine={false} axisLine={false} />
+        <YAxis tickLine={false} axisLine={false} />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Area
+          type="monotone"
+          dataKey="revenue"
+          stroke="var(--chart-1)"
+          strokeWidth={2}
+          fill="url(#colorRevenue)"
+          fillOpacity={0.3}
+        />
+      </AreaChart>
+    </ChartContainer>
+  ),
+  "chart:stacked-bar": (
+    <ChartContainer
+      config={{
+        imports: { label: "Imports", color: "var(--chart-1)" },
+        exports: { label: "Exports", color: "var(--chart-2)" },
+        transit: { label: "Transit", color: "var(--chart-3)" },
+      }}
+      className="h-[250px] w-full max-w-md"
+    >
+      <BarChart
+        data={[
+          { month: "Jan", imports: 120, exports: 80, transit: 30 },
+          { month: "Feb", imports: 140, exports: 95, transit: 25 },
+          { month: "Mar", imports: 160, exports: 110, transit: 35 },
+          { month: "Apr", imports: 130, exports: 100, transit: 28 },
+          { month: "May", imports: 175, exports: 120, transit: 40 },
+          { month: "Jun", imports: 190, exports: 135, transit: 45 },
+        ]}
+      >
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="month" tickLine={false} axisLine={false} />
+        <YAxis tickLine={false} axisLine={false} />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Bar
+          dataKey="imports"
+          stackId="a"
+          fill="var(--chart-1)"
+          radius={[0, 0, 0, 0]}
+        />
+        <Bar
+          dataKey="exports"
+          stackId="a"
+          fill="var(--chart-2)"
+          radius={[0, 0, 0, 0]}
+        />
+        <Bar
+          dataKey="transit"
+          stackId="a"
+          fill="var(--chart-3)"
+          radius={[4, 4, 0, 0]}
+        />
+      </BarChart>
+    </ChartContainer>
+  ),
+  "chart:multi-line": (
+    <ChartContainer
+      config={{
+        declarations: { label: "Declarations", color: "var(--chart-1)" },
+        clearances: { label: "Clearances", color: "var(--chart-4)" },
+      }}
+      className="h-[250px] w-full max-w-md"
+    >
+      <LineChart
+        data={[
+          { month: "Jan", declarations: 420, clearances: 380 },
+          { month: "Feb", declarations: 480, clearances: 430 },
+          { month: "Mar", declarations: 510, clearances: 470 },
+          { month: "Apr", declarations: 470, clearances: 450 },
+          { month: "May", declarations: 560, clearances: 510 },
+          { month: "Jun", declarations: 620, clearances: 580 },
+        ]}
+      >
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="month" tickLine={false} axisLine={false} />
+        <YAxis tickLine={false} axisLine={false} />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Line
+          type="monotone"
+          dataKey="declarations"
+          stroke="var(--chart-1)"
+          strokeWidth={2}
+          dot={{ r: 4 }}
+        />
+        <Line
+          type="monotone"
+          dataKey="clearances"
+          stroke="var(--chart-4)"
+          strokeWidth={2}
+          strokeDasharray="5 5"
+          dot={{ r: 4 }}
+        />
+      </LineChart>
+    </ChartContainer>
+  ),
+  "chart:radar": (
+    <ChartContainer
+      config={{
+        A: { label: "System A", color: "var(--chart-1)" },
+        B: { label: "System B", color: "var(--chart-4)" },
+      }}
+      className="h-[250px] w-full max-w-md"
+    >
+      <RadarChart
+        data={[
+          { metric: "Speed", A: 85, B: 65 },
+          { metric: "Accuracy", A: 90, B: 80 },
+          { metric: "Cost", A: 70, B: 90 },
+          { metric: "Coverage", A: 80, B: 75 },
+          { metric: "Support", A: 95, B: 60 },
+        ]}
+        cx="50%"
+        cy="50%"
+        outerRadius={80}
+      >
+        <PolarGrid />
+        <PolarAngleAxis dataKey="metric" />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Radar
+          name="System A"
+          dataKey="A"
+          stroke="var(--chart-1)"
+          fill="var(--chart-1)"
+          fillOpacity={0.3}
+        />
+        <Radar
+          name="System B"
+          dataKey="B"
+          stroke="var(--chart-4)"
+          fill="var(--chart-4)"
+          fillOpacity={0.3}
+        />
+      </RadarChart>
     </ChartContainer>
   ),
 

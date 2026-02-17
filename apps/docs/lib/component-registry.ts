@@ -1905,7 +1905,7 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         slug: "chart",
         description: "Beautiful, responsive charts built with Recharts.",
         importExample: `import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@workspace/ui/components/chart";
-import { Bar, BarChart, Line, LineChart, Pie, PieChart, XAxis, YAxis, CartesianGrid } from "recharts";`,
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart, Pie, PieChart, PolarAngleAxis, PolarGrid, Radar, RadarChart, XAxis, YAxis } from "recharts";`,
         codeExample: `<ChartContainer config={{ revenue: { label: "Revenue", color: "var(--chart-1)" } }} className="h-[250px] w-full">
   <BarChart data={[{ month: "Jan", revenue: 186 }, { month: "Feb", revenue: 305 }]}>
     <CartesianGrid vertical={false} />
@@ -1971,6 +1971,101 @@ import { Bar, BarChart, Line, LineChart, Pie, PieChart, XAxis, YAxis, CartesianG
       { name: "rejected", value: 10, fill: "var(--chart-5)" },
     ]} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={50} />
   </PieChart>
+</ChartContainer>`,
+          },
+          {
+            id: "area",
+            title: "Area Chart",
+            description:
+              "Area chart with gradient fill showing cumulative revenue data.",
+            code: `<ChartContainer config={{ revenue: { label: "Revenue ($)", color: "var(--chart-1)" } }} className="h-[250px] w-full">
+  <AreaChart data={[
+    { month: "Jan", revenue: 4000 },
+    { month: "Feb", revenue: 4500 },
+    { month: "Mar", revenue: 5200 },
+    { month: "Apr", revenue: 4800 },
+    { month: "May", revenue: 6100 },
+    { month: "Jun", revenue: 7200 },
+  ]}>
+    <defs>
+      <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.8} />
+        <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0.1} />
+      </linearGradient>
+    </defs>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="month" tickLine={false} axisLine={false} />
+    <YAxis tickLine={false} axisLine={false} />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Area type="monotone" dataKey="revenue" stroke="var(--chart-1)" strokeWidth={2} fill="url(#colorRevenue)" fillOpacity={0.3} />
+  </AreaChart>
+</ChartContainer>`,
+          },
+          {
+            id: "stacked-bar",
+            title: "Stacked Bar Chart",
+            description:
+              "Stacked bar chart showing multiple categories per period.",
+            code: `<ChartContainer config={{ imports: { label: "Imports", color: "var(--chart-1)" }, exports: { label: "Exports", color: "var(--chart-2)" }, transit: { label: "Transit", color: "var(--chart-3)" } }} className="h-[250px] w-full">
+  <BarChart data={[
+    { month: "Jan", imports: 120, exports: 80, transit: 30 },
+    { month: "Feb", imports: 140, exports: 95, transit: 25 },
+    { month: "Mar", imports: 160, exports: 110, transit: 35 },
+    { month: "Apr", imports: 130, exports: 100, transit: 28 },
+    { month: "May", imports: 175, exports: 120, transit: 40 },
+    { month: "Jun", imports: 190, exports: 135, transit: 45 },
+  ]}>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="month" tickLine={false} axisLine={false} />
+    <YAxis tickLine={false} axisLine={false} />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Bar dataKey="imports" stackId="a" fill="var(--chart-1)" />
+    <Bar dataKey="exports" stackId="a" fill="var(--chart-2)" />
+    <Bar dataKey="transit" stackId="a" fill="var(--chart-3)" radius={[4, 4, 0, 0]} />
+  </BarChart>
+</ChartContainer>`,
+          },
+          {
+            id: "multi-line",
+            title: "Multi-Line Chart",
+            description: "Multi-line chart comparing two metrics over time.",
+            code: `<ChartContainer config={{ declarations: { label: "Declarations", color: "var(--chart-1)" }, clearances: { label: "Clearances", color: "var(--chart-4)" } }} className="h-[250px] w-full">
+  <LineChart data={[
+    { month: "Jan", declarations: 420, clearances: 380 },
+    { month: "Feb", declarations: 480, clearances: 430 },
+    { month: "Mar", declarations: 510, clearances: 470 },
+    { month: "Apr", declarations: 470, clearances: 450 },
+    { month: "May", declarations: 560, clearances: 510 },
+    { month: "Jun", declarations: 620, clearances: 580 },
+  ]}>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="month" tickLine={false} axisLine={false} />
+    <YAxis tickLine={false} axisLine={false} />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Line type="monotone" dataKey="declarations" stroke="var(--chart-1)" strokeWidth={2} dot={{ r: 4 }} />
+    <Line type="monotone" dataKey="clearances" stroke="var(--chart-4)" strokeWidth={2} strokeDasharray="5 5" dot={{ r: 4 }} />
+  </LineChart>
+</ChartContainer>`,
+          },
+          {
+            id: "radar",
+            title: "Radar Chart",
+            description:
+              "Radar chart for multi-dimensional performance comparison.",
+            code: `<ChartContainer config={{ A: { label: "System A", color: "var(--chart-1)" }, B: { label: "System B", color: "var(--chart-4)" } }} className="h-[250px] w-full">
+  <RadarChart data={[
+    { metric: "Speed", A: 85, B: 65 },
+    { metric: "Accuracy", A: 90, B: 80 },
+    { metric: "Cost", A: 70, B: 90 },
+    { metric: "Coverage", A: 80, B: 75 },
+    { metric: "Support", A: 95, B: 60 },
+  ]} cx="50%" cy="50%" outerRadius={80}>
+    <PolarGrid />
+    <PolarAngleAxis dataKey="metric" />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Radar name="System A" dataKey="A" stroke="var(--chart-1)" fill="var(--chart-1)" fillOpacity={0.3} />
+    <Radar name="System B" dataKey="B" stroke="var(--chart-4)" fill="var(--chart-4)" fillOpacity={0.3} />
+  </RadarChart>
 </ChartContainer>`,
           },
         ],
@@ -2423,6 +2518,235 @@ import { Bar, BarChart, Line, LineChart, Pie, PieChart, XAxis, YAxis, CartesianG
       <TableCell><Badge variant="outline">Other</Badge></TableCell>
       <TableCell className="text-right">3.0</TableCell>
     </TableRow>
+  </TableBody>
+</Table>`,
+          },
+          {
+            id: "with-radio",
+            title: "Radio Selection",
+            description:
+              "Table with single-row radio button selection for choosing one item.",
+            code: `const [selectedRow, setSelectedRow] = useState(null);
+const invoices = [
+  { id: "INV-001", status: "Paid", method: "Credit Card", amount: "$250.00" },
+  { id: "INV-002", status: "Pending", method: "PayPal", amount: "$150.00" },
+  { id: "INV-003", status: "Overdue", method: "Bank Transfer", amount: "$350.00" },
+];
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead className="w-[40px]" />
+      <TableHead>Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Method</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {invoices.map((inv) => (
+      <TableRow
+        key={inv.id}
+        className={\`cursor-pointer \${selectedRow === inv.id ? "bg-muted" : ""}\`}
+        onClick={() => setSelectedRow(inv.id)}
+      >
+        <TableCell>
+          <span className={\`inline-flex h-4 w-4 items-center justify-center rounded-full border \${
+            selectedRow === inv.id ? "border-primary" : "border-muted-foreground/30"
+          }\`}>
+            {selectedRow === inv.id && <span className="h-2 w-2 rounded-full bg-primary" />}
+          </span>
+        </TableCell>
+        <TableCell className="font-medium">{inv.id}</TableCell>
+        <TableCell><Badge variant="outline">{inv.status}</Badge></TableCell>
+        <TableCell>{inv.method}</TableCell>
+        <TableCell className="text-right">{inv.amount}</TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>`,
+          },
+          {
+            id: "with-pagination",
+            title: "With Pagination",
+            description:
+              "Table with pagination controls for navigating large datasets.",
+            code: `const [currentPage, setCurrentPage] = useState(1);
+const itemsPerPage = 5;
+const allInvoices = [
+  { id: "INV-001", status: "Paid", method: "Credit Card", amount: "$250.00" },
+  { id: "INV-002", status: "Pending", method: "PayPal", amount: "$150.00" },
+  // ... more items
+];
+const totalPages = Math.ceil(allInvoices.length / itemsPerPage);
+const currentData = allInvoices.slice(
+  (currentPage - 1) * itemsPerPage,
+  currentPage * itemsPerPage
+);
+
+<div className="space-y-4">
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Invoice</TableHead>
+        <TableHead>Status</TableHead>
+        <TableHead>Method</TableHead>
+        <TableHead className="text-right">Amount</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {currentData.map((inv) => (
+        <TableRow key={inv.id}>
+          <TableCell className="font-medium">{inv.id}</TableCell>
+          <TableCell><Badge variant="outline">{inv.status}</Badge></TableCell>
+          <TableCell>{inv.method}</TableCell>
+          <TableCell className="text-right">{inv.amount}</TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+  <div className="flex items-center justify-between px-2">
+    <p className="text-sm text-muted-foreground">
+      Page {currentPage} of {totalPages}
+    </p>
+    <div className="flex items-center gap-2">
+      <Button variant="outline" size="sm"
+        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+        disabled={currentPage === 1}>Previous</Button>
+      <Button variant="outline" size="sm"
+        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+        disabled={currentPage === totalPages}>Next</Button>
+    </div>
+  </div>
+</div>`,
+          },
+          {
+            id: "expandable",
+            title: "Expandable Rows",
+            description:
+              "Table with expandable rows showing detailed information.",
+            code: `const [expandedRows, setExpandedRows] = useState(new Set());
+const invoices = [
+  { id: "INV-001", status: "Paid", method: "Credit Card", amount: "$250.00" },
+  { id: "INV-002", status: "Pending", method: "PayPal", amount: "$150.00" },
+];
+
+const toggleRow = (id) => {
+  setExpandedRows(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
+};
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead className="w-[40px]" />
+      <TableHead>Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Method</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {invoices.map((inv) => (
+      <React.Fragment key={inv.id}>
+        <TableRow>
+          <TableCell>
+            <Button variant="ghost" size="icon" className="h-6 w-6"
+              onClick={() => toggleRow(inv.id)}>
+              {expandedRows.has(inv.id)
+                ? <ChevronDown className="h-4 w-4" />
+                : <ChevronRight className="h-4 w-4" />}
+            </Button>
+          </TableCell>
+          <TableCell className="font-medium">{inv.id}</TableCell>
+          <TableCell><Badge variant="outline">{inv.status}</Badge></TableCell>
+          <TableCell>{inv.method}</TableCell>
+          <TableCell className="text-right">{inv.amount}</TableCell>
+        </TableRow>
+        {expandedRows.has(inv.id) && (
+          <TableRow className="bg-muted/50">
+            <TableCell colSpan={5} className="p-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="font-medium text-muted-foreground">Invoice ID</p>
+                  <p>{inv.id}</p>
+                </div>
+                <div>
+                  <p className="font-medium text-muted-foreground">Amount</p>
+                  <p className="font-semibold">{inv.amount}</p>
+                </div>
+              </div>
+            </TableCell>
+          </TableRow>
+        )}
+      </React.Fragment>
+    ))}
+  </TableBody>
+</Table>`,
+          },
+          {
+            id: "with-filters",
+            title: "Column Filters",
+            description:
+              "Table with column-level text filters for data filtering.",
+            code: `const [filters, setFilters] = useState({ id: "", status: "", method: "" });
+const invoices = [
+  { id: "INV-001", status: "Paid", method: "Credit Card", amount: "$250.00" },
+  { id: "INV-002", status: "Pending", method: "PayPal", amount: "$150.00" },
+  { id: "INV-003", status: "Overdue", method: "Bank Transfer", amount: "$350.00" },
+];
+const filtered = invoices.filter(inv =>
+  inv.id.toLowerCase().includes(filters.id.toLowerCase()) &&
+  inv.status.toLowerCase().includes(filters.status.toLowerCase()) &&
+  inv.method.toLowerCase().includes(filters.method.toLowerCase())
+);
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Method</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+    <TableRow className="hover:bg-transparent">
+      <TableHead className="py-1">
+        <Input placeholder="Filter..." className="h-7 text-xs"
+          value={filters.id}
+          onChange={e => setFilters(f => ({ ...f, id: e.target.value }))} />
+      </TableHead>
+      <TableHead className="py-1">
+        <Input placeholder="Filter..." className="h-7 text-xs"
+          value={filters.status}
+          onChange={e => setFilters(f => ({ ...f, status: e.target.value }))} />
+      </TableHead>
+      <TableHead className="py-1">
+        <Input placeholder="Filter..." className="h-7 text-xs"
+          value={filters.method}
+          onChange={e => setFilters(f => ({ ...f, method: e.target.value }))} />
+      </TableHead>
+      <TableHead />
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {filtered.map(inv => (
+      <TableRow key={inv.id}>
+        <TableCell className="font-medium">{inv.id}</TableCell>
+        <TableCell><Badge variant="outline">{inv.status}</Badge></TableCell>
+        <TableCell>{inv.method}</TableCell>
+        <TableCell className="text-right">{inv.amount}</TableCell>
+      </TableRow>
+    ))}
+    {filtered.length === 0 && (
+      <TableRow>
+        <TableCell colSpan={4} className="text-center text-muted-foreground">
+          No results found.
+        </TableCell>
+      </TableRow>
+    )}
   </TableBody>
 </Table>`,
           },
