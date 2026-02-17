@@ -96,6 +96,52 @@ export const componentCategories: ComponentCategory[] = [
               "When true, prevents the user from interacting with the accordion and all its items.",
           },
         ],
+        examples: [
+          {
+            id: "single",
+            title: "Single (Collapsible)",
+            description: "Only one item can be open at a time. Click the open item again to close it.",
+            code: `<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>
+      Yes. It adheres to the WAI-ARIA design pattern.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Is it styled?</AccordionTrigger>
+    <AccordionContent>
+      Yes. It comes with default styles that match your theme.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>Is it animated?</AccordionTrigger>
+    <AccordionContent>
+      Yes. It's animated by default with CSS transitions.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`,
+          },
+          {
+            id: "multiple",
+            title: "Multiple",
+            description: "Multiple items can be open simultaneously.",
+            code: `<Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Section One</AccordionTrigger>
+    <AccordionContent>Content for section one.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Section Two</AccordionTrigger>
+    <AccordionContent>Content for section two.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>Section Three</AccordionTrigger>
+    <AccordionContent>Content for section three.</AccordionContent>
+  </AccordionItem>
+</Accordion>`,
+          },
+        ],
         accessibility:
           "Implements WAI-ARIA Accordion pattern with full keyboard navigation via Arrow, Home, and End keys.",
         relatedComponents: ["collapsible", "tabs"],
@@ -322,6 +368,33 @@ export const componentCategories: ComponentCategory[] = [
             type: "string",
             description:
               "Additional CSS classes for custom spacing, color, or thickness of the separator line.",
+          },
+        ],
+        examples: [
+          {
+            id: "horizontal",
+            title: "Horizontal",
+            description: "Default horizontal separator between content sections.",
+            code: `<div>
+  <div className="space-y-1">
+    <h4 className="text-sm font-medium">Radix Primitives</h4>
+    <p className="text-sm text-muted-foreground">An open-source UI component library.</p>
+  </div>
+  <Separator className="my-4" />
+  <p className="text-sm text-muted-foreground">Additional content below the separator.</p>
+</div>`,
+          },
+          {
+            id: "vertical",
+            title: "Vertical",
+            description: "Vertical separator between inline elements.",
+            code: `<div className="flex h-5 items-center space-x-4 text-sm">
+  <div>Blog</div>
+  <Separator orientation="vertical" />
+  <div>Docs</div>
+  <Separator orientation="vertical" />
+  <div>Source</div>
+</div>`,
           },
         ],
         accessibility:
@@ -767,6 +840,40 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <Checkbox id="terms" />
   <label htmlFor="terms" className="text-sm">Accept terms and conditions</label>
 </div>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic checkbox paired with a label.",
+            code: `<div className="flex items-center space-x-2">
+  <Checkbox id="terms" />
+  <Label htmlFor="terms">Accept terms and conditions</Label>
+</div>`,
+          },
+          {
+            id: "with-description",
+            title: "With Description",
+            description: "Checkbox with supplementary description text.",
+            code: `<div className="items-top flex space-x-2">
+  <Checkbox id="terms2" />
+  <div className="grid gap-1.5 leading-none">
+    <Label htmlFor="terms2">Accept terms and conditions</Label>
+    <p className="text-sm text-muted-foreground">
+      You agree to our Terms of Service and Privacy Policy.
+    </p>
+  </div>
+</div>`,
+          },
+          {
+            id: "disabled",
+            title: "Disabled",
+            description: "Checkbox in a disabled state that cannot be toggled.",
+            code: `<div className="flex items-center space-x-2">
+  <Checkbox id="disabled" disabled />
+  <Label htmlFor="disabled" className="text-muted-foreground">Disabled option</Label>
+</div>`,
+          },
+        ],
         props: [
           {
             name: "checked",
@@ -998,6 +1105,54 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     <Label htmlFor="option-two">Option Two</Label>
   </div>
 </RadioGroup>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic radio group with two options.",
+            code: `<RadioGroup defaultValue="option-one">
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="option-one" id="option-one" />
+    <Label htmlFor="option-one">Option One</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="option-two" id="option-two" />
+    <Label htmlFor="option-two">Option Two</Label>
+  </div>
+</RadioGroup>`,
+          },
+          {
+            id: "with-description",
+            title: "With Description",
+            description: "Each radio option includes a description for extra context.",
+            code: `<RadioGroup defaultValue="comfortable">
+  <div className="flex items-start space-x-2">
+    <RadioGroupItem value="default" id="r-default" className="mt-1" />
+    <div>
+      <Label htmlFor="r-default">Default</Label>
+      <p className="text-sm text-muted-foreground">Standard spacing and size.</p>
+    </div>
+  </div>
+  <div className="flex items-start space-x-2">
+    <RadioGroupItem value="comfortable" id="r-comfortable" className="mt-1" />
+    <div>
+      <Label htmlFor="r-comfortable">Comfortable</Label>
+      <p className="text-sm text-muted-foreground">More padding for a relaxed layout.</p>
+    </div>
+  </div>
+  <div className="flex items-start space-x-2">
+    <RadioGroupItem value="compact" id="r-compact" className="mt-1" />
+    <div>
+      <Label htmlFor="r-compact">Compact</Label>
+      <p className="text-sm text-muted-foreground">Tight spacing to display more items.</p>
+    </div>
+  </div>
+</RadioGroup>`,
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Radio Group pattern with Arrow key navigation between options; always pair each item with a Label.",
+        relatedComponents: ["checkbox", "select", "label"],
       },
       {
         name: "Select",
@@ -1118,6 +1273,40 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <Switch id="airplane-mode" />
   <Label htmlFor="airplane-mode">Airplane Mode</Label>
 </div>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic switch with a label.",
+            code: `<div className="flex items-center space-x-2">
+  <Switch id="airplane-mode" />
+  <Label htmlFor="airplane-mode">Airplane Mode</Label>
+</div>`,
+          },
+          {
+            id: "with-description",
+            title: "With Description",
+            description: "Switch with a label and supplementary description text, common in settings pages.",
+            code: `<div className="flex items-center justify-between rounded-lg border p-4 w-full max-w-sm">
+  <div className="space-y-0.5">
+    <Label htmlFor="marketing">Marketing emails</Label>
+    <p className="text-sm text-muted-foreground">
+      Receive emails about new products, features, and more.
+    </p>
+  </div>
+  <Switch id="marketing" />
+</div>`,
+          },
+          {
+            id: "disabled",
+            title: "Disabled",
+            description: "Switch in a disabled state.",
+            code: `<div className="flex items-center space-x-2">
+  <Switch id="disabled-switch" disabled />
+  <Label htmlFor="disabled-switch" className="text-muted-foreground">Disabled</Label>
+</div>`,
+          },
+        ],
         props: [
           {
             name: "checked",
@@ -1162,6 +1351,35 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         description: "Displays a form textarea.",
         importExample: `import { Textarea } from "@workspace/ui/components/textarea";`,
         codeExample: `<Textarea placeholder="Type your message here." />`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic textarea input.",
+            code: `<Textarea placeholder="Type your message here." />`,
+          },
+          {
+            id: "with-label",
+            title: "With Label",
+            description: "Textarea with a label and helper text.",
+            code: `<div className="grid w-full gap-1.5">
+  <Label htmlFor="message">Your message</Label>
+  <Textarea placeholder="Type your message here." id="message" />
+  <p className="text-sm text-muted-foreground">
+    Your message will be copied to the support team.
+  </p>
+</div>`,
+          },
+          {
+            id: "disabled",
+            title: "Disabled",
+            description: "Textarea in a disabled state.",
+            code: `<Textarea placeholder="Disabled textarea" disabled />`,
+          },
+        ],
+        accessibility:
+          "Renders a native <textarea> element; always associate with a Label using matching htmlFor and id.",
+        relatedComponents: ["input", "label", "field"],
       },
       {
         name: "Toggle",
@@ -1171,6 +1389,36 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         codeExample: `<Toggle aria-label="Toggle italic">
   <span className="font-bold">B</span>
 </Toggle>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic toggle button.",
+            code: `<Toggle aria-label="Toggle bold">
+  <span className="font-bold">B</span>
+</Toggle>`,
+          },
+          {
+            id: "outline",
+            title: "Outline",
+            description: "Toggle with outline variant for a more subtle appearance.",
+            code: `<Toggle variant="outline" aria-label="Toggle italic">
+  <span className="italic">I</span>
+</Toggle>`,
+          },
+          {
+            id: "with-text",
+            title: "With Text",
+            description: "Toggle with both icon and text label.",
+            code: `<Toggle aria-label="Toggle bold">
+  <span className="font-bold mr-2">B</span>
+  Bold
+</Toggle>`,
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA toggle button pattern with aria-pressed; always provide an aria-label for icon-only toggles.",
+        relatedComponents: ["toggle-group", "button", "switch"],
       },
       {
         name: "Toggle Group",
@@ -1189,6 +1437,47 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     <span className="underline">U</span>
   </ToggleGroupItem>
 </ToggleGroup>`,
+        examples: [
+          {
+            id: "multiple",
+            title: "Multiple Selection",
+            description: "Allow selecting multiple toggles at once, like a text formatting toolbar.",
+            code: `<ToggleGroup type="multiple">
+  <ToggleGroupItem value="bold" aria-label="Toggle bold">
+    <span className="font-bold">B</span>
+  </ToggleGroupItem>
+  <ToggleGroupItem value="italic" aria-label="Toggle italic">
+    <span className="italic">I</span>
+  </ToggleGroupItem>
+  <ToggleGroupItem value="underline" aria-label="Toggle underline">
+    <span className="underline">U</span>
+  </ToggleGroupItem>
+</ToggleGroup>`,
+          },
+          {
+            id: "single",
+            title: "Single Selection",
+            description: "Only one toggle can be active at a time, like view mode switching.",
+            code: `<ToggleGroup type="single" defaultValue="list">
+  <ToggleGroupItem value="grid" aria-label="Grid view">Grid</ToggleGroupItem>
+  <ToggleGroupItem value="list" aria-label="List view">List</ToggleGroupItem>
+  <ToggleGroupItem value="kanban" aria-label="Kanban view">Kanban</ToggleGroupItem>
+</ToggleGroup>`,
+          },
+          {
+            id: "outline",
+            title: "Outline Variant",
+            description: "Toggle group with outline variant for a more subtle, bordered appearance.",
+            code: `<ToggleGroup type="single" variant="outline" defaultValue="center">
+  <ToggleGroupItem value="left" aria-label="Align left">Left</ToggleGroupItem>
+  <ToggleGroupItem value="center" aria-label="Align center">Center</ToggleGroupItem>
+  <ToggleGroupItem value="right" aria-label="Align right">Right</ToggleGroupItem>
+</ToggleGroup>`,
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA toolbar pattern; Arrow keys navigate between items, Space/Enter toggles the focused item.",
+        relatedComponents: ["toggle", "button", "tabs"],
       },
     ],
   },
@@ -1205,6 +1494,62 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
   <AvatarFallback>CN</AvatarFallback>
 </Avatar>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Avatars with text fallback initials.",
+            code: `<div className="flex gap-4">
+  <Avatar>
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarFallback>JD</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarFallback>AB</AvatarFallback>
+  </Avatar>
+</div>`,
+          },
+          {
+            id: "sizes",
+            title: "Sizes",
+            description: "Control avatar sizes with className.",
+            code: `<div className="flex items-center gap-4">
+  <Avatar className="h-6 w-6 text-xs">
+    <AvatarFallback>S</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarFallback>MD</AvatarFallback>
+  </Avatar>
+  <Avatar className="h-14 w-14 text-lg">
+    <AvatarFallback>LG</AvatarFallback>
+  </Avatar>
+</div>`,
+          },
+          {
+            id: "group",
+            title: "Avatar Group",
+            description: "Stacked overlapping avatars for team or group display.",
+            code: `<div className="flex -space-x-3">
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>A</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>B</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>C</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>+3</AvatarFallback>
+  </Avatar>
+</div>`,
+          },
+        ],
+        accessibility:
+          "Uses AvatarImage with alt text for accessibility; AvatarFallback is displayed while image loads or as a replacement.",
+        relatedComponents: ["badge", "card", "hover-card"],
       },
       {
         name: "Badge",
@@ -1359,6 +1704,30 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
               "Custom function to generate an accessible label string from the current value and max.",
           },
         ],
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Progress bars at different completion levels.",
+            code: `<div className="w-full max-w-sm space-y-4">
+  <Progress value={33} />
+  <Progress value={66} />
+  <Progress value={100} />
+</div>`,
+          },
+          {
+            id: "with-label",
+            title: "With Label",
+            description: "Progress bar with a percentage label showing the current value.",
+            code: `<div className="w-full max-w-sm space-y-2">
+  <div className="flex justify-between text-sm">
+    <span>Upload progress</span>
+    <span className="text-muted-foreground">60%</span>
+  </div>
+  <Progress value={60} />
+</div>`,
+          },
+        ],
         accessibility:
           'Renders with role="progressbar" and aria-valuenow/aria-valuemax for screen reader progress announcements.',
         relatedComponents: ["skeleton", "spinner"],
@@ -1375,6 +1744,57 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     <Skeleton className="h-4 w-[200px]" />
   </div>
 </div>`,
+        examples: [
+          {
+            id: "profile",
+            title: "Profile",
+            description: "Skeleton layout mimicking a user profile card with avatar and text.",
+            code: `<div className="flex items-center space-x-4">
+  <Skeleton className="h-12 w-12 rounded-full" />
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-[250px]" />
+    <Skeleton className="h-4 w-[200px]" />
+  </div>
+</div>`,
+          },
+          {
+            id: "card",
+            title: "Card",
+            description: "Skeleton layout for a content card with image, title, and description.",
+            code: `<div className="space-y-3 w-full max-w-sm">
+  <Skeleton className="h-[125px] w-full rounded-xl" />
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-3/4" />
+    <Skeleton className="h-4 w-1/2" />
+  </div>
+</div>`,
+          },
+          {
+            id: "table",
+            title: "Table Rows",
+            description: "Skeleton rows for a loading table.",
+            code: `<div className="space-y-3 w-full">
+  <div className="flex gap-4">
+    <Skeleton className="h-4 w-[100px]" />
+    <Skeleton className="h-4 w-[150px]" />
+    <Skeleton className="h-4 w-[80px]" />
+  </div>
+  <div className="flex gap-4">
+    <Skeleton className="h-4 w-[100px]" />
+    <Skeleton className="h-4 w-[150px]" />
+    <Skeleton className="h-4 w-[80px]" />
+  </div>
+  <div className="flex gap-4">
+    <Skeleton className="h-4 w-[100px]" />
+    <Skeleton className="h-4 w-[150px]" />
+    <Skeleton className="h-4 w-[80px]" />
+  </div>
+</div>`,
+          },
+        ],
+        accessibility:
+          "Skeleton is purely visual; use aria-busy on the parent container and aria-hidden on skeletons for screen readers.",
+        relatedComponents: ["spinner", "progress"],
       },
       {
         name: "Spinner",
@@ -1418,6 +1838,69 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             required: true,
             description:
               "Table structure composed of TableHeader, TableBody, TableFooter, and TableCaption sub-components.",
+          },
+        ],
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic table with header and data rows.",
+            code: `<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>INV001</TableCell>
+      <TableCell>Paid</TableCell>
+      <TableCell className="text-right">$250.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>INV002</TableCell>
+      <TableCell>Pending</TableCell>
+      <TableCell className="text-right">$150.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`,
+          },
+          {
+            id: "with-badges",
+            title: "With Badges",
+            description: "Table with Badge components for status display.",
+            code: `<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead>Method</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell className="font-medium">INV001</TableCell>
+      <TableCell><Badge variant="outline">Paid</Badge></TableCell>
+      <TableCell>Credit Card</TableCell>
+      <TableCell className="text-right">$250.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-medium">INV002</TableCell>
+      <TableCell><Badge variant="secondary">Pending</Badge></TableCell>
+      <TableCell>Bank Transfer</TableCell>
+      <TableCell className="text-right">$150.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-medium">INV003</TableCell>
+      <TableCell><Badge variant="destructive">Overdue</Badge></TableCell>
+      <TableCell>PayPal</TableCell>
+      <TableCell className="text-right">$350.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`,
           },
         ],
         accessibility:
@@ -1526,6 +2009,59 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic alert dialog asking for user confirmation.",
+            code: `<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="outline">Show Dialog</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your
+        account and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`,
+          },
+          {
+            id: "destructive",
+            title: "Destructive Action",
+            description: "Alert dialog for dangerous operations like data deletion.",
+            code: `<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="destructive">Delete Account</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete account?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This will permanently delete your account and all associated data.
+        This action is irreversible.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+        Yes, delete
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`,
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA AlertDialog pattern with focus trap, required Title, and Cancel/Action buttons for keyboard users.",
+        relatedComponents: ["dialog", "alert", "button"],
       },
       {
         name: "Dialog",
@@ -1683,6 +2219,68 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     </DrawerFooter>
   </DrawerContent>
 </Drawer>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic drawer sliding up from the bottom.",
+            code: `<Drawer>
+  <DrawerTrigger asChild>
+    <Button variant="outline">Open Drawer</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Edit profile</DrawerTitle>
+      <DrawerDescription>Make changes to your profile settings.</DrawerDescription>
+    </DrawerHeader>
+    <div className="px-4">
+      <div className="grid gap-4">
+        <div className="grid gap-2">
+          <Label htmlFor="drawer-name">Name</Label>
+          <Input id="drawer-name" placeholder="Your name" />
+        </div>
+      </div>
+    </div>
+    <DrawerFooter>
+      <Button>Save changes</Button>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`,
+          },
+          {
+            id: "with-actions",
+            title: "With Actions",
+            description: "Drawer with cancel and submit buttons in the footer.",
+            code: `<Drawer>
+  <DrawerTrigger asChild>
+    <Button>New Item</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Add new item</DrawerTitle>
+      <DrawerDescription>Fill in the details to create a new item.</DrawerDescription>
+    </DrawerHeader>
+    <div className="px-4 grid gap-4">
+      <div className="grid gap-2">
+        <Label htmlFor="drawer-title">Title</Label>
+        <Input id="drawer-title" placeholder="Item title" />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="drawer-desc">Description</Label>
+        <Textarea id="drawer-desc" placeholder="Describe the item..." />
+      </div>
+    </div>
+    <DrawerFooter className="flex-row justify-end gap-2">
+      <Button variant="outline">Cancel</Button>
+      <Button>Create</Button>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`,
+          },
+        ],
+        accessibility:
+          "Implements focus trap and Escape key dismissal; touch-friendly with swipe-to-dismiss gesture on mobile.",
+        relatedComponents: ["dialog", "sheet", "alert-dialog"],
       },
       {
         name: "Popover",
@@ -1701,6 +2299,59 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     </div>
   </PopoverContent>
 </Popover>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic popover with text content.",
+            code: `<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Open Popover</Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-80">
+    <div className="grid gap-4">
+      <h4 className="font-medium leading-none">Dimensions</h4>
+      <p className="text-sm text-muted-foreground">
+        Set the dimensions for the layer.
+      </p>
+    </div>
+  </PopoverContent>
+</Popover>`,
+          },
+          {
+            id: "with-form",
+            title: "With Form",
+            description: "Popover containing a compact form for quick inline editing.",
+            code: `<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Edit Settings</Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-80">
+    <div className="grid gap-4">
+      <div className="space-y-2">
+        <h4 className="font-medium leading-none">Settings</h4>
+        <p className="text-sm text-muted-foreground">
+          Configure display settings.
+        </p>
+      </div>
+      <div className="grid gap-2">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="width">Width</Label>
+          <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="height">Height</Label>
+          <Input id="height" defaultValue="auto" className="col-span-2 h-8" />
+        </div>
+      </div>
+    </div>
+  </PopoverContent>
+</Popover>`,
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Popover pattern with focus management; Escape key closes the popover and returns focus to the trigger.",
+        relatedComponents: ["tooltip", "hover-card", "dialog", "calendar"],
       },
       {
         name: "Sheet",
@@ -1719,6 +2370,62 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     </SheetHeader>
   </SheetContent>
 </Sheet>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default (Right)",
+            description: "Sheet sliding in from the right side.",
+            code: `<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="outline">Open Sheet</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Edit profile</SheetTitle>
+      <SheetDescription>
+        Make changes to your profile here. Click save when you're done.
+      </SheetDescription>
+    </SheetHeader>
+    <div className="grid gap-4 py-4">
+      <div className="grid gap-2">
+        <Label htmlFor="sheet-name">Name</Label>
+        <Input id="sheet-name" placeholder="Your name" />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="sheet-email">Email</Label>
+        <Input id="sheet-email" placeholder="you@example.com" />
+      </div>
+    </div>
+    <Button>Save changes</Button>
+  </SheetContent>
+</Sheet>`,
+          },
+          {
+            id: "left",
+            title: "Left Side",
+            description: "Sheet sliding in from the left, useful for navigation panels.",
+            code: `<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="outline">Open Left Sheet</Button>
+  </SheetTrigger>
+  <SheetContent side="left">
+    <SheetHeader>
+      <SheetTitle>Navigation</SheetTitle>
+      <SheetDescription>Browse sections of the app.</SheetDescription>
+    </SheetHeader>
+    <div className="grid gap-2 py-4 text-sm">
+      <a href="#" className="block px-2 py-1.5 rounded hover:bg-muted">Dashboard</a>
+      <a href="#" className="block px-2 py-1.5 rounded hover:bg-muted">Settings</a>
+      <a href="#" className="block px-2 py-1.5 rounded hover:bg-muted">Users</a>
+      <a href="#" className="block px-2 py-1.5 rounded hover:bg-muted">Reports</a>
+    </div>
+  </SheetContent>
+</Sheet>`,
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Dialog pattern with focus trap and Escape key dismissal; requires SheetTitle for screen readers.",
+        relatedComponents: ["dialog", "drawer", "sidebar"],
       },
       {
         name: "Sonner (Toast)",
@@ -1746,6 +2453,59 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     </TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic tooltip that appears on hover.",
+            code: `<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button variant="outline">Hover me</Button>
+    </TooltipTrigger>
+    <TooltipContent>
+      <p>Add to library</p>
+    </TooltipContent>
+  </Tooltip>
+</TooltipProvider>`,
+          },
+          {
+            id: "positions",
+            title: "Positions",
+            description: "Tooltips can be placed on different sides of the trigger.",
+            code: `<TooltipProvider>
+  <div className="flex gap-4">
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline" size="sm">Top</Button>
+      </TooltipTrigger>
+      <TooltipContent side="top"><p>Top tooltip</p></TooltipContent>
+    </Tooltip>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline" size="sm">Right</Button>
+      </TooltipTrigger>
+      <TooltipContent side="right"><p>Right tooltip</p></TooltipContent>
+    </Tooltip>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline" size="sm">Bottom</Button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom"><p>Bottom tooltip</p></TooltipContent>
+    </Tooltip>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline" size="sm">Left</Button>
+      </TooltipTrigger>
+      <TooltipContent side="left"><p>Left tooltip</p></TooltipContent>
+    </Tooltip>
+  </div>
+</TooltipProvider>`,
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Tooltip pattern; content is announced by screen readers on focus. Triggered by both hover and keyboard focus.",
+        relatedComponents: ["popover", "hover-card", "button"],
       },
     ],
   },
@@ -1769,6 +2529,55 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic breadcrumb navigation trail.",
+            code: `<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Components</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`,
+          },
+          {
+            id: "with-ellipsis",
+            title: "With Ellipsis",
+            description: "Truncated breadcrumb for deep navigation paths using an ellipsis.",
+            code: `<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <span className="text-muted-foreground">...</span>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Settings</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Profile</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`,
+          },
+        ],
+        accessibility:
+          "Renders inside a <nav> with aria-label for screen readers; the current page uses aria-current for proper announcement.",
+        relatedComponents: ["navigation-menu", "pagination"],
       },
       {
         name: "Carousel",
@@ -1824,7 +2633,7 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         slug: "dropdown-menu",
         description:
           "Displays a menu triggered by a button, following the WAI-ARIA menu pattern.",
-        importExample: `import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";`,
+        importExample: `import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@workspace/ui/components/dropdown-menu";`,
         codeExample: `<DropdownMenu>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">Open</Button>
@@ -1835,6 +2644,70 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     <DropdownMenuItem>Settings</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic dropdown menu with simple items.",
+            code: `<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Open Menu</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+          },
+          {
+            id: "with-label",
+            title: "With Label & Separator",
+            description: "Dropdown menu with label header, separators, and grouped items.",
+            code: `<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">My Account</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="w-56">
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem className="text-destructive">Log out</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+          },
+          {
+            id: "with-shortcuts",
+            title: "With Shortcuts",
+            description: "Menu items with keyboard shortcut hints using the Kbd component.",
+            code: `<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">Actions</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent className="w-48">
+    <DropdownMenuItem>
+      New File
+      <span className="ml-auto text-xs text-muted-foreground">Ctrl+N</span>
+    </DropdownMenuItem>
+    <DropdownMenuItem>
+      Save
+      <span className="ml-auto text-xs text-muted-foreground">Ctrl+S</span>
+    </DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>
+      Delete
+      <span className="ml-auto text-xs text-muted-foreground">Del</span>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Menu pattern with Arrow key navigation, Enter/Space to select, and Escape to close.",
+        relatedComponents: ["context-menu", "menubar", "button"],
       },
       {
         name: "Hover Card",
@@ -1888,7 +2761,7 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         slug: "pagination",
         description:
           "Pagination with page navigation, previous and next links.",
-        importExample: `import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@workspace/ui/components/pagination";`,
+        importExample: `import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@workspace/ui/components/pagination";`,
         codeExample: `<Pagination>
   <PaginationContent>
     <PaginationItem>
@@ -1905,6 +2778,71 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     </PaginationItem>
   </PaginationContent>
 </Pagination>`,
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic pagination with numbered pages.",
+            code: `<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive>2</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>`,
+          },
+          {
+            id: "with-ellipsis",
+            title: "With Ellipsis",
+            description: "Pagination with ellipsis for large page sets.",
+            code: `<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">4</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive>5</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">6</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">10</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>`,
+          },
+        ],
+        accessibility:
+          "Renders inside a <nav> with aria-label; isActive applies aria-current for the current page link.",
+        relatedComponents: ["table", "breadcrumb", "button"],
       },
       {
         name: "Sidebar",
