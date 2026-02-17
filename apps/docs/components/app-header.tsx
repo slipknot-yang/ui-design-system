@@ -30,13 +30,13 @@ export function AppHeader({ navbarBehavior = "sticky" }: AppHeaderProps) {
   return (
     <header
       className={cn(
-        "flex h-14 shrink-0 items-center gap-2 border-b px-4",
+        "flex h-14 shrink-0 items-center gap-2 border-b px-2 sm:px-4",
         navbarBehavior === "sticky" && "sticky top-0 z-10 bg-background",
       )}
     >
       <SidebarTrigger className="-ml-1" />
-      <Separator orientation="vertical" className="mr-2 h-4" />
-      <Breadcrumb>
+      <Separator orientation="vertical" className="mr-2 hidden sm:block h-4" />
+      <Breadcrumb className="hidden md:flex">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">{t("appName")}</BreadcrumbLink>
@@ -47,14 +47,16 @@ export function AppHeader({ navbarBehavior = "sticky" }: AppHeaderProps) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="ml-auto flex items-center gap-2">
+      <div className="ml-auto flex items-center gap-1 sm:gap-2">
         <CommandSearch />
         <CountrySwitcher />
         <LocaleSwitcher />
         <ThemeSwitcher />
-        <PreferencesPanel />
-        <NotificationBell />
-        <UserNav />
+        <div className="hidden sm:flex items-center gap-1 sm:gap-2">
+          <PreferencesPanel />
+          <NotificationBell />
+          <UserNav />
+        </div>
       </div>
     </header>
   );

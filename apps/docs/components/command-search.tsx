@@ -68,12 +68,12 @@ export function CommandSearch() {
     <>
       <Button
         variant="outline"
-        className="relative h-8 w-full justify-start rounded-md text-sm text-muted-foreground sm:w-56 lg:w-64"
+        className="relative h-8 w-auto min-w-[2.5rem] justify-start rounded-md text-sm text-muted-foreground sm:w-56 lg:w-64"
         onClick={() => setOpen(true)}
       >
-        <Search className="mr-2 h-4 w-4" />
+        <Search className="h-4 w-4 sm:mr-2" />
         <span className="hidden lg:inline-flex">{t("searchPlaceholder")}</span>
-        <span className="inline-flex lg:hidden">{t("search")}</span>
+        <span className="hidden sm:inline-flex lg:hidden">{t("search")}</span>
         <span className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-0.5">
           <Kbd className="text-[10px]">⌘</Kbd>
           <Kbd className="text-[10px]">K</Kbd>
