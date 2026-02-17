@@ -2,6 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
+import cupiaEmblem from "@/public/cupia-emblem.png";
+import cupiaLogo from "@/public/cupia-logo.png";
+import cupiaLogoVertical from "@/public/cupia-logo-vertical.png";
 import {
   Search as SearchIcon,
   Mail as MailIcon,
@@ -1840,7 +1843,7 @@ const examplePreviews: Record<string, React.ReactNode> = {
     <Card className="w-full max-w-sm overflow-hidden">
       <div className="flex h-48 w-full items-center justify-center bg-muted/50 p-6">
         <Image
-          src="/cupia-logo-vertical.png"
+          src={cupiaLogoVertical}
           alt="CUPIA Customs System"
           width={280}
           height={140}
@@ -2627,7 +2630,7 @@ const examplePreviews: Record<string, React.ReactNode> = {
     <div className="w-[200px]">
       <AspectRatio ratio={1} className="rounded-lg overflow-hidden">
         <Image
-          src="/cupia-emblem.png"
+          src={cupiaEmblem}
           alt="Square demo"
           fill
           className="object-contain bg-muted"
@@ -2642,7 +2645,7 @@ const examplePreviews: Record<string, React.ReactNode> = {
     <div className="w-[320px]">
       <AspectRatio ratio={4 / 3} className="rounded-lg overflow-hidden">
         <Image
-          src="/cupia-logo.png"
+          src={cupiaLogo}
           alt="Photo demo"
           fill
           className="object-contain bg-muted"

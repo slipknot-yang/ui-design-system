@@ -1,5 +1,9 @@
 import Image from "next/image";
 import { cn } from "@workspace/ui/lib/utils";
+import cupiaEmblem from "@/public/cupia-emblem.png";
+import cupiaLogo from "@/public/cupia-logo.png";
+import cupiaLogoWhite from "@/public/cupia-logo-white.png";
+import cupiaLogoVertical from "@/public/cupia-logo-vertical.png";
 
 interface CupiaLogoProps {
   className?: string;
@@ -20,7 +24,7 @@ export function CupiaLogo({ className, size = "md" }: CupiaLogoProps) {
 
   return (
     <Image
-      src="/cupia-emblem.png"
+      src={cupiaEmblem}
       alt="CUPIA"
       width={px}
       height={px}
@@ -38,7 +42,7 @@ export function CupiaLogoFull({ className }: { className?: string }) {
   return (
     <>
       <Image
-        src="/cupia-logo.png"
+        src={cupiaLogo}
         alt="CUPIA"
         width={100}
         height={30}
@@ -46,7 +50,7 @@ export function CupiaLogoFull({ className }: { className?: string }) {
         priority
       />
       <Image
-        src="/cupia-logo-white.png"
+        src={cupiaLogoWhite}
         alt="CUPIA"
         width={100}
         height={30}
@@ -64,7 +68,7 @@ export function CupiaLogoFull({ className }: { className?: string }) {
 export function CupiaLogoHero({ className }: { className?: string }) {
   return (
     <Image
-      src="/cupia-logo-vertical.png"
+      src={cupiaLogoVertical}
       alt="CUPIA - Customs Uni-Pass International Agency"
       width={400}
       height={200}

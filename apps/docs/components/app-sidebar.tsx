@@ -127,11 +127,7 @@ export function AppSidebar({
     const isActive = isSectionActive(section);
     return (
       <SidebarGroup key={section.label}>
-        <Collapsible
-          open={isActive ? true : undefined}
-          defaultOpen={false}
-          className="group/collapsible"
-        >
+        <Collapsible defaultOpen={isActive} className="group/collapsible">
           <SidebarGroupLabel asChild>
             <CollapsibleTrigger className="flex w-full items-center gap-2">
               <section.icon className="h-4 w-4" />
