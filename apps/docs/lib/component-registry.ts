@@ -2778,12 +2778,14 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "default",
             title: "Default",
-            description: "Avatars with text fallback initials.",
+            description: "Avatars with image and text fallback.",
             code: `<div className="flex gap-4">
   <Avatar>
+    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
     <AvatarFallback>CN</AvatarFallback>
   </Avatar>
   <Avatar>
+    <AvatarImage src="https://github.com/leerob.png" alt="@leerob" />
     <AvatarFallback>JD</AvatarFallback>
   </Avatar>
   <Avatar>
@@ -2797,12 +2799,15 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             description: "Control avatar sizes with className.",
             code: `<div className="flex items-center gap-4">
   <Avatar className="h-6 w-6 text-xs">
+    <AvatarImage src="https://github.com/shadcn.png" alt="Small" />
     <AvatarFallback>S</AvatarFallback>
   </Avatar>
   <Avatar>
+    <AvatarImage src="https://github.com/leerob.png" alt="Medium" />
     <AvatarFallback>MD</AvatarFallback>
   </Avatar>
   <Avatar className="h-14 w-14 text-lg">
+    <AvatarImage src="https://github.com/shadcn.png" alt="Large" />
     <AvatarFallback>LG</AvatarFallback>
   </Avatar>
 </div>`,
@@ -2814,12 +2819,15 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
               "Stacked overlapping avatars for team or group display.",
             code: `<div className="flex -space-x-3">
   <Avatar className="border-2 border-background">
+    <AvatarImage src="https://github.com/shadcn.png" alt="User A" />
     <AvatarFallback>A</AvatarFallback>
   </Avatar>
   <Avatar className="border-2 border-background">
+    <AvatarImage src="https://github.com/leerob.png" alt="User B" />
     <AvatarFallback>B</AvatarFallback>
   </Avatar>
   <Avatar className="border-2 border-background">
+    <AvatarImage src="https://github.com/rauchg.png" alt="User C" />
     <AvatarFallback>C</AvatarFallback>
   </Avatar>
   <Avatar className="border-2 border-background">
@@ -2835,12 +2843,14 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             code: `<div className="flex gap-6">
   <div className="relative">
     <Avatar>
+      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
       <AvatarFallback>JD</AvatarFallback>
     </Avatar>
     <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-background" />
   </div>
   <div className="relative">
     <Avatar>
+      <AvatarImage src="https://github.com/leerob.png" alt="@leerob" />
       <AvatarFallback>KS</AvatarFallback>
     </Avatar>
     <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-gray-400 border-2 border-background" />

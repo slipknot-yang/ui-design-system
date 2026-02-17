@@ -9,6 +9,7 @@ import {
   SidebarProvider,
 } from "@workspace/ui/components/sidebar";
 import { cn } from "@workspace/ui/lib/utils";
+import { TooltipProvider } from "@workspace/ui/components/tooltip";
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const { sidebarStyle, sidebarCollapseMode, pageLayout, navbarBehavior } =
@@ -26,19 +27,21 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   }, [sidebarCollapseMode]);
 
   return (
-    <SidebarProvider key={sidebarStyle} open={open} onOpenChange={setOpen}>
-      <AppSidebar variant={sidebarStyle} collapsible={sidebarCollapseMode} />
-      <SidebarInset className="min-w-0 overflow-x-hidden">
-        <AppHeader navbarBehavior={navbarBehavior} />
-        <div
-          className={cn(
-            "flex-1 p-4 lg:p-6",
-            pageLayout === "centered" && "mx-auto max-w-5xl",
-          )}
-        >
-          {children}
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+    <TooltipProvider delayDuration={0}>
+      <SidebarProvider key={sidebarStyle} open={open} onOpenChange={setOpen}>
+        <AppSidebar variant={sidebarStyle} collapsible={sidebarCollapseMode} />
+        <SidebarInset className="min-w-0 overflow-x-hidden">
+          <AppHeader navbarBehavior={navbarBehavior} />
+          <div
+            className={cn(
+              "flex-1 p-4 lg:p-6",
+              pageLayout === "centered" && "mx-auto max-w-5xl",
+            )}
+          >
+            {children}
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   );
 }

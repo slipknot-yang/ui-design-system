@@ -127,40 +127,38 @@ export function AppSidebar({
     const isActive = isSectionActive(section);
     return (
       <SidebarGroup key={section.label}>
-        <Collapsible defaultOpen={isActive} className="group/collapsible">
-          <SidebarGroupLabel asChild>
-            <CollapsibleTrigger className="flex w-full items-center gap-2">
-              <section.icon className="h-4 w-4" />
-              <span className="flex-1 text-left">{section.label}</span>
-              <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-            </CollapsibleTrigger>
-          </SidebarGroupLabel>
-          <CollapsibleContent>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {section.items.map((item) => (
-                  <SidebarMenuItem key={`${section.label}-${item.title}`}>
-                    <SidebarMenuSub>
-                      <SidebarMenuSubItem>
-                        <SidebarMenuSubButton
-                          asChild
-                          isActive={pathname === item.href}
+        <SidebarMenu>
+          <Collapsible defaultOpen={isActive} className="group/collapsible">
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton tooltip={section.label}>
+                  <section.icon className="h-4 w-4" />
+                  <span className="flex-1 text-left">{section.label}</span>
+                  <ChevronRight className="ml-auto h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {section.items.map((item) => (
+                    <SidebarMenuSubItem key={`${section.label}-${item.title}`}>
+                      <SidebarMenuSubButton
+                        asChild
+                        isActive={pathname === item.href}
+                      >
+                        <Link
+                          href={item.href}
+                          onClick={() => setOpenMobile(false)}
                         >
-                          <Link
-                            href={item.href}
-                            onClick={() => setOpenMobile(false)}
-                          >
-                            <span>{item.title}</span>
-                          </Link>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    </SidebarMenuSub>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </CollapsibleContent>
-        </Collapsible>
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+        </SidebarMenu>
       </SidebarGroup>
     );
   }
