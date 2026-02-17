@@ -32,6 +32,18 @@ import {
   CreditCard,
   Building2,
   Landmark,
+  Loader2,
+  Inbox,
+  Home,
+  Settings,
+  Users,
+  Printer,
+  Copy,
+  Clipboard,
+  Share2,
+  FileText,
+  Bell,
+  Link2,
 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
@@ -101,6 +113,7 @@ import {
 } from "@workspace/ui/components/dialog";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -121,14 +134,18 @@ import {
 } from "@workspace/ui/components/tooltip";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@workspace/ui/components/dropdown-menu";
 import {
   Breadcrumb,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
@@ -179,6 +196,7 @@ import {
 } from "@workspace/ui/components/resizable";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -195,11 +213,14 @@ import {
 } from "@workspace/ui/components/carousel";
 import {
   Command,
+  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
+  CommandShortcut,
 } from "@workspace/ui/components/command";
 import {
   ContextMenu,
@@ -207,6 +228,10 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
+  ContextMenuSub,
+  ContextMenuSubTrigger,
+  ContextMenuSubContent,
+  ContextMenuShortcut,
 } from "@workspace/ui/components/context-menu";
 import {
   InputOTP,
@@ -214,6 +239,25 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@workspace/ui/components/input-otp";
+import {
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarSeparator,
+  MenubarShortcut,
+} from "@workspace/ui/components/menubar";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@workspace/ui/components/navigation-menu";
+import { toast } from "sonner";
 import { Calendar } from "@workspace/ui/components/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
@@ -477,7 +521,7 @@ function TablePaginationPreview() {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="w-full space-y-4">
       <Table>
         <TableHeader>
           <TableRow>
@@ -1408,6 +1452,242 @@ const previews: Record<string, React.ReactNode> = {
   ),
 };
 
+/* ── Stateful preview components for examplePreviews ───────────────────────── */
+
+function AlertDialogWithInputPreview() {
+  const [value, setValue] = React.useState("");
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive">Delete Project</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete this project?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. Type <strong>DELETE</strong> below to
+            confirm.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <Input
+          placeholder='Type "DELETE" to confirm'
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setValue("")}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction disabled={value !== "DELETE"}>
+            Confirm Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+function AlertDialogAsyncPreview() {
+  const [loading, setLoading] = React.useState(false);
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="outline">Submit Report</Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Submit final report?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Once submitted, this report will be sent for review and cannot be
+            edited.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            disabled={loading}
+            onClick={(e) => {
+              e.preventDefault();
+              setLoading(true);
+              setTimeout(() => setLoading(false), 2000);
+            }}
+          >
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {loading ? "Submitting..." : "Submit"}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+function CommandDialogPreview() {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <>
+      <Button variant="outline" onClick={() => setOpen(true)}>
+        Open Command Palette
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem>
+              <CalendarIcon className="mr-2 h-4 w-4" /> Calendar
+            </CommandItem>
+            <CommandItem>
+              <SearchIcon className="mr-2 h-4 w-4" /> Search
+            </CommandItem>
+            <CommandItem>
+              <Settings className="mr-2 h-4 w-4" /> Settings
+            </CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Settings">
+            <CommandItem>
+              <Users className="mr-2 h-4 w-4" /> Profile
+            </CommandItem>
+            <CommandItem>
+              <MailIcon className="mr-2 h-4 w-4" /> Mail
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
+  );
+}
+
+function DropdownMenuCheckboxPreview() {
+  const [showStatus, setShowStatus] = React.useState(true);
+  const [showEmail, setShowEmail] = React.useState(true);
+  const [showAmount, setShowAmount] = React.useState(false);
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Columns</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-48">
+        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem
+          checked={showStatus}
+          onCheckedChange={setShowStatus}
+        >
+          Status
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={showEmail}
+          onCheckedChange={setShowEmail}
+        >
+          Email
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={showAmount}
+          onCheckedChange={setShowAmount}
+        >
+          Amount
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function DropdownMenuRadioPreview() {
+  const [sort, setSort] = React.useState("date");
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">
+          Sort by <ChevronDown className="ml-2 h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-48">
+        <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup value={sort} onValueChange={setSort}>
+          <DropdownMenuRadioItem value="name">Name</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="date">Date</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="status">Status</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="amount">Amount</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function SonnerVariantsPreview() {
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      <Button
+        variant="outline"
+        onClick={() => toast.success("Declaration submitted successfully!")}
+      >
+        Success
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() => toast.error("Failed to process declaration.")}
+      >
+        Error
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() => toast.info("Your report is ready for download.")}
+      >
+        Info
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() => toast.warning("Declaration expires in 24 hours.")}
+      >
+        Warning
+      </Button>
+    </div>
+  );
+}
+
+function SonnerWithActionPreview() {
+  return (
+    <Button
+      variant="outline"
+      onClick={() =>
+        toast("Declaration deleted", {
+          description: "Declaration KR-2024-001234 has been removed.",
+          action: {
+            label: "Undo",
+            onClick: () => toast.success("Declaration restored!"),
+          },
+        })
+      }
+    >
+      Delete with Undo
+    </Button>
+  );
+}
+
+function SonnerPromisePreview() {
+  return (
+    <Button
+      variant="outline"
+      onClick={() =>
+        toast.promise(
+          new Promise<string>((resolve) =>
+            setTimeout(() => resolve("Report generated!"), 2000),
+          ),
+          {
+            loading: "Generating report...",
+            success: (msg: string) => msg,
+            error: "Failed to generate report.",
+          },
+        )
+      }
+    >
+      Generate Report
+    </Button>
+  );
+}
+
 /* ────────────────────────────────────────────────────────────────────────────
  *  Example previews — keyed by "slug:exampleId"
  * ──────────────────────────────────────────────────────────────────────────── */
@@ -1524,12 +1804,13 @@ const examplePreviews: Record<string, React.ReactNode> = {
   ),
   "card:with-image": (
     <Card className="w-full max-w-sm overflow-hidden">
-      <div className="relative h-48 w-full">
+      <div className="flex h-48 w-full items-center justify-center bg-muted/50 p-6">
         <Image
           src="/cupia-logo-vertical.png"
           alt="CUPIA Customs System"
-          fill
-          className="object-cover"
+          width={280}
+          height={140}
+          className="h-full w-auto object-contain"
         />
       </div>
       <CardHeader>
@@ -4226,6 +4507,1357 @@ const examplePreviews: Record<string, React.ReactNode> = {
           <List className="h-4 w-4 mr-1" /> List
         </ToggleGroupItem>
       </ToggleGroup>
+    </div>
+  ),
+
+  // ── DATA DISPLAY ──────────────────────────────────────────────────────────
+
+  // Avatar
+  "avatar:with-status": (
+    <div className="flex gap-4">
+      <div className="relative">
+        <Avatar>
+          <AvatarFallback>JD</AvatarFallback>
+        </Avatar>
+        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-background bg-green-500" />
+      </div>
+      <div className="relative">
+        <Avatar>
+          <AvatarFallback>KS</AvatarFallback>
+        </Avatar>
+        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-background bg-yellow-500" />
+      </div>
+      <div className="relative">
+        <Avatar>
+          <AvatarFallback>ML</AvatarFallback>
+        </Avatar>
+        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-background bg-gray-400" />
+      </div>
+    </div>
+  ),
+  "avatar:initials": (
+    <div className="flex gap-4">
+      <Avatar>
+        <AvatarFallback className="bg-blue-100 text-blue-700">
+          JD
+        </AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback className="bg-green-100 text-green-700">
+          KS
+        </AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback className="bg-purple-100 text-purple-700">
+          ML
+        </AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback className="bg-orange-100 text-orange-700">
+          AR
+        </AvatarFallback>
+      </Avatar>
+    </div>
+  ),
+
+  // Badge
+  "badge:notification": (
+    <div className="flex flex-wrap gap-2">
+      <Badge variant="destructive">3 new</Badge>
+      <Badge variant="secondary">12</Badge>
+      <Badge variant="outline">99+</Badge>
+      <Badge>Updates</Badge>
+    </div>
+  ),
+  "badge:removable": (
+    <div className="flex flex-wrap gap-2">
+      <Badge variant="secondary" className="gap-1">
+        South Korea
+        <button className="ml-1 rounded-full outline-none hover:bg-secondary-foreground/20">
+          <XIcon className="h-3 w-3" />
+        </button>
+      </Badge>
+      <Badge variant="secondary" className="gap-1">
+        Pending
+        <button className="ml-1 rounded-full outline-none hover:bg-secondary-foreground/20">
+          <XIcon className="h-3 w-3" />
+        </button>
+      </Badge>
+      <Badge variant="secondary" className="gap-1">
+        2024
+        <button className="ml-1 rounded-full outline-none hover:bg-secondary-foreground/20">
+          <XIcon className="h-3 w-3" />
+        </button>
+      </Badge>
+    </div>
+  ),
+
+  // Empty
+  "empty:no-results": (
+    <div className="flex flex-col items-center justify-center py-10 text-center">
+      <SearchIcon className="h-12 w-12 text-muted-foreground mb-4" />
+      <h3 className="text-lg font-semibold">No results found</h3>
+      <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+        We couldn&apos;t find any declarations matching your search criteria.
+        Try adjusting your filters.
+      </p>
+      <Button variant="outline" className="mt-4">
+        Clear filters
+      </Button>
+    </div>
+  ),
+  "empty:no-data": (
+    <div className="flex flex-col items-center justify-center py-10 text-center">
+      <Inbox className="h-12 w-12 text-muted-foreground mb-4" />
+      <h3 className="text-lg font-semibold">No declarations yet</h3>
+      <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+        Get started by creating your first customs declaration. It only takes a
+        few minutes.
+      </p>
+      <Button className="mt-4">Create Declaration</Button>
+    </div>
+  ),
+
+  // Item
+  "item:with-meta": (
+    <div className="w-full max-w-md space-y-0 rounded-md border divide-y">
+      {[
+        {
+          title: "Declaration KR-2024-001",
+          status: "Approved",
+          date: "2024-01-15",
+        },
+        {
+          title: "Declaration KR-2024-002",
+          status: "Pending",
+          date: "2024-01-18",
+        },
+        {
+          title: "Declaration KR-2024-003",
+          status: "Rejected",
+          date: "2024-01-20",
+        },
+      ].map((item) => (
+        <div key={item.title} className="flex items-center justify-between p-3">
+          <div className="space-y-1">
+            <p className="text-sm font-medium">{item.title}</p>
+            <p className="text-xs text-muted-foreground">{item.date}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Badge
+              variant={
+                item.status === "Approved"
+                  ? "outline"
+                  : item.status === "Pending"
+                    ? "secondary"
+                    : "destructive"
+              }
+            >
+              {item.status}
+            </Badge>
+            <Button variant="outline" size="sm">
+              View
+            </Button>
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
+  "item:selectable": (
+    <div className="w-full max-w-sm rounded-md border divide-y">
+      {[
+        { flag: "\u{1F1F0}\u{1F1F7}", name: "South Korea" },
+        { flag: "\u{1F1EA}\u{1F1E8}", name: "Ecuador" },
+        { flag: "\u{1F1EA}\u{1F1F9}", name: "Ethiopia" },
+        { flag: "\u{1F1EC}\u{1F1ED}", name: "Ghana" },
+      ].map((item) => (
+        <label
+          key={item.name}
+          className="flex items-center gap-3 p-3 cursor-pointer hover:bg-muted/50"
+        >
+          <Checkbox />
+          <span className="text-lg">{item.flag}</span>
+          <span className="text-sm">{item.name}</span>
+        </label>
+      ))}
+    </div>
+  ),
+
+  // Kbd
+  "kbd:shortcuts": (
+    <div className="grid grid-cols-2 gap-x-8 gap-y-3 w-full max-w-sm">
+      <div className="flex items-center justify-between">
+        <Label className="text-sm">Save</Label>
+        <div className="flex gap-1">
+          <Kbd>Ctrl</Kbd>
+          <Kbd>S</Kbd>
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <Label className="text-sm">New</Label>
+        <div className="flex gap-1">
+          <Kbd>Ctrl</Kbd>
+          <Kbd>N</Kbd>
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <Label className="text-sm">Find</Label>
+        <div className="flex gap-1">
+          <Kbd>Ctrl</Kbd>
+          <Kbd>F</Kbd>
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <Label className="text-sm">Print</Label>
+        <div className="flex gap-1">
+          <Kbd>Ctrl</Kbd>
+          <Kbd>P</Kbd>
+        </div>
+      </div>
+    </div>
+  ),
+  "kbd:combinations": (
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <Kbd>Ctrl</Kbd>
+        <span className="text-xs text-muted-foreground">+</span>
+        <Kbd>Shift</Kbd>
+        <span className="text-xs text-muted-foreground">+</span>
+        <Kbd>P</Kbd>
+        <span className="ml-2 text-sm text-muted-foreground">
+          Command Palette
+        </span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Kbd>Ctrl</Kbd>
+        <span className="text-xs text-muted-foreground">+</span>
+        <Kbd>Alt</Kbd>
+        <span className="text-xs text-muted-foreground">+</span>
+        <Kbd>T</Kbd>
+        <span className="ml-2 text-sm text-muted-foreground">
+          Open Terminal
+        </span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Kbd>Ctrl</Kbd>
+        <span className="text-xs text-muted-foreground">+</span>
+        <Kbd>K</Kbd>
+        <span className="text-xs text-muted-foreground">,</span>
+        <Kbd>Ctrl</Kbd>
+        <span className="text-xs text-muted-foreground">+</span>
+        <Kbd>S</Kbd>
+        <span className="ml-2 text-sm text-muted-foreground">
+          Keyboard Shortcuts
+        </span>
+      </div>
+    </div>
+  ),
+
+  // Progress
+  "progress:steps": (
+    <div className="w-full max-w-md space-y-4">
+      <div className="flex justify-between">
+        {[
+          { step: 1, label: "Details" },
+          { step: 2, label: "Items" },
+          { step: 3, label: "Review" },
+          { step: 4, label: "Submit" },
+        ].map((s) => (
+          <div key={s.step} className="flex flex-col items-center gap-1">
+            <div
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
+                s.step <= 2
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {s.step}
+            </div>
+            <span
+              className={`text-xs ${s.step <= 2 ? "font-medium" : "text-muted-foreground"}`}
+            >
+              {s.label}
+            </span>
+          </div>
+        ))}
+      </div>
+      <Progress value={50} />
+    </div>
+  ),
+  "progress:circular": (
+    <div className="w-full max-w-sm space-y-4">
+      {[
+        { label: "Upload", pct: 25 },
+        { label: "Processing", pct: 50 },
+        { label: "Validation", pct: 75 },
+        { label: "Complete", pct: 100 },
+      ].map((item) => (
+        <div key={item.label} className="space-y-1">
+          <div className="flex justify-between text-sm">
+            <span>{item.label}</span>
+            <span className="text-muted-foreground">{item.pct}%</span>
+          </div>
+          <Progress value={item.pct} />
+        </div>
+      ))}
+    </div>
+  ),
+
+  // Skeleton
+  "skeleton:form": (
+    <div className="w-full max-w-sm space-y-4">
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[80px]" />
+        <Skeleton className="h-10 w-full" />
+      </div>
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[100px]" />
+        <Skeleton className="h-10 w-full" />
+      </div>
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[60px]" />
+        <Skeleton className="h-10 w-full" />
+      </div>
+      <Skeleton className="h-10 w-[120px]" />
+    </div>
+  ),
+
+  // Spinner
+  "spinner:sizes": (
+    <div className="flex items-end gap-8">
+      <div className="flex flex-col items-center gap-2">
+        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+        <span className="text-xs text-muted-foreground">Small</span>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        <span className="text-xs text-muted-foreground">Medium</span>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <Loader2 className="h-10 w-10 animate-spin text-muted-foreground" />
+        <span className="text-xs text-muted-foreground">Large</span>
+      </div>
+    </div>
+  ),
+  "spinner:with-text": (
+    <div className="flex flex-col items-center justify-center gap-3 rounded-lg border p-8">
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <p className="text-sm text-muted-foreground">Loading data...</p>
+    </div>
+  ),
+
+  // ── FEEDBACK ──────────────────────────────────────────────────────────────
+
+  // Alert
+  "alert:info": (
+    <Alert className="max-w-md">
+      <InfoIcon className="h-4 w-4" />
+      <AlertTitle>System Maintenance</AlertTitle>
+      <AlertDescription>
+        Scheduled downtime on Saturday, March 15 from 02:00 to 06:00 UTC. Please
+        save your work before this time.
+      </AlertDescription>
+    </Alert>
+  ),
+  "alert:closable": (
+    <Alert className="max-w-md relative pr-10">
+      <InfoIcon className="h-4 w-4" />
+      <AlertTitle>New version available</AlertTitle>
+      <AlertDescription>
+        Version 3.2.0 includes performance improvements and bug fixes.
+      </AlertDescription>
+      <button className="absolute top-2 right-2 rounded-sm p-1 opacity-70 hover:opacity-100">
+        <XIcon className="h-4 w-4" />
+      </button>
+    </Alert>
+  ),
+
+  // Alert Dialog
+  "alert-dialog:with-input": <AlertDialogWithInputPreview />,
+  "alert-dialog:async-action": <AlertDialogAsyncPreview />,
+
+  // Dialog
+  "dialog:scrollable": (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">View Terms</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Terms of Service</DialogTitle>
+          <DialogDescription>
+            Please read the following terms carefully.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="max-h-[300px] overflow-y-auto space-y-4 text-sm text-muted-foreground pr-2">
+          <p>
+            <strong>1. Acceptance of Terms</strong> — By accessing and using the
+            UNI-PASS Customs Clearance System, you accept and agree to be bound
+            by the terms and provision of this agreement.
+          </p>
+          <p>
+            <strong>2. Use License</strong> — Permission is granted to
+            temporarily access the system for personal, non-commercial
+            transitory use. This is the grant of a license, not a transfer of
+            title.
+          </p>
+          <p>
+            <strong>3. Disclaimer</strong> — The materials on this system are
+            provided on an &apos;as is&apos; basis. The system makes no
+            warranties, expressed or implied, and hereby disclaims all other
+            warranties.
+          </p>
+          <p>
+            <strong>4. Limitations</strong> — In no event shall the system or
+            its suppliers be liable for any damages arising out of the use or
+            inability to use the materials on the system.
+          </p>
+          <p>
+            <strong>5. Accuracy of Materials</strong> — The materials appearing
+            on the system could include technical, typographical, or
+            photographic errors. The system does not warrant that any of the
+            materials are accurate, complete, or current.
+          </p>
+          <p>
+            <strong>6. Modifications</strong> — The system may revise these
+            terms of service at any time without notice. By using this system,
+            you are agreeing to be bound by the then-current version of these
+            terms.
+          </p>
+        </div>
+        <DialogFooter>
+          <Button variant="outline">Decline</Button>
+          <Button>Accept</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  "dialog:full-width": (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Add User</Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Add New User</DialogTitle>
+          <DialogDescription>
+            Fill in the details to create a new user account.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid grid-cols-2 gap-4 py-4">
+          <div className="grid gap-2">
+            <Label htmlFor="dlg-fw-name">Full Name</Label>
+            <Input id="dlg-fw-name" placeholder="John Doe" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="dlg-fw-email">Email</Label>
+            <Input
+              id="dlg-fw-email"
+              type="email"
+              placeholder="john@example.com"
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="dlg-fw-dept">Department</Label>
+            <Input id="dlg-fw-dept" placeholder="Customs Division" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="dlg-fw-role">Role</Label>
+            <Select>
+              <SelectTrigger id="dlg-fw-role">
+                <SelectValue placeholder="Select role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="officer">Customs Officer</SelectItem>
+                <SelectItem value="viewer">Viewer</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline">Cancel</Button>
+          <Button>Create User</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+
+  // Drawer
+  "drawer:with-form": (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button variant="outline">Edit Profile</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Edit Profile</DrawerTitle>
+          <DrawerDescription>
+            Update your personal information below.
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="px-4 grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="dwf-name">Name</Label>
+            <Input id="dwf-name" placeholder="John Doe" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="dwf-email">Email</Label>
+            <Input id="dwf-email" type="email" placeholder="john@example.com" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="dwf-role">Role</Label>
+            <Select>
+              <SelectTrigger id="dwf-role">
+                <SelectValue placeholder="Select role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="editor">Editor</SelectItem>
+                <SelectItem value="viewer">Viewer</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="dwf-notes">Notes</Label>
+            <Textarea id="dwf-notes" placeholder="Additional notes..." />
+          </div>
+        </div>
+        <DrawerFooter className="flex-row justify-end gap-2">
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+          <Button>Save</Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  ),
+  "drawer:right": (
+    <Drawer direction="right">
+      <DrawerTrigger asChild>
+        <Button variant="outline">Activity Log</Button>
+      </DrawerTrigger>
+      <DrawerContent className="h-full w-[380px] ml-auto rounded-l-lg rounded-r-none">
+        <DrawerHeader>
+          <DrawerTitle>Recent Activity</DrawerTitle>
+          <DrawerDescription>Your latest notifications</DrawerDescription>
+        </DrawerHeader>
+        <div className="px-4 space-y-3">
+          {[
+            {
+              icon: "check",
+              text: "Declaration KR-001 approved",
+              time: "2 min ago",
+            },
+            {
+              icon: "clock",
+              text: "Report generation started",
+              time: "15 min ago",
+            },
+            {
+              icon: "mail",
+              text: "New message from Admin",
+              time: "1 hour ago",
+            },
+            {
+              icon: "alert",
+              text: "Declaration KR-003 flagged",
+              time: "3 hours ago",
+            },
+          ].map((item) => (
+            <div
+              key={item.text}
+              className="flex items-start gap-3 rounded-md border p-3"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs">
+                {item.icon === "check" ? (
+                  <CheckIcon className="h-4 w-4" />
+                ) : item.icon === "clock" ? (
+                  <ClockIcon className="h-4 w-4" />
+                ) : item.icon === "mail" ? (
+                  <MailIcon className="h-4 w-4" />
+                ) : (
+                  <AlertCircleIcon className="h-4 w-4" />
+                )}
+              </span>
+              <div>
+                <p className="text-sm">{item.text}</p>
+                <p className="text-xs text-muted-foreground">{item.time}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </DrawerContent>
+    </Drawer>
+  ),
+
+  // Popover
+  "popover:settings": (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline">
+          <Settings className="mr-2 h-4 w-4" /> Notification Settings
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="grid gap-4">
+          <h4 className="font-medium leading-none">Notifications</h4>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="pop-email-notif" className="font-normal">
+                Email notifications
+              </Label>
+              <Switch id="pop-email-notif" defaultChecked />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="pop-push-notif" className="font-normal">
+                Push notifications
+              </Label>
+              <Switch id="pop-push-notif" />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="pop-marketing" className="font-normal">
+                Marketing
+              </Label>
+              <Switch id="pop-marketing" />
+            </div>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  ),
+  "popover:date-filter": (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline">
+          <CalendarIcon className="mr-2 h-4 w-4" /> Date Range
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="grid gap-4">
+          <h4 className="font-medium leading-none">Filter by Date</h4>
+          <div className="grid gap-2">
+            <Label htmlFor="pop-from">From</Label>
+            <Input id="pop-from" type="date" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="pop-to">To</Label>
+            <Input id="pop-to" type="date" />
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" size="sm">
+              Today
+            </Button>
+            <Button variant="outline" size="sm">
+              This Week
+            </Button>
+            <Button variant="outline" size="sm">
+              This Month
+            </Button>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  ),
+
+  // Sheet
+  "sheet:right": (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">View Details</Button>
+      </SheetTrigger>
+      <SheetContent side="right">
+        <SheetHeader>
+          <SheetTitle>Declaration Details</SheetTitle>
+          <SheetDescription>
+            Full details for the selected declaration.
+          </SheetDescription>
+        </SheetHeader>
+        <div className="grid gap-4 py-4">
+          {[
+            { label: "Declaration No.", value: "KR-2024-001234" },
+            { label: "Status", value: "Approved" },
+            { label: "Date", value: "2024-01-15" },
+            { label: "Country", value: "South Korea" },
+            { label: "Amount", value: "$12,500.00" },
+          ].map((pair) => (
+            <div
+              key={pair.label}
+              className="grid grid-cols-3 items-center gap-2"
+            >
+              <span className="text-sm text-muted-foreground">
+                {pair.label}
+              </span>
+              <span className="col-span-2 text-sm font-medium">
+                {pair.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      </SheetContent>
+    </Sheet>
+  ),
+  "sheet:with-form": (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Filters</Button>
+      </SheetTrigger>
+      <SheetContent side="right">
+        <SheetHeader>
+          <SheetTitle>Filter Declarations</SheetTitle>
+          <SheetDescription>
+            Narrow your results using the filters below.
+          </SheetDescription>
+        </SheetHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid gap-2">
+            <Label>Status</Label>
+            <Select>
+              <SelectTrigger>
+                <SelectValue placeholder="All statuses" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="sf-date">Date</Label>
+            <Input id="sf-date" type="date" />
+          </div>
+          <div className="space-y-2">
+            <Label>Type</Label>
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <Checkbox id="sf-import" defaultChecked />
+                <Label htmlFor="sf-import" className="font-normal">
+                  Import
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox id="sf-export" defaultChecked />
+                <Label htmlFor="sf-export" className="font-normal">
+                  Export
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox id="sf-transit" />
+                <Label htmlFor="sf-transit" className="font-normal">
+                  Transit
+                </Label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <SheetFooter className="flex-row gap-2">
+          <Button variant="outline" className="flex-1">
+            Reset
+          </Button>
+          <SheetClose asChild>
+            <Button className="flex-1">Apply</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  ),
+
+  // Sonner
+  "sonner:variants": <SonnerVariantsPreview />,
+  "sonner:with-action": <SonnerWithActionPreview />,
+  "sonner:promise": <SonnerPromisePreview />,
+
+  // Tooltip
+  "tooltip:with-shortcut": (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="outline">Save</Button>
+        </TooltipTrigger>
+        <TooltipContent className="flex items-center gap-2">
+          <span>Save document</span>
+          <Kbd className="text-xs">{"\u2318"}S</Kbd>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  ),
+  "tooltip:rich-content": (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button variant="link" className="p-0 h-auto">
+            Admin User
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent className="w-64 p-3">
+          <div className="flex items-start gap-3">
+            <Avatar className="h-10 w-10">
+              <AvatarFallback>AU</AvatarFallback>
+            </Avatar>
+            <div className="space-y-0.5">
+              <p className="text-sm font-medium">Admin User</p>
+              <p className="text-xs text-muted-foreground">admin@customs.gov</p>
+              <p className="text-xs text-muted-foreground">
+                System Administrator
+              </p>
+            </div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  ),
+
+  // ── NAVIGATION ────────────────────────────────────────────────────────────
+
+  // Breadcrumb
+  "breadcrumb:with-dropdown": (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1">
+              <BreadcrumbEllipsis className="h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem>Declarations</DropdownMenuItem>
+              <DropdownMenuItem>Reports</DropdownMenuItem>
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Current Page</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  ),
+  "breadcrumb:with-icon": (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#" className="flex items-center gap-1">
+            <Home className="h-4 w-4" />
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Declarations</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>KR-2024-001234</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  ),
+
+  // Carousel
+  "carousel:default": (
+    <Carousel className="w-full max-w-sm">
+      <CarouselContent>
+        {[1, 2, 3, 4, 5].map((n) => (
+          <CarouselItem key={n}>
+            <Card>
+              <CardContent className="flex aspect-square items-center justify-center p-6">
+                <span className="text-3xl font-semibold">Slide {n}</span>
+              </CardContent>
+            </Card>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  ),
+  "carousel:with-indicators": (
+    <div className="w-full max-w-sm space-y-4">
+      <Carousel className="w-full">
+        <CarouselContent>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <CarouselItem key={n}>
+              <Card>
+                <CardContent className="flex aspect-video items-center justify-center p-6">
+                  <span className="text-2xl font-semibold">Slide {n}</span>
+                </CardContent>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+      <div className="flex justify-center gap-2">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <span
+            key={n}
+            className={`h-2 w-2 rounded-full ${n === 1 ? "bg-primary" : "bg-muted-foreground/30"}`}
+          />
+        ))}
+      </div>
+    </div>
+  ),
+  "carousel:auto-size": (
+    <Carousel className="w-full max-w-sm">
+      <CarouselContent>
+        <CarouselItem>
+          <Card>
+            <CardContent className="flex h-[120px] items-center justify-center p-6">
+              <span className="text-lg font-semibold">Short card</span>
+            </CardContent>
+          </Card>
+        </CarouselItem>
+        <CarouselItem>
+          <Card>
+            <CardContent className="flex h-[200px] items-center justify-center p-6">
+              <span className="text-lg font-semibold">
+                Tall card with more content
+              </span>
+            </CardContent>
+          </Card>
+        </CarouselItem>
+        <CarouselItem>
+          <Card>
+            <CardContent className="flex h-[160px] items-center justify-center p-6">
+              <span className="text-lg font-semibold">Medium card</span>
+            </CardContent>
+          </Card>
+        </CarouselItem>
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  ),
+
+  // Command
+  "command:with-groups": (
+    <Command className="rounded-lg border shadow-md w-full max-w-sm">
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <CommandItem>
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            <span>Calendar</span>
+          </CommandItem>
+          <CommandItem>
+            <SearchIcon className="mr-2 h-4 w-4" />
+            <span>Search</span>
+          </CommandItem>
+          <CommandItem>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+          </CommandItem>
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="Settings">
+          <CommandItem>
+            <Users className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+            <CommandShortcut>{"\u2318"}P</CommandShortcut>
+          </CommandItem>
+          <CommandItem>
+            <Bell className="mr-2 h-4 w-4" />
+            <span>Notifications</span>
+            <CommandShortcut>{"\u2318"}N</CommandShortcut>
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  ),
+  "command:dialog": <CommandDialogPreview />,
+
+  // Context Menu
+  "context-menu:with-submenu": (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+        Right click here
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-48">
+        <ContextMenuItem>
+          <Copy className="mr-2 h-4 w-4" /> Copy
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <Pencil className="mr-2 h-4 w-4" /> Edit
+        </ContextMenuItem>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>
+            <Share2 className="mr-2 h-4 w-4" /> Share
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent className="w-40">
+            <ContextMenuItem>
+              <MailIcon className="mr-2 h-4 w-4" /> Email
+            </ContextMenuItem>
+            <ContextMenuItem>
+              <FileText className="mr-2 h-4 w-4" /> Slack
+            </ContextMenuItem>
+            <ContextMenuItem>
+              <Link2 className="mr-2 h-4 w-4" /> Copy Link
+            </ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuItem className="text-destructive">
+          <Trash2 className="mr-2 h-4 w-4" /> Delete
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  ),
+  "context-menu:file-operations": (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+        Right click here
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-52">
+        <ContextMenuItem>
+          Cut <ContextMenuShortcut>{"\u2318"}X</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Copy <ContextMenuShortcut>{"\u2318"}C</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Paste <ContextMenuShortcut>{"\u2318"}V</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem className="text-destructive">
+          Delete <ContextMenuShortcut>Del</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Rename <ContextMenuShortcut>F2</ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  ),
+
+  // Dropdown Menu
+  "dropdown-menu:with-checkbox": <DropdownMenuCheckboxPreview />,
+  "dropdown-menu:with-radio": <DropdownMenuRadioPreview />,
+
+  // Hover Card
+  "hover-card:user-profile": (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Button variant="link" className="p-0 h-auto">
+          @admin
+        </Button>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-72">
+        <div className="flex gap-4">
+          <Avatar>
+            <AvatarFallback>AU</AvatarFallback>
+          </Avatar>
+          <div className="space-y-1">
+            <h4 className="text-sm font-semibold">Admin User</h4>
+            <p className="text-xs text-muted-foreground">admin@customs.gov</p>
+            <p className="text-xs text-muted-foreground">
+              System Administrator
+            </p>
+            <Button variant="link" className="p-0 h-auto text-xs">
+              View Profile
+            </Button>
+          </div>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  ),
+  "hover-card:link-preview": (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Button variant="link" className="p-0 h-auto">
+          customs.go.kr
+        </Button>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-80">
+        <div className="space-y-2">
+          <h4 className="text-sm font-semibold">UNI-PASS Portal</h4>
+          <p className="text-xs text-muted-foreground">
+            The official electronic customs clearance system providing
+            integrated customs services for import, export, and transit
+            operations.
+          </p>
+          <p className="text-xs text-muted-foreground">customs.go.kr</p>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  ),
+
+  // Menubar
+  "menubar:file-menu": (
+    <Menubar>
+      <MenubarMenu>
+        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>
+            New <MenubarShortcut>{"\u2318"}N</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>
+            Open <MenubarShortcut>{"\u2318"}O</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>
+            Save <MenubarShortcut>{"\u2318"}S</MenubarShortcut>
+          </MenubarItem>
+          <MenubarSeparator />
+          <MenubarItem>
+            Print <MenubarShortcut>{"\u2318"}P</MenubarShortcut>
+          </MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>
+            Undo <MenubarShortcut>{"\u2318"}Z</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>Redo</MenubarItem>
+          <MenubarSeparator />
+          <MenubarItem>Cut</MenubarItem>
+          <MenubarItem>Copy</MenubarItem>
+          <MenubarItem>Paste</MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>View</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>Zoom In</MenubarItem>
+          <MenubarItem>Zoom Out</MenubarItem>
+          <MenubarSeparator />
+          <MenubarItem>Toggle Sidebar</MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
+  ),
+  "menubar:with-shortcuts": (
+    <Menubar>
+      <MenubarMenu>
+        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>
+            New Declaration <MenubarShortcut>{"\u2318"}N</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>
+            Open <MenubarShortcut>{"\u2318"}O</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>
+            Save <MenubarShortcut>{"\u2318"}S</MenubarShortcut>
+          </MenubarItem>
+          <MenubarSeparator />
+          <MenubarItem>
+            Export PDF <MenubarShortcut>{"\u2318"}E</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>
+            Print <MenubarShortcut>{"\u2318"}P</MenubarShortcut>
+          </MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>
+            Undo <MenubarShortcut>{"\u2318"}Z</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>
+            Redo{" "}
+            <MenubarShortcut>
+              {"\u21E7"}
+              {"\u2318"}Z
+            </MenubarShortcut>
+          </MenubarItem>
+          <MenubarSeparator />
+          <MenubarItem>
+            Cut <MenubarShortcut>{"\u2318"}X</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>
+            Copy <MenubarShortcut>{"\u2318"}C</MenubarShortcut>
+          </MenubarItem>
+          <MenubarItem>
+            Paste <MenubarShortcut>{"\u2318"}V</MenubarShortcut>
+          </MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
+  ),
+
+  // Navigation Menu
+  "navigation-menu:with-content": (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div className="grid gap-3 p-4 w-[400px] grid-cols-2">
+              <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+                <h4 className="text-sm font-medium">Introduction</h4>
+                <p className="text-xs text-muted-foreground">
+                  Overview of the customs clearance system and its features.
+                </p>
+              </div>
+              <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+                <h4 className="text-sm font-medium">Installation</h4>
+                <p className="text-xs text-muted-foreground">
+                  Step-by-step guide to setting up your environment.
+                </p>
+              </div>
+              <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+                <h4 className="text-sm font-medium">Configuration</h4>
+                <p className="text-xs text-muted-foreground">
+                  Configure themes, locales, and country settings.
+                </p>
+              </div>
+              <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+                <h4 className="text-sm font-medium">Components</h4>
+                <p className="text-xs text-muted-foreground">
+                  Browse all available UI components.
+                </p>
+              </div>
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div className="grid gap-3 p-4 w-[300px]">
+              <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+                <h4 className="text-sm font-medium">Documentation</h4>
+                <p className="text-xs text-muted-foreground">
+                  Full API reference and usage guides.
+                </p>
+              </div>
+              <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+                <h4 className="text-sm font-medium">Examples</h4>
+                <p className="text-xs text-muted-foreground">
+                  Real-world examples and templates.
+                </p>
+              </div>
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  ),
+  "navigation-menu:simple": (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()} href="#">
+            Dashboard
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()} href="#">
+            Reports
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()} href="#">
+            Settings
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  ),
+
+  // Pagination
+  "pagination:with-page-size": (
+    <div className="flex items-center justify-between w-full max-w-lg">
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-muted-foreground">Rows per page</span>
+        <Select defaultValue="10">
+          <SelectTrigger className="w-[70px] h-8">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="10">10</SelectItem>
+            <SelectItem value="20">20</SelectItem>
+            <SelectItem value="50">50</SelectItem>
+            <SelectItem value="100">100</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <Pagination className="w-auto mx-0">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#" isActive>
+              2
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">3</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
+  ),
+  "pagination:compact": (
+    <div className="flex items-center gap-4">
+      <Button variant="outline" size="sm">
+        Previous
+      </Button>
+      <span className="text-sm text-muted-foreground">Page 1 of 10</span>
+      <Button variant="outline" size="sm">
+        Next
+      </Button>
+    </div>
+  ),
+
+  // Sidebar (mini mockups)
+  "sidebar:collapsible": (
+    <div className="w-[240px] rounded-lg border">
+      <div className="p-3 space-y-1">
+        <div className="flex items-center justify-between rounded-md p-2 hover:bg-muted cursor-pointer">
+          <span className="text-sm font-medium">Declarations</span>
+          <ChevronDown className="h-4 w-4" />
+        </div>
+        <div className="ml-4 space-y-1">
+          <div className="text-sm text-muted-foreground rounded-md p-2 hover:bg-muted cursor-pointer">
+            Import
+          </div>
+          <div className="text-sm text-muted-foreground rounded-md p-2 hover:bg-muted cursor-pointer">
+            Export
+          </div>
+        </div>
+        <div className="flex items-center justify-between rounded-md p-2 hover:bg-muted cursor-pointer">
+          <span className="text-sm font-medium">Reports</span>
+          <ChevronRight className="h-4 w-4" />
+        </div>
+        <div className="flex items-center justify-between rounded-md p-2 hover:bg-muted cursor-pointer">
+          <span className="text-sm font-medium">Settings</span>
+          <ChevronRight className="h-4 w-4" />
+        </div>
+      </div>
+    </div>
+  ),
+  "sidebar:with-icons": (
+    <div className="w-[52px] rounded-lg border py-3 flex flex-col items-center gap-3">
+      <div className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted cursor-pointer">
+        <Home className="h-5 w-5 text-muted-foreground" />
+      </div>
+      <div className="flex h-9 w-9 items-center justify-center rounded-md bg-muted cursor-pointer">
+        <FileText className="h-5 w-5" />
+      </div>
+      <div className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted cursor-pointer">
+        <Users className="h-5 w-5 text-muted-foreground" />
+      </div>
+      <div className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted cursor-pointer">
+        <Settings className="h-5 w-5 text-muted-foreground" />
+      </div>
+      <div className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted cursor-pointer">
+        <Bell className="h-5 w-5 text-muted-foreground" />
+      </div>
     </div>
   ),
 };
