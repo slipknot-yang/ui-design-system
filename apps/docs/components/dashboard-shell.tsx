@@ -16,16 +16,16 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar variant={sidebarStyle} collapsible={sidebarCollapseMode} />
-      <SidebarInset>
+      <SidebarInset className="min-w-0 overflow-x-hidden">
         <AppHeader navbarBehavior={navbarBehavior} />
-        <main
+        <div
           className={cn(
             "flex-1 p-4 lg:p-6",
             pageLayout === "centered" && "mx-auto max-w-5xl",
           )}
         >
           {children}
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

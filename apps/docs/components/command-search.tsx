@@ -27,6 +27,7 @@ import { componentCategories } from "@/lib/component-registry";
 export function CommandSearch() {
   const [open, setOpen] = useState(false);
   const t = useTranslations("common");
+  const tNav = useTranslations("nav");
   const router = useRouter();
 
   useEffect(() => {
@@ -46,22 +47,22 @@ export function CommandSearch() {
   }
 
   const navigationItems = [
-    { label: "Home", href: "/", icon: Home },
-    { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { label: "Components", href: "/components", icon: Blocks },
-    { label: "Themes", href: "/themes", icon: Palette },
-    { label: "i18n", href: "/i18n", icon: Languages },
-    { label: "Login", href: "/login", icon: LogIn },
+    { label: tNav("home"), href: "/", icon: Home },
+    { label: tNav("dashboard"), href: "/dashboard", icon: LayoutDashboard },
+    { label: tNav("components"), href: "/components", icon: Blocks },
+    { label: tNav("themes"), href: "/themes", icon: Palette },
+    { label: tNav("i18n"), href: "/i18n", icon: Languages },
+    { label: tNav("login"), href: "/login", icon: LogIn },
   ];
 
   const patternItems = [
-    { label: "Search + Table", href: "/patterns/search-table" },
-    { label: "Advanced Search", href: "/patterns/advanced-search" },
-    { label: "Master-Detail", href: "/patterns/master-detail" },
-    { label: "Complex Form", href: "/patterns/complex-form" },
-    { label: "Calendar", href: "/patterns/calendar" },
-    { label: "Workflow", href: "/patterns/workflow" },
-    { label: "Dashboard", href: "/patterns/dashboard" },
+    { label: tNav("searchTable"), href: "/patterns/search-table" },
+    { label: tNav("advancedSearch"), href: "/patterns/advanced-search" },
+    { label: tNav("masterDetail"), href: "/patterns/master-detail" },
+    { label: tNav("complexForm"), href: "/patterns/complex-form" },
+    { label: tNav("calendar"), href: "/patterns/calendar" },
+    { label: tNav("workflow"), href: "/patterns/workflow" },
+    { label: tNav("dashboardPattern"), href: "/patterns/dashboard" },
   ];
 
   return (
@@ -71,7 +72,7 @@ export function CommandSearch() {
         className="relative h-8 w-auto min-w-[2.5rem] justify-start rounded-md text-sm text-muted-foreground sm:w-56 lg:w-64"
         onClick={() => setOpen(true)}
       >
-        <Search className="h-4 w-4 sm:mr-2" />
+        <Search className="h-4 w-4 sm:me-2" />
         <span className="hidden lg:inline-flex">{t("searchPlaceholder")}</span>
         <span className="hidden sm:inline-flex lg:hidden">{t("search")}</span>
         <span className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-0.5">
@@ -85,19 +86,19 @@ export function CommandSearch() {
         <CommandList>
           <CommandEmpty>{t("noResults")}</CommandEmpty>
 
-          <CommandGroup heading="Navigation">
+          <CommandGroup heading={t("navigation")}>
             {navigationItems.map((item) => (
               <CommandItem key={item.href} onSelect={() => navigate(item.href)}>
-                <item.icon className="mr-2 h-4 w-4" />
+                <item.icon className="me-2 h-4 w-4" />
                 {item.label}
               </CommandItem>
             ))}
           </CommandGroup>
 
-          <CommandGroup heading="UI Patterns">
+          <CommandGroup heading={tNav("patterns")}>
             {patternItems.map((item) => (
               <CommandItem key={item.href} onSelect={() => navigate(item.href)}>
-                <Blocks className="mr-2 h-4 w-4" />
+                <Blocks className="me-2 h-4 w-4" />
                 {item.label}
               </CommandItem>
             ))}

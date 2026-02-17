@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import {
   Card,
@@ -39,6 +40,7 @@ export default async function ComponentDetailPage({
 }) {
   const { slug } = await params;
   const component = getComponentBySlug(slug);
+  const tDetail = await getTranslations("componentDetail");
 
   if (!component) {
     notFound();
@@ -83,7 +85,7 @@ export default async function ComponentDetailPage({
       {/* Import */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Import</CardTitle>
+          <CardTitle className="text-base">{tDetail("import")}</CardTitle>
         </CardHeader>
         <CardContent>
           <CodeBlock code={component.importExample} lang="tsx" />
@@ -93,7 +95,7 @@ export default async function ComponentDetailPage({
       {/* Live Preview */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Preview</CardTitle>
+          <CardTitle className="text-base">{tDetail("preview")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="rounded-lg border bg-background p-6 flex items-center justify-center min-h-[120px]">
@@ -106,7 +108,7 @@ export default async function ComponentDetailPage({
       {component.variants && component.variants.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Variants</CardTitle>
+            <CardTitle className="text-base">{tDetail("variants")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
@@ -124,17 +126,25 @@ export default async function ComponentDetailPage({
       {component.props && component.props.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">API Reference</CardTitle>
+            <CardTitle className="text-base">
+              {tDetail("apiReference")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[120px]">Prop</TableHead>
-                    <TableHead className="w-[140px]">Type</TableHead>
-                    <TableHead className="w-[80px]">Default</TableHead>
-                    <TableHead>Description</TableHead>
+                    <TableHead className="w-[120px]">
+                      {tDetail("prop")}
+                    </TableHead>
+                    <TableHead className="w-[140px]">
+                      {tDetail("type")}
+                    </TableHead>
+                    <TableHead className="w-[80px]">
+                      {tDetail("default")}
+                    </TableHead>
+                    <TableHead>{tDetail("description")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -181,7 +191,7 @@ export default async function ComponentDetailPage({
       {/* Code Example */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Usage</CardTitle>
+          <CardTitle className="text-base">{tDetail("usage")}</CardTitle>
         </CardHeader>
         <CardContent>
           <CodeBlock code={component.codeExample} />
@@ -192,7 +202,9 @@ export default async function ComponentDetailPage({
       {component.accessibility && (
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Accessibility</CardTitle>
+            <CardTitle className="text-base">
+              {tDetail("accessibility")}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground leading-relaxed">
@@ -207,7 +219,9 @@ export default async function ComponentDetailPage({
         component.relatedComponents.length > 0 && (
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">Related Components</CardTitle>
+              <CardTitle className="text-base">
+                {tDetail("relatedComponents")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">

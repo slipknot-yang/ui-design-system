@@ -20,37 +20,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-const categoryMeta: Record<
-  string,
-  { icon: LucideIcon; description: string; color: string }
-> = {
-  Layout: {
-    icon: LayoutGrid,
-    description: "페이지 구조와 콘텐츠 배치를 위한 컴포넌트",
-    color: "bg-blue-500",
-  },
-  Forms: {
-    icon: FormInput,
-    description: "사용자 입력과 데이터 수집을 위한 컴포넌트",
-    color: "bg-emerald-500",
-  },
-  "Data Display": {
-    icon: Table2,
-    description: "데이터 시각화와 정보 표시를 위한 컴포넌트",
-    color: "bg-amber-500",
-  },
-  Feedback: {
-    icon: MessageSquare,
-    description: "사용자 알림과 상호작용을 위한 컴포넌트",
-    color: "bg-rose-500",
-  },
-  Navigation: {
-    icon: Compass,
-    description: "페이지 이동과 메뉴 구성을 위한 컴포넌트",
-    color: "bg-violet-500",
-  },
-};
-
 export default async function ComponentsPage({
   params,
 }: {
@@ -59,6 +28,38 @@ export default async function ComponentsPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const tNav = await getTranslations("nav");
+  const tComp = await getTranslations("components");
+
+  const categoryMeta: Record<
+    string,
+    { icon: LucideIcon; description: string; color: string }
+  > = {
+    Layout: {
+      icon: LayoutGrid,
+      description: tComp("layoutDesc"),
+      color: "bg-blue-500",
+    },
+    Forms: {
+      icon: FormInput,
+      description: tComp("formsDesc"),
+      color: "bg-emerald-500",
+    },
+    "Data Display": {
+      icon: Table2,
+      description: tComp("dataDisplayDesc"),
+      color: "bg-amber-500",
+    },
+    Feedback: {
+      icon: MessageSquare,
+      description: tComp("feedbackDesc"),
+      color: "bg-rose-500",
+    },
+    Navigation: {
+      icon: Compass,
+      description: tComp("navigationDesc"),
+      color: "bg-violet-500",
+    },
+  };
 
   return (
     <div className="space-y-6">
@@ -67,8 +68,8 @@ export default async function ComponentsPage({
           {tNav("components")}
         </h1>
         <p className="text-muted-foreground mt-1">
-          All <Badge variant="secondary">{totalComponents}</Badge> installed
-          shadcn/ui components from{" "}
+          <Badge variant="secondary">{totalComponents}</Badge>{" "}
+          {tComp("installed")}{" "}
           <code className="text-sm font-mono bg-muted px-1.5 py-0.5 rounded">
             @workspace/ui/components/
           </code>
@@ -126,7 +127,7 @@ export default async function ComponentsPage({
 
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Import Example</CardTitle>
+          <CardTitle className="text-base">{tComp("importExample")}</CardTitle>
         </CardHeader>
         <CardContent>
           <CodeBlock

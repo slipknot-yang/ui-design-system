@@ -14,7 +14,6 @@ import {
   Languages,
   LogIn,
   ChevronRight,
-  Shield,
   ChevronsUpDown,
   User,
   Settings,
@@ -23,6 +22,8 @@ import {
 } from "lucide-react";
 import { usePathname } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { CupiaLogo } from "@/components/cupia-logo";
 
 import {
   Sidebar,
@@ -79,16 +80,6 @@ const categoryIcons: Record<string, LucideIcon> = {
   Navigation: Navigation,
 };
 
-const patternItems: NavItem[] = [
-  { title: "Search + Table", href: "/patterns/search-table" },
-  { title: "Advanced Search", href: "/patterns/advanced-search" },
-  { title: "Master-Detail", href: "/patterns/master-detail" },
-  { title: "Complex Form", href: "/patterns/complex-form" },
-  { title: "Calendar", href: "/patterns/calendar" },
-  { title: "Workflow", href: "/patterns/workflow" },
-  { title: "Dashboard", href: "/patterns/dashboard" },
-];
-
 interface AppSidebarProps {
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
@@ -100,6 +91,18 @@ export function AppSidebar({
 }: AppSidebarProps) {
   const pathname = usePathname();
   const { setOpenMobile } = useSidebar();
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
+
+  const patternItems: NavItem[] = [
+    { title: tNav("searchTable"), href: "/patterns/search-table" },
+    { title: tNav("advancedSearch"), href: "/patterns/advanced-search" },
+    { title: tNav("masterDetail"), href: "/patterns/master-detail" },
+    { title: tNav("complexForm"), href: "/patterns/complex-form" },
+    { title: tNav("calendar"), href: "/patterns/calendar" },
+    { title: tNav("workflow"), href: "/patterns/workflow" },
+    { title: tNav("dashboardPattern"), href: "/patterns/dashboard" },
+  ];
 
   const componentSections: NavSection[] = componentCategories.map((cat) => ({
     label: `${cat.category} (${cat.items.length})`,
@@ -111,7 +114,7 @@ export function AppSidebar({
   }));
 
   const patternSection: NavSection = {
-    label: "UI Patterns",
+    label: tNav("patterns"),
     icon: Blocks,
     items: patternItems,
   };
@@ -172,15 +175,13 @@ export function AppSidebar({
           className="flex items-center gap-2"
           onClick={() => setOpenMobile(false)}
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <Shield className="h-4 w-4" />
-          </div>
+          <CupiaLogo />
           <div className="flex flex-col">
             <span className="text-sm font-semibold tracking-tight">
-              CUPIA Design System
+              {tCommon("appName")}
             </span>
             <span className="text-[10px] text-muted-foreground">
-              UI Component Library
+              {tCommon("appSubtitle")}
             </span>
           </div>
         </Link>
@@ -195,7 +196,7 @@ export function AppSidebar({
                 <SidebarMenuButton asChild isActive={pathname === "/"}>
                   <Link href="/" onClick={() => setOpenMobile(false)}>
                     <Home className="h-4 w-4" />
-                    <span>Home</span>
+                    <span>{tNav("home")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -203,7 +204,7 @@ export function AppSidebar({
                 <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
                   <Link href="/dashboard" onClick={() => setOpenMobile(false)}>
                     <LayoutDashboard className="h-4 w-4" />
-                    <span>Dashboard</span>
+                    <span>{tNav("dashboard")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -214,7 +215,7 @@ export function AppSidebar({
                 >
                   <Link href="/components" onClick={() => setOpenMobile(false)}>
                     <Component className="h-4 w-4" />
-                    <span>Components</span>
+                    <span>{tNav("components")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -242,7 +243,7 @@ export function AppSidebar({
                 <SidebarMenuButton asChild isActive={pathname === "/themes"}>
                   <Link href="/themes" onClick={() => setOpenMobile(false)}>
                     <Palette className="h-4 w-4" />
-                    <span>Themes</span>
+                    <span>{tNav("themes")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -250,7 +251,7 @@ export function AppSidebar({
                 <SidebarMenuButton asChild isActive={pathname === "/i18n"}>
                   <Link href="/i18n" onClick={() => setOpenMobile(false)}>
                     <Languages className="h-4 w-4" />
-                    <span>i18n</span>
+                    <span>{tNav("i18n")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -258,7 +259,7 @@ export function AppSidebar({
                 <SidebarMenuButton asChild isActive={pathname === "/login"}>
                   <Link href="/login" onClick={() => setOpenMobile(false)}>
                     <LogIn className="h-4 w-4" />
-                    <span>Login (Demo)</span>
+                    <span>{tNav("login")}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -283,12 +284,14 @@ export function AppSidebar({
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">Admin User</span>
+                    <span className="truncate font-semibold">
+                      {tCommon("adminUser")}
+                    </span>
                     <span className="truncate text-xs text-muted-foreground">
                       admin@cupia.or.kr
                     </span>
                   </div>
-                  <ChevronsUpDown className="ml-auto h-4 w-4" />
+                  <ChevronsUpDown className="ms-auto h-4 w-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -298,17 +301,17 @@ export function AppSidebar({
                 sideOffset={4}
               >
                 <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
+                  <User className="me-2 h-4 w-4" />
+                  {tCommon("profile")}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  Settings
+                  <Settings className="me-2 h-4 w-4" />
+                  {tCommon("settings")}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
+                  <LogOut className="me-2 h-4 w-4" />
+                  {tCommon("signOut")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

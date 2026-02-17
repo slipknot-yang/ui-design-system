@@ -11,7 +11,6 @@ import { Badge } from "@workspace/ui/components/badge";
 import { Separator } from "@workspace/ui/components/separator";
 import { CodeBlock } from "@/components/code-block";
 import {
-  Shield,
   Component,
   Globe,
   Languages,
@@ -23,7 +22,9 @@ import {
   FolderTree,
   Code2,
   Paintbrush,
+  Shield,
 } from "lucide-react";
+import { CupiaLogo } from "@/components/cupia-logo";
 
 const techStackItems = [
   "Next.js 16",
@@ -173,9 +174,10 @@ export default async function HomePage({
       {/* ================================================================== */}
       <div className="relative overflow-hidden rounded-xl border bg-gradient-to-br from-primary/5 via-background to-accent/5 px-6 py-12 text-center sm:px-12 sm:py-16">
         <div className="mx-auto max-w-2xl space-y-4">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
-            <Shield className="h-8 w-8" />
-          </div>
+          <CupiaLogo
+            size="lg"
+            className="mx-auto h-16 w-16 rounded-2xl shadow-lg"
+          />
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
             {t("heroTitle")}
           </h1>
@@ -192,14 +194,14 @@ export default async function HomePage({
           <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
             <Button asChild>
               <Link href="/components">
-                <Component className="mr-2 h-4 w-4" />
+                <Component className="me-2 h-4 w-4" />
                 {t("exploreComponents")}
               </Link>
             </Button>
             <Button variant="outline" asChild>
               <Link href="/dashboard">
                 {tNav("dashboard")}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ms-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -375,7 +377,7 @@ export default async function HomePage({
                       {tPatterns(`${key}.description`)}
                     </p>
                   </div>
-                  <ArrowRight className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+                  <ArrowRight className="ms-2 h-4 w-4 shrink-0 text-muted-foreground" />
                 </div>
               </Link>
             ))}
@@ -394,25 +396,25 @@ export default async function HomePage({
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <Button variant="outline" className="h-auto py-3" asChild>
               <Link href="/components">
-                <Package className="mr-2 h-4 w-4" />
+                <Package className="me-2 h-4 w-4" />
                 {t("exploreComponents")}
               </Link>
             </Button>
             <Button variant="outline" className="h-auto py-3" asChild>
               <Link href="/themes">
-                <Palette className="mr-2 h-4 w-4" />
+                <Palette className="me-2 h-4 w-4" />
                 {t("exploreThemes")}
               </Link>
             </Button>
             <Button variant="outline" className="h-auto py-3" asChild>
               <Link href="/i18n">
-                <Languages className="mr-2 h-4 w-4" />
+                <Languages className="me-2 h-4 w-4" />
                 {t("exploreI18n")}
               </Link>
             </Button>
             <Button variant="outline" className="h-auto py-3" asChild>
               <Link href="/patterns/search-table">
-                <Blocks className="mr-2 h-4 w-4" />
+                <Blocks className="me-2 h-4 w-4" />
                 {t("explorePatterns")}
               </Link>
             </Button>

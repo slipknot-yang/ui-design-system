@@ -263,6 +263,7 @@ export default async function ThemesPage({
   setRequestLocale(locale);
 
   const tNav = await getTranslations("nav");
+  const tThemes = await getTranslations("themes");
 
   return (
     <div className="space-y-8">
@@ -272,10 +273,7 @@ export default async function ThemesPage({
       <div>
         <h1 className="text-3xl font-bold tracking-tight">{tNav("themes")}</h1>
         <p className="text-muted-foreground mt-2 max-w-2xl leading-relaxed">
-          A comprehensive reference for every design token in the CUPIA Design
-          System. All color values use OKLCh CSS custom properties, enabling
-          perceptually uniform theming across 10 country variants and light/dark
-          modes.
+          {tThemes("pageDescription")}
         </p>
       </div>
 
@@ -286,8 +284,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Core Colors"
-          description="Foundation surface and text colors that define the overall page appearance."
+          title={tThemes("coreColors")}
+          description={tThemes("coreColorsDesc")}
         />
         <CardContent>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -303,8 +301,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Brand Colors"
-          description="Primary, secondary, accent, and destructive colors that carry brand identity and semantic meaning."
+          title={tThemes("brandColors")}
+          description={tThemes("brandColorsDesc")}
         />
         <CardContent>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -320,8 +318,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="UI Colors"
-          description="Functional colors for borders, inputs, muted areas, and focus indicators."
+          title={tThemes("uiColors")}
+          description={tThemes("uiColorsDesc")}
         />
         <CardContent>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -337,8 +335,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Chart Colors"
-          description="A five-color palette for data visualizations, designed for contrast and accessibility."
+          title={tThemes("chartColors")}
+          description={tThemes("chartColorsDesc")}
         />
         <CardContent className="space-y-4">
           {/* Horizontal color bar */}
@@ -376,8 +374,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Sidebar Colors"
-          description="Dedicated color tokens for the application sidebar, enabling independent theming of the navigation panel."
+          title={tThemes("sidebarColors")}
+          description={tThemes("sidebarColorsDesc")}
         />
         <CardContent>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -395,8 +393,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Badge Variants"
-          description="Status indicators and labels in all supported visual variants."
+          title={tThemes("badgeVariants")}
+          description={tThemes("badgeVariantsDesc")}
         />
         <CardContent>
           <div className="flex flex-wrap items-center gap-3">
@@ -433,14 +431,14 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Button Variants"
-          description="All button visual styles and size options available in the component library."
+          title={tThemes("buttonVariants")}
+          description={tThemes("buttonVariantsDesc")}
         />
         <CardContent className="space-y-6">
           {/* Row 1: Variants */}
           <div>
             <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">
-              Variants
+              {tThemes("variants")}
             </p>
             <div className="flex flex-wrap items-center gap-3">
               <div className="flex flex-col items-center gap-1.5">
@@ -487,7 +485,7 @@ export default async function ThemesPage({
           {/* Row 2: Sizes */}
           <div>
             <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">
-              Sizes
+              {tThemes("sizes")}
             </p>
             <div className="flex flex-wrap items-end gap-3">
               <div className="flex flex-col items-center gap-1.5">
@@ -528,8 +526,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Border Radius Tokens"
-          description="Corner radius scale derived from the base --radius variable (0.625rem). All values are computed at runtime."
+          title={tThemes("borderRadius")}
+          description={tThemes("borderRadiusDesc")}
         />
         <CardContent>
           <div className="grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-4">
@@ -555,8 +553,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Typography Scale"
-          description="Tailwind CSS font-size utilities from text-xs to text-4xl with their rendered preview."
+          title={tThemes("typographyScale")}
+          description={tThemes("typographyScaleDesc")}
         />
         <CardContent>
           <div className="space-y-4">
@@ -582,8 +580,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Spacing Scale"
-          description="Standard spacing values used for margin, padding, and gap utilities throughout the system."
+          title={tThemes("spacingScale")}
+          description={tThemes("spacingScaleDesc")}
         />
         <CardContent>
           <div className="space-y-3">
@@ -612,8 +610,8 @@ export default async function ThemesPage({
       {/* ------------------------------------------------------------------ */}
       <Card>
         <SectionHeading
-          title="Dark Mode Support"
-          description="All tokens above automatically adapt to dark mode. Toggle the theme to preview."
+          title={tThemes("darkMode")}
+          description={tThemes("darkModeDesc")}
         />
         <CardContent>
           <div className="flex items-start gap-4 rounded-lg border bg-muted/50 p-4">
@@ -624,19 +622,10 @@ export default async function ThemesPage({
             </div>
             <div className="min-w-0 space-y-2">
               <p className="text-sm leading-relaxed">
-                This design system uses the{" "}
-                <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
-                  .dark
-                </code>{" "}
-                class strategy with OKLCh color values that ensure perceptual
-                consistency between light and dark themes. Each country theme
-                also defines adjusted dark-mode primary colors for optimal
-                contrast.
+                {tThemes("darkModeInfo")}
               </p>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Use the theme switcher in the application header to toggle
-                between modes and observe how all tokens on this page respond in
-                real time.
+                {tThemes("darkModeToggle")}
               </p>
             </div>
           </div>
