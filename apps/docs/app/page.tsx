@@ -1,6 +1,12 @@
-import { redirect } from "next/navigation";
-import { defaultLocale } from "@/i18n/config";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function RootPage() {
-  redirect(`/${defaultLocale}`);
+  const router = useRouter();
+  useEffect(() => {
+    router.replace("/ko");
+  }, [router]);
+  return null;
 }
