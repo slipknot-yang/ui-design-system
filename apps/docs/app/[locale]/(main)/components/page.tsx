@@ -79,7 +79,7 @@ export default async function ComponentsPage({
 import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/components/card";
 import { Input } from "@workspace/ui/components/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table";`}
-            lang="typescript"
+            lang="tsx"
           />
         </CardContent>
       </Card>

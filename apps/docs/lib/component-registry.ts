@@ -1,9 +1,21 @@
+export interface PropDef {
+  name: string;
+  type: string;
+  default?: string;
+  required?: boolean;
+  description: string;
+}
+
 export interface ComponentMeta {
   name: string;
   slug: string;
   description: string;
   importExample: string;
   codeExample: string;
+  props?: PropDef[];
+  variants?: string[];
+  accessibility?: string;
+  relatedComponents?: string[];
 }
 
 export interface ComponentCategory {
@@ -35,6 +47,50 @@ export const componentCategories: ComponentCategory[] = [
     </AccordionContent>
   </AccordionItem>
 </Accordion>`,
+        props: [
+          {
+            name: "type",
+            type: '"single" | "multiple"',
+            required: true,
+            description:
+              "Determines whether one or multiple accordion items can be opened at the same time.",
+          },
+          {
+            name: "collapsible",
+            type: "boolean",
+            default: "false",
+            description:
+              'When type is "single", allows closing the open item by clicking its trigger again.',
+          },
+          {
+            name: "value",
+            type: "string | string[]",
+            description:
+              "The controlled value of the currently expanded item(s). Use with onValueChange.",
+          },
+          {
+            name: "defaultValue",
+            type: "string | string[]",
+            description:
+              "The default value of the expanded item(s) when initially rendered uncontrolled.",
+          },
+          {
+            name: "onValueChange",
+            type: "(value: string | string[]) => void",
+            description:
+              "Callback invoked when the expanded accordion item(s) change.",
+          },
+          {
+            name: "disabled",
+            type: "boolean",
+            default: "false",
+            description:
+              "When true, prevents the user from interacting with the accordion and all its items.",
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Accordion pattern with full keyboard navigation via Arrow, Home, and End keys.",
+        relatedComponents: ["collapsible", "tabs"],
       },
       {
         name: "Aspect Ratio",
@@ -64,6 +120,31 @@ export const componentCategories: ComponentCategory[] = [
     <p>Card Footer</p>
   </CardFooter>
 </Card>`,
+        props: [
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes to apply custom styling or override the default card appearance.",
+          },
+          {
+            name: "asChild",
+            type: "boolean",
+            default: "false",
+            description:
+              "Merges props onto the child element instead of rendering a default <div> wrapper.",
+          },
+          {
+            name: "children",
+            type: "React.ReactNode",
+            required: true,
+            description:
+              "Card content, typically composed of CardHeader, CardContent, and CardFooter sub-components.",
+          },
+        ],
+        accessibility:
+          "Renders as a semantic grouping element; pair with appropriate headings inside CardTitle for screen reader clarity.",
+        relatedComponents: ["separator", "badge", "button"],
       },
       {
         name: "Collapsible",
@@ -124,6 +205,31 @@ export const componentCategories: ComponentCategory[] = [
     <div>Source</div>
   </div>
 </div>`,
+        props: [
+          {
+            name: "orientation",
+            type: '"horizontal" | "vertical"',
+            default: '"horizontal"',
+            description:
+              "Sets the axis along which the separator is rendered, either horizontal or vertical.",
+          },
+          {
+            name: "decorative",
+            type: "boolean",
+            default: "false",
+            description:
+              'When true, the separator is purely visual and is hidden from assistive technology via role="none".',
+          },
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes for custom spacing, color, or thickness of the separator line.",
+          },
+        ],
+        accessibility:
+          'Renders with role="separator" by default; set decorative to true when the separator is purely visual.',
+        relatedComponents: ["card", "tabs"],
       },
       {
         name: "Tabs",
@@ -139,6 +245,43 @@ export const componentCategories: ComponentCategory[] = [
   <TabsContent value="account">Account settings here.</TabsContent>
   <TabsContent value="password">Password settings here.</TabsContent>
 </Tabs>`,
+        props: [
+          {
+            name: "defaultValue",
+            type: "string",
+            description:
+              "The value of the tab that should be active by default in uncontrolled mode.",
+          },
+          {
+            name: "value",
+            type: "string",
+            description:
+              "The controlled value of the currently active tab. Use together with onValueChange.",
+          },
+          {
+            name: "onValueChange",
+            type: "(value: string) => void",
+            description:
+              "Callback invoked when the active tab changes, receiving the new tab value.",
+          },
+          {
+            name: "orientation",
+            type: '"horizontal" | "vertical"',
+            default: '"horizontal"',
+            description:
+              "The orientation of the tab list, affecting keyboard navigation direction.",
+          },
+          {
+            name: "activationMode",
+            type: '"automatic" | "manual"',
+            default: '"automatic"',
+            description:
+              'When "manual", tabs are activated only on Enter/Space rather than on focus.',
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Tabs pattern with Arrow key navigation between triggers and automatic focus management.",
+        relatedComponents: ["accordion", "card", "separator"],
       },
     ],
   },
@@ -159,6 +302,60 @@ export const componentCategories: ComponentCategory[] = [
   <Button variant="ghost">Ghost</Button>
   <Button variant="link">Link</Button>
 </div>`,
+        props: [
+          {
+            name: "variant",
+            type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+            default: '"default"',
+            description:
+              "Controls the visual style of the button to convey intent such as primary actions or danger.",
+          },
+          {
+            name: "size",
+            type: '"default" | "sm" | "lg" | "icon"',
+            default: '"default"',
+            description:
+              'Sets the button dimensions; use "icon" for square icon-only buttons.',
+          },
+          {
+            name: "disabled",
+            type: "boolean",
+            default: "false",
+            description:
+              "Prevents user interaction and applies a visually muted disabled style.",
+          },
+          {
+            name: "asChild",
+            type: "boolean",
+            default: "false",
+            description:
+              "Merges button styles onto the child element (e.g., rendering an <a> tag styled as a button).",
+          },
+          {
+            name: "onClick",
+            type: "(event: React.MouseEvent) => void",
+            description:
+              "Callback invoked when the button is clicked by the user.",
+          },
+          {
+            name: "type",
+            type: '"button" | "submit" | "reset"',
+            default: '"button"',
+            description:
+              'HTML button type attribute; set to "submit" for form submission behavior.',
+          },
+        ],
+        variants: [
+          "default",
+          "secondary",
+          "destructive",
+          "outline",
+          "ghost",
+          "link",
+        ],
+        accessibility:
+          "Renders a native <button> element with full keyboard support; use asChild with an <a> for navigation links.",
+        relatedComponents: ["input", "label", "dialog", "alert-dialog"],
       },
       {
         name: "Calendar",
@@ -178,6 +375,43 @@ export const componentCategories: ComponentCategory[] = [
   <Checkbox id="terms" />
   <label htmlFor="terms" className="text-sm">Accept terms and conditions</label>
 </div>`,
+        props: [
+          {
+            name: "checked",
+            type: 'boolean | "indeterminate"',
+            description:
+              "The controlled checked state; supports boolean or indeterminate for partial selection patterns.",
+          },
+          {
+            name: "onCheckedChange",
+            type: '(checked: boolean | "indeterminate") => void',
+            description:
+              "Callback invoked when the checked state changes, receiving the new value.",
+          },
+          {
+            name: "disabled",
+            type: "boolean",
+            default: "false",
+            description:
+              "Prevents the user from interacting with the checkbox and applies a muted visual style.",
+          },
+          {
+            name: "required",
+            type: "boolean",
+            default: "false",
+            description:
+              "Marks the checkbox as required for form validation and indicates it to assistive technology.",
+          },
+          {
+            name: "name",
+            type: "string",
+            description:
+              "The name attribute submitted with the form data when the checkbox is inside a form.",
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Checkbox pattern with Space key toggle; always pair with a visible Label for clarity.",
+        relatedComponents: ["label", "switch", "radio-group"],
       },
       {
         name: "Combobox",
@@ -213,6 +447,49 @@ export const componentCategories: ComponentCategory[] = [
   <Label htmlFor="email">Email</Label>
   <Input type="email" id="email" placeholder="Email" />
 </div>`,
+        props: [
+          {
+            name: "type",
+            type: "string",
+            default: '"text"',
+            description:
+              'HTML input type such as "text", "email", "password", or "number" for browser-native behavior.',
+          },
+          {
+            name: "placeholder",
+            type: "string",
+            description:
+              "Hint text displayed inside the input when no value has been entered by the user.",
+          },
+          {
+            name: "disabled",
+            type: "boolean",
+            default: "false",
+            description:
+              "Prevents user interaction and renders the input in a visually muted disabled state.",
+          },
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes to customize the input appearance or override default styling.",
+          },
+          {
+            name: "value",
+            type: "string",
+            description:
+              "The controlled value of the input. Use together with onChange for controlled components.",
+          },
+          {
+            name: "onChange",
+            type: "(event: React.ChangeEvent<HTMLInputElement>) => void",
+            description:
+              "Callback invoked on every keystroke, receiving the native change event.",
+          },
+        ],
+        accessibility:
+          "Renders a native <input> element; always associate with a Label component using matching htmlFor and id attributes.",
+        relatedComponents: ["label", "field", "textarea", "input-otp"],
       },
       {
         name: "Input Group",
@@ -250,6 +527,30 @@ export const componentCategories: ComponentCategory[] = [
   <Label htmlFor="message">Your message</Label>
   <Textarea placeholder="Type your message here." id="message" />
 </div>`,
+        props: [
+          {
+            name: "htmlFor",
+            type: "string",
+            description:
+              "The id of the form control this label is associated with, enabling click-to-focus behavior.",
+          },
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes to customize label typography, spacing, or color.",
+          },
+          {
+            name: "children",
+            type: "React.ReactNode",
+            required: true,
+            description:
+              "The text or elements rendered inside the label, describing the associated form control.",
+          },
+        ],
+        accessibility:
+          "Renders a native <label> element that programmatically links to its form control via htmlFor for screen readers.",
+        relatedComponents: ["input", "checkbox", "switch", "textarea"],
       },
       {
         name: "Radio Group",
@@ -284,6 +585,49 @@ export const componentCategories: ComponentCategory[] = [
     <SelectItem value="system">System</SelectItem>
   </SelectContent>
 </Select>`,
+        props: [
+          {
+            name: "value",
+            type: "string",
+            description:
+              "The controlled value of the selected item. Use together with onValueChange.",
+          },
+          {
+            name: "onValueChange",
+            type: "(value: string) => void",
+            description:
+              "Callback invoked when the user selects an option, receiving the new value string.",
+          },
+          {
+            name: "defaultValue",
+            type: "string",
+            description:
+              "The value of the item that should be selected by default in uncontrolled mode.",
+          },
+          {
+            name: "disabled",
+            type: "boolean",
+            default: "false",
+            description:
+              "Prevents the user from opening the select dropdown and applies a muted visual state.",
+          },
+          {
+            name: "name",
+            type: "string",
+            description:
+              "The name attribute submitted with the form data when used inside a <form> element.",
+          },
+          {
+            name: "required",
+            type: "boolean",
+            default: "false",
+            description:
+              "Marks the select as required for native form validation before submission.",
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Listbox pattern with full keyboard navigation; Arrow keys browse items, Enter selects.",
+        relatedComponents: ["combobox", "radio-group", "label"],
       },
       {
         name: "Switch",
@@ -295,6 +639,43 @@ export const componentCategories: ComponentCategory[] = [
   <Switch id="airplane-mode" />
   <Label htmlFor="airplane-mode">Airplane Mode</Label>
 </div>`,
+        props: [
+          {
+            name: "checked",
+            type: "boolean",
+            description:
+              "The controlled on/off state of the switch. Use together with onCheckedChange.",
+          },
+          {
+            name: "onCheckedChange",
+            type: "(checked: boolean) => void",
+            description:
+              "Callback invoked when the switch is toggled, receiving the new boolean state.",
+          },
+          {
+            name: "disabled",
+            type: "boolean",
+            default: "false",
+            description:
+              "Prevents user interaction and renders the switch in a visually muted disabled state.",
+          },
+          {
+            name: "defaultChecked",
+            type: "boolean",
+            default: "false",
+            description:
+              "The default on/off state when initially rendered in uncontrolled mode.",
+          },
+          {
+            name: "name",
+            type: "string",
+            description:
+              "The name attribute submitted with the form data when the switch is inside a form.",
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Switch role with Space key toggle; always pair with a Label for accessible naming.",
+        relatedComponents: ["checkbox", "label", "toggle"],
       },
       {
         name: "Textarea",
@@ -357,6 +738,32 @@ export const componentCategories: ComponentCategory[] = [
   <Badge variant="outline">Outline</Badge>
   <Badge variant="destructive">Destructive</Badge>
 </div>`,
+        props: [
+          {
+            name: "variant",
+            type: '"default" | "secondary" | "destructive" | "outline"',
+            default: '"default"',
+            description:
+              "Controls the visual style of the badge to indicate status, category, or severity.",
+          },
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes to customize the badge color, size, or other visual properties.",
+          },
+          {
+            name: "children",
+            type: "React.ReactNode",
+            required: true,
+            description:
+              "The label text or icon rendered inside the badge element.",
+          },
+        ],
+        variants: ["default", "secondary", "destructive", "outline"],
+        accessibility:
+          "Renders as an inline <div>; for status indicators, add an aria-label or sr-only text describing the meaning.",
+        relatedComponents: ["button", "card", "table"],
       },
       {
         name: "Chart",
@@ -403,6 +810,37 @@ export const componentCategories: ComponentCategory[] = [
           "Displays an indicator showing the completion progress of a task.",
         importExample: `import { Progress } from "@workspace/ui/components/progress";`,
         codeExample: `<Progress value={60} className="w-[60%]" />`,
+        props: [
+          {
+            name: "value",
+            type: "number",
+            default: "0",
+            description:
+              "The current progress value, representing percentage completion from 0 to max.",
+          },
+          {
+            name: "max",
+            type: "number",
+            default: "100",
+            description:
+              "The maximum value that represents 100% completion of the progress indicator.",
+          },
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes to customize the progress bar width, height, or color.",
+          },
+          {
+            name: "getValueLabel",
+            type: "(value: number, max: number) => string",
+            description:
+              "Custom function to generate an accessible label string from the current value and max.",
+          },
+        ],
+        accessibility:
+          'Renders with role="progressbar" and aria-valuenow/aria-valuemax for screen reader progress announcements.',
+        relatedComponents: ["skeleton", "spinner"],
       },
       {
         name: "Skeleton",
@@ -446,6 +884,24 @@ export const componentCategories: ComponentCategory[] = [
     </TableRow>
   </TableBody>
 </Table>`,
+        props: [
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes applied to the root <table> element for custom width or styling.",
+          },
+          {
+            name: "children",
+            type: "React.ReactNode",
+            required: true,
+            description:
+              "Table structure composed of TableHeader, TableBody, TableFooter, and TableCaption sub-components.",
+          },
+        ],
+        accessibility:
+          "Renders semantic <table> HTML; use TableCaption to provide a visible accessible summary of the table data.",
+        relatedComponents: ["card", "badge", "pagination", "separator"],
       },
     ],
   },
@@ -463,6 +919,32 @@ export const componentCategories: ComponentCategory[] = [
     You can add components to your app using the CLI.
   </AlertDescription>
 </Alert>`,
+        props: [
+          {
+            name: "variant",
+            type: '"default" | "destructive"',
+            default: '"default"',
+            description:
+              "Controls the visual severity of the alert; use destructive for error or warning messages.",
+          },
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes to customize alert border, background, or text color.",
+          },
+          {
+            name: "children",
+            type: "React.ReactNode",
+            required: true,
+            description:
+              "Alert content, typically composed of AlertTitle and AlertDescription sub-components.",
+          },
+        ],
+        variants: ["default", "destructive"],
+        accessibility:
+          'Renders with role="alert" so screen readers announce the content immediately when it appears in the DOM.',
+        relatedComponents: ["alert-dialog", "badge", "sonner"],
       },
       {
         name: "Alert Dialog",
@@ -509,6 +991,43 @@ export const componentCategories: ComponentCategory[] = [
     </DialogFooter>
   </DialogContent>
 </Dialog>`,
+        props: [
+          {
+            name: "open",
+            type: "boolean",
+            description:
+              "The controlled open state of the dialog. Use together with onOpenChange.",
+          },
+          {
+            name: "onOpenChange",
+            type: "(open: boolean) => void",
+            description:
+              "Callback invoked when the dialog open state changes, e.g., on close button or overlay click.",
+          },
+          {
+            name: "modal",
+            type: "boolean",
+            default: "true",
+            description:
+              "When true, the dialog renders as a modal with backdrop overlay and traps focus within.",
+          },
+          {
+            name: "defaultOpen",
+            type: "boolean",
+            default: "false",
+            description:
+              "The default open state when initially rendered in uncontrolled mode.",
+          },
+        ],
+        accessibility:
+          "Implements WAI-ARIA Dialog pattern with focus trap, Escape key dismissal, and required Title for screen readers.",
+        relatedComponents: [
+          "alert-dialog",
+          "sheet",
+          "drawer",
+          "button",
+          "popover",
+        ],
       },
       {
         name: "Drawer",
