@@ -218,9 +218,9 @@ export default async function DashboardPage({
       {/* ================================================================== */}
       {/*  2. Cargo Tracking + 3. Recent Notices (side by side)              */}
       {/* ================================================================== */}
-      <div className="grid gap-4 lg:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
         {/* --- Cargo Tracking Search --- */}
-        <Card className="lg:col-span-2">
+        <Card className="md:col-span-1 lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Search className="h-4 w-4 text-muted-foreground" />
@@ -259,7 +259,7 @@ export default async function DashboardPage({
         </Card>
 
         {/* --- Recent Notices --- */}
-        <Card className="lg:col-span-3">
+        <Card className="md:col-span-1 lg:col-span-3">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Bell className="h-4 w-4 text-muted-foreground" />
@@ -301,9 +301,9 @@ export default async function DashboardPage({
       {/* ================================================================== */}
       {/*  4. Exchange Rates + 5. Quick Menu (side by side)                  */}
       {/* ================================================================== */}
-      <div className="grid gap-4 lg:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
         {/* --- Exchange Rates --- */}
-        <Card className="lg:col-span-2">
+        <Card className="md:col-span-1 lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Coins className="h-4 w-4 text-muted-foreground" />
@@ -355,12 +355,12 @@ export default async function DashboardPage({
         </Card>
 
         {/* --- Quick Menu --- */}
-        <Card className="lg:col-span-3">
+        <Card className="md:col-span-1 lg:col-span-3">
           <CardHeader>
             <CardTitle>{tc("quickMenu")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {quickMenuItems.map(({ key, icon: Icon, href }) => (
                 <Link key={key} href={href}>
                   <div className="hover:bg-muted/80 flex flex-col items-center gap-2 rounded-xl p-3 transition-colors">

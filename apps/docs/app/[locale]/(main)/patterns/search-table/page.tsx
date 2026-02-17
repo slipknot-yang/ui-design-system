@@ -390,65 +390,69 @@ export default async function SearchTablePage({
       {/* Data Table                                                         */}
       {/* ----------------------------------------------------------------- */}
       <Card>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[60px] text-center">No.</TableHead>
-              <TableHead className="min-w-[170px]">신고번호</TableHead>
-              <TableHead className="w-[80px] text-center">유형</TableHead>
-              <TableHead className="min-w-[130px]">HS Code</TableHead>
-              <TableHead className="min-w-[200px]">품명</TableHead>
-              <TableHead className="min-w-[100px]">관할세관</TableHead>
-              <TableHead className="min-w-[160px]">신고인</TableHead>
-              <TableHead className="min-w-[140px] text-right">
-                신고금액 (KRW)
-              </TableHead>
-              <TableHead className="w-[100px] text-center">상태</TableHead>
-              <TableHead className="w-[110px] text-center">신고일자</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {declarations.map((row) => (
-              <TableRow key={row.declarationNo}>
-                <TableCell className="text-center text-muted-foreground">
-                  {row.no}
-                </TableCell>
-                <TableCell className="font-medium">
-                  <a href="#" className="text-primary hover:underline">
-                    {row.declarationNo}
-                  </a>
-                </TableCell>
-                <TableCell className="text-center">
-                  {typeBadge(row.type)}
-                </TableCell>
-                <TableCell className="font-mono text-sm">
-                  {row.hsCode}
-                </TableCell>
-                <TableCell>{row.goodsDescription}</TableCell>
-                <TableCell>{row.customsOffice}</TableCell>
-                <TableCell>{row.declarer}</TableCell>
-                <TableCell className="text-right font-mono">
-                  {row.amount}
-                </TableCell>
-                <TableCell className="text-center">
-                  {statusBadge(row.status)}
-                </TableCell>
-                <TableCell className="text-center text-muted-foreground">
-                  {row.date}
-                </TableCell>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[60px] text-center">No.</TableHead>
+                <TableHead className="min-w-[170px]">신고번호</TableHead>
+                <TableHead className="w-[80px] text-center">유형</TableHead>
+                <TableHead className="min-w-[130px]">HS Code</TableHead>
+                <TableHead className="min-w-[200px]">품명</TableHead>
+                <TableHead className="min-w-[100px]">관할세관</TableHead>
+                <TableHead className="min-w-[160px]">신고인</TableHead>
+                <TableHead className="min-w-[140px] text-right">
+                  신고금액 (KRW)
+                </TableHead>
+                <TableHead className="w-[100px] text-center">상태</TableHead>
+                <TableHead className="w-[110px] text-center">
+                  신고일자
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {declarations.map((row) => (
+                <TableRow key={row.declarationNo}>
+                  <TableCell className="text-center text-muted-foreground">
+                    {row.no}
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    <a href="#" className="text-primary hover:underline">
+                      {row.declarationNo}
+                    </a>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {typeBadge(row.type)}
+                  </TableCell>
+                  <TableCell className="font-mono text-sm">
+                    {row.hsCode}
+                  </TableCell>
+                  <TableCell>{row.goodsDescription}</TableCell>
+                  <TableCell>{row.customsOffice}</TableCell>
+                  <TableCell>{row.declarer}</TableCell>
+                  <TableCell className="text-right font-mono">
+                    {row.amount}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {statusBadge(row.status)}
+                  </TableCell>
+                  <TableCell className="text-center text-muted-foreground">
+                    {row.date}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </Card>
 
       {/* ----------------------------------------------------------------- */}
       {/* Pagination                                                         */}
       {/* ----------------------------------------------------------------- */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">1 - 10 / 1,247 건</p>
         <Pagination className="mx-0 w-auto">
-          <PaginationContent>
+          <PaginationContent className="flex-wrap">
             <PaginationItem>
               <PaginationPrevious href="#" />
             </PaginationItem>

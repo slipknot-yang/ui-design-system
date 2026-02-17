@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
@@ -10,6 +11,45 @@ import { Badge } from "@workspace/ui/components/badge";
 import { Separator } from "@workspace/ui/components/separator";
 import { componentCategories, totalComponents } from "@/lib/component-registry";
 import { CodeBlock } from "@/components/code-block";
+import {
+  LayoutGrid,
+  FormInput,
+  Table2,
+  MessageSquare,
+  Compass,
+  type LucideIcon,
+} from "lucide-react";
+
+const categoryMeta: Record<
+  string,
+  { icon: LucideIcon; description: string; color: string }
+> = {
+  Layout: {
+    icon: LayoutGrid,
+    description: "페이지 구조와 콘텐츠 배치를 위한 컴포넌트",
+    color: "bg-blue-500",
+  },
+  Forms: {
+    icon: FormInput,
+    description: "사용자 입력과 데이터 수집을 위한 컴포넌트",
+    color: "bg-emerald-500",
+  },
+  "Data Display": {
+    icon: Table2,
+    description: "데이터 시각화와 정보 표시를 위한 컴포넌트",
+    color: "bg-amber-500",
+  },
+  Feedback: {
+    icon: MessageSquare,
+    description: "사용자 알림과 상호작용을 위한 컴포넌트",
+    color: "bg-rose-500",
+  },
+  Navigation: {
+    icon: Compass,
+    description: "페이지 이동과 메뉴 구성을 위한 컴포넌트",
+    color: "bg-violet-500",
+  },
+};
 
 export default async function ComponentsPage({
   params,
@@ -38,33 +78,48 @@ export default async function ComponentsPage({
       <Separator />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {componentCategories.map((cat) => (
-          <Card key={cat.category}>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base">{cat.category}</CardTitle>
-                <Badge variant="outline">{cat.items.length}</Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-2">
-                {cat.items.map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/components/${item.slug}`}
-                    className="flex items-center gap-2 rounded-md border p-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
-                  >
-                    <div className="h-2 w-2 rounded-full bg-primary" />
-                    <span className="font-medium">{item.name}</span>
-                    <code className="ml-auto text-xs text-muted-foreground font-mono hidden sm:inline">
-                      {item.slug}
-                    </code>
-                  </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {componentCategories.map((cat) => {
+          const meta = categoryMeta[cat.category];
+          const Icon = meta?.icon;
+
+          return (
+            <Card key={cat.category}>
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {Icon && <Icon className="h-5 w-5 text-muted-foreground" />}
+                    <CardTitle className="text-base">{cat.category}</CardTitle>
+                  </div>
+                  <Badge variant="outline">{cat.items.length}</Badge>
+                </div>
+                {meta && (
+                  <CardDescription className="text-sm text-muted-foreground">
+                    {meta.description}
+                  </CardDescription>
+                )}
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {cat.items.map((item) => (
+                    <Link
+                      key={item.slug}
+                      href={`/components/${item.slug}`}
+                      className="flex items-center gap-2 rounded-md border p-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                      <div
+                        className={`h-2 w-2 shrink-0 rounded-full ${meta?.color ?? "bg-primary"}`}
+                      />
+                      <span className="font-medium">{item.name}</span>
+                      <code className="ml-auto text-xs text-muted-foreground font-mono hidden sm:inline">
+                        {item.slug}
+                      </code>
+                    </Link>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       <Separator />

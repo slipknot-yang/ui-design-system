@@ -532,7 +532,7 @@ export default async function ThemesPage({
           description="Corner radius scale derived from the base --radius variable (0.625rem). All values are computed at runtime."
         />
         <CardContent>
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-4">
             {radiusTokens.map((token) => (
               <div key={token.name} className="text-center space-y-2">
                 <div
@@ -565,7 +565,7 @@ export default async function ThemesPage({
                 key={item.name}
                 className="flex items-baseline gap-4 border-b pb-3 last:border-b-0 last:pb-0"
               >
-                <code className="text-xs font-mono text-muted-foreground w-20 shrink-0">
+                <code className="text-xs font-mono text-muted-foreground w-16 sm:w-20 shrink-0">
                   {item.name}
                 </code>
                 <p className={`${item.class} font-medium truncate`}>

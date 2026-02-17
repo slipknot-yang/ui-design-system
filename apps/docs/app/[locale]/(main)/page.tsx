@@ -35,10 +35,20 @@ const techStackItems = [
 ];
 
 const featureCards = [
-  { key: "components" as const, value: "51", icon: Component },
-  { key: "countryThemes" as const, value: "10", icon: Globe },
-  { key: "languages" as const, value: "7", icon: Languages },
-  { key: "uiPatterns" as const, value: "7", icon: Blocks },
+  {
+    key: "components" as const,
+    value: "51",
+    icon: Component,
+    href: "/components",
+  },
+  { key: "countryThemes" as const, value: "10", icon: Globe, href: "/themes" },
+  { key: "languages" as const, value: "7", icon: Languages, href: "/i18n" },
+  {
+    key: "uiPatterns" as const,
+    value: "7",
+    icon: Blocks,
+    href: "/patterns/search-table",
+  },
 ];
 
 const patternLinks = [
@@ -200,18 +210,21 @@ export default async function HomePage({
       {/*  Key Features                                                       */}
       {/* ================================================================== */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {featureCards.map(({ key, value, icon: Icon }) => (
-          <Card key={key}>
-            <CardHeader className="flex flex-row items-center gap-3 pb-2">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                <Icon className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{value}</p>
-                <p className="text-xs text-muted-foreground">{t(key)}</p>
-              </div>
-            </CardHeader>
-          </Card>
+        {featureCards.map(({ key, value, icon: Icon, href }) => (
+          <Link key={key} href={href}>
+            <Card className="transition-colors hover:bg-accent/50 cursor-pointer h-full">
+              <CardHeader className="flex flex-row items-center gap-3 pb-2">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                  <Icon className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-2xl font-bold">{value}</p>
+                  <p className="text-xs text-muted-foreground">{t(key)}</p>
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+            </Card>
+          </Link>
         ))}
       </div>
 

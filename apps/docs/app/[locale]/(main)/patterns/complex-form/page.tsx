@@ -242,7 +242,7 @@ export default async function ComplexFormPage({
        * Tabs
        * -------------------------------------------------------------- */}
       <Tabs defaultValue="parties">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           <TabsTrigger value="parties" className="gap-1.5">
             <Users className="h-4 w-4" />
             당사자
@@ -841,7 +841,7 @@ export default async function ComplexFormPage({
               <CardTitle className="text-base">서류 업로드</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="border-muted-foreground/25 bg-muted/30 flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-10">
+              <div className="border-muted-foreground/25 bg-muted/30 flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-4 sm:p-10">
                 <Upload className="text-muted-foreground mb-3 h-10 w-10" />
                 <p className="text-sm font-medium">
                   파일을 드래그하여 업로드하거나

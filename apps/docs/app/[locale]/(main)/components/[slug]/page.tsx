@@ -127,47 +127,53 @@ export default async function ComponentDetailPage({
             <CardTitle className="text-base">API Reference</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[140px]">Prop</TableHead>
-                  <TableHead className="w-[180px]">Type</TableHead>
-                  <TableHead className="w-[100px]">Default</TableHead>
-                  <TableHead>Description</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {component.props.map((prop) => (
-                  <TableRow key={prop.name}>
-                    <TableCell>
-                      <code className="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">
-                        {prop.name}
-                      </code>
-                      {prop.required && (
-                        <span className="ml-1 text-destructive text-xs">*</span>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <code className="text-xs font-mono text-muted-foreground">
-                        {prop.type}
-                      </code>
-                    </TableCell>
-                    <TableCell>
-                      {prop.default ? (
-                        <code className="text-xs font-mono">
-                          {prop.default}
-                        </code>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">—</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {prop.description}
-                    </TableCell>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[120px]">Prop</TableHead>
+                    <TableHead className="w-[140px]">Type</TableHead>
+                    <TableHead className="w-[80px]">Default</TableHead>
+                    <TableHead>Description</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {component.props.map((prop) => (
+                    <TableRow key={prop.name}>
+                      <TableCell>
+                        <code className="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">
+                          {prop.name}
+                        </code>
+                        {prop.required && (
+                          <span className="ml-1 text-destructive text-xs">
+                            *
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <code className="text-xs font-mono text-muted-foreground">
+                          {prop.type}
+                        </code>
+                      </TableCell>
+                      <TableCell>
+                        {prop.default ? (
+                          <code className="text-xs font-mono">
+                            {prop.default}
+                          </code>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">
+                            —
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {prop.description}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       )}
