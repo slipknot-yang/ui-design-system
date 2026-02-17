@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import {
   Search as SearchIcon,
   Mail as MailIcon,
@@ -155,7 +156,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@workspace/ui/components/collapsible";
-import { ScrollArea } from "@workspace/ui/components/scroll-area";
+import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";
+import { AspectRatio } from "@workspace/ui/components/aspect-ratio";
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from "@workspace/ui/components/resizable";
 import {
   Drawer,
   DrawerContent,
@@ -780,14 +787,22 @@ const previews: Record<string, React.ReactNode> = {
   ),
 
   resizable: (
-    <div className="flex w-full max-w-md h-24 rounded-md border">
-      <div className="flex-1 flex items-center justify-center border-r text-sm text-muted-foreground">
-        Panel A
-      </div>
-      <div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
-        Panel B
-      </div>
-    </div>
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="min-h-[100px] max-w-md rounded-lg border"
+    >
+      <ResizablePanel defaultSize={50}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="text-sm font-semibold">Panel A</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={50}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="text-sm font-semibold">Panel B</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   ),
 
   "scroll-area": (
@@ -2185,6 +2200,316 @@ const examplePreviews: Record<string, React.ReactNode> = {
         <AccordionContent>Content for section three.</AccordionContent>
       </AccordionItem>
     </Accordion>
+  ),
+  "accordion:faq": (
+    <Accordion type="single" collapsible className="w-full max-w-md">
+      <AccordionItem value="q1">
+        <AccordionTrigger>What payment methods do you accept?</AccordionTrigger>
+        <AccordionContent>
+          We accept all major credit cards (Visa, Mastercard, American Express),
+          PayPal, and bank transfers. For enterprise customers, we also offer
+          invoice-based billing with NET 30 terms.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="q2">
+        <AccordionTrigger>How do I cancel my subscription?</AccordionTrigger>
+        <AccordionContent>
+          You can cancel your subscription at any time from your account
+          settings. Navigate to Settings &rarr; Billing &rarr; Cancel
+          Subscription. Your access will continue until the end of the current
+          billing period.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="q3">
+        <AccordionTrigger>Do you offer a free trial?</AccordionTrigger>
+        <AccordionContent>
+          Yes! We offer a 14-day free trial with full access to all features. No
+          credit card required. After the trial ends, you can choose a plan that
+          fits your needs.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+
+  // Aspect Ratio
+  "aspect-ratio:landscape": (
+    <div className="w-[450px]">
+      <AspectRatio ratio={16 / 9} className="rounded-lg overflow-hidden">
+        <Image
+          src="/cupia-logo-vertical.png"
+          alt="Landscape demo"
+          fill
+          className="object-cover"
+        />
+      </AspectRatio>
+      <p className="mt-2 text-xs text-muted-foreground text-center">
+        16:9 — Video / Hero Image
+      </p>
+    </div>
+  ),
+  "aspect-ratio:square": (
+    <div className="w-[200px]">
+      <AspectRatio ratio={1} className="rounded-lg overflow-hidden">
+        <Image
+          src="/cupia-emblem.png"
+          alt="Square demo"
+          fill
+          className="object-contain bg-muted"
+        />
+      </AspectRatio>
+      <p className="mt-2 text-xs text-muted-foreground text-center">
+        1:1 — Avatar / Thumbnail
+      </p>
+    </div>
+  ),
+  "aspect-ratio:photo": (
+    <div className="w-[320px]">
+      <AspectRatio ratio={4 / 3} className="rounded-lg overflow-hidden">
+        <Image
+          src="/cupia-logo.png"
+          alt="Photo demo"
+          fill
+          className="object-contain bg-muted"
+        />
+      </AspectRatio>
+      <p className="mt-2 text-xs text-muted-foreground text-center">
+        4:3 — Classic Photo
+      </p>
+    </div>
+  ),
+
+  // Card Notification
+  "card:notification": (
+    <Card className="w-[380px]">
+      <CardHeader>
+        <CardTitle>Notifications</CardTitle>
+        <CardDescription>You have 3 unread messages.</CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-4">
+        <div className="flex items-start gap-4 rounded-md border p-3">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
+            JD
+          </span>
+          <div className="grid gap-1">
+            <p className="text-sm font-medium">
+              John Doe commented on your report
+            </p>
+            <p className="text-xs text-muted-foreground">2 hours ago</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-4 rounded-md border p-3">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground text-xs font-medium">
+            AS
+          </span>
+          <div className="grid gap-1">
+            <p className="text-sm font-medium">Alice Smith shared a document</p>
+            <p className="text-xs text-muted-foreground">5 hours ago</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-4 rounded-md border p-3">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-xs font-medium">
+            SY
+          </span>
+          <div className="grid gap-1">
+            <p className="text-sm font-medium">System update completed</p>
+            <p className="text-xs text-muted-foreground">1 day ago</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  ),
+
+  // Collapsible
+  "collapsible:basic": (
+    <Collapsible className="w-[340px]">
+      <div className="flex items-center justify-between space-x-4 px-4">
+        <h4 className="text-sm font-semibold">Starred repositories</h4>
+        <CollapsibleTrigger asChild>
+          <Button variant="ghost" size="sm">
+            <ChevronsUpDown className="h-4 w-4" />
+            <span className="sr-only">Toggle</span>
+          </Button>
+        </CollapsibleTrigger>
+      </div>
+      <div className="rounded-md border px-4 py-3 text-sm mt-2">
+        @radix-ui/primitives
+      </div>
+      <CollapsibleContent className="space-y-2 mt-2">
+        <div className="rounded-md border px-4 py-3 text-sm">
+          @radix-ui/colors
+        </div>
+        <div className="rounded-md border px-4 py-3 text-sm">
+          @stitches/react
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  ),
+  "collapsible:with-state": (
+    <Collapsible defaultOpen className="w-[340px]">
+      <CollapsibleTrigger asChild>
+        <Button variant="outline" className="w-full justify-between">
+          <span>3 items selected</span>
+          <ChevronsUpDown className="h-4 w-4" />
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent className="mt-2 space-y-2">
+        <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
+          <Badge variant="secondary">Document</Badge>
+          <span>Annual Report 2024.pdf</span>
+        </div>
+        <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
+          <Badge variant="secondary">Spreadsheet</Badge>
+          <span>Q4 Financials.xlsx</span>
+        </div>
+        <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
+          <Badge variant="secondary">Presentation</Badge>
+          <span>Strategy Deck.pptx</span>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  ),
+
+  // Resizable
+  "resizable:horizontal": (
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="min-h-[200px] max-w-md rounded-lg border"
+    >
+      <ResizablePanel defaultSize={50}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Sidebar</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={50}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Content</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  ),
+  "resizable:vertical": (
+    <ResizablePanelGroup
+      orientation="vertical"
+      className="min-h-[300px] max-w-md rounded-lg border"
+    >
+      <ResizablePanel defaultSize={30}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Header</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize={70}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Content</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  ),
+  "resizable:with-handle": (
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="min-h-[200px] max-w-md rounded-lg border"
+    >
+      <ResizablePanel defaultSize={25} minSize={20}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Navigation</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={50}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Main Content</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize={25} minSize={15}>
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Inspector</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  ),
+
+  // Scroll Area
+  "scroll-area:vertical": (
+    <ScrollArea className="h-72 w-48 rounded-md border">
+      <div className="p-4">
+        <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
+        {Array.from({ length: 50 }).map((_, i) => (
+          <React.Fragment key={i}>
+            <div className="text-sm">
+              {
+                [
+                  "React",
+                  "Vue",
+                  "Angular",
+                  "Svelte",
+                  "Next.js",
+                  "Remix",
+                  "Astro",
+                  "Nuxt",
+                  "SvelteKit",
+                  "Gatsby",
+                ][i % 10]
+              }
+            </div>
+            <Separator className="my-2" />
+          </React.Fragment>
+        ))}
+      </div>
+    </ScrollArea>
+  ),
+  "scroll-area:horizontal": (
+    <ScrollArea className="w-96 whitespace-nowrap rounded-md border">
+      <div className="flex w-max space-x-4 p-4">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <figure key={i} className="shrink-0">
+            <div className="overflow-hidden rounded-md">
+              <div className="h-24 w-36 bg-muted flex items-center justify-center text-sm text-muted-foreground">
+                Image {i + 1}
+              </div>
+            </div>
+            <figcaption className="pt-2 text-xs text-muted-foreground">
+              Photo by Artist {i + 1}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
+  ),
+
+  // Tabs underline
+  "tabs:underline": (
+    <Tabs defaultValue="overview" className="w-[400px]">
+      <TabsList variant="line">
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        <TabsTrigger value="reports">Reports</TabsTrigger>
+        <TabsTrigger value="settings">Settings</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview" className="pt-4">
+        <p className="text-sm text-muted-foreground">
+          Overview of your project performance and key metrics.
+        </p>
+      </TabsContent>
+      <TabsContent value="analytics" className="pt-4">
+        <p className="text-sm text-muted-foreground">
+          Detailed analytics and user behavior insights.
+        </p>
+      </TabsContent>
+      <TabsContent value="reports" className="pt-4">
+        <p className="text-sm text-muted-foreground">
+          Generated reports and exportable data.
+        </p>
+      </TabsContent>
+      <TabsContent value="settings" className="pt-4">
+        <p className="text-sm text-muted-foreground">
+          Configure your project settings and preferences.
+        </p>
+      </TabsContent>
+    </Tabs>
   ),
 
   // Separator

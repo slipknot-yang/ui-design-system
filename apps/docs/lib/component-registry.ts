@@ -142,6 +142,38 @@ export const componentCategories: ComponentCategory[] = [
   </AccordionItem>
 </Accordion>`,
           },
+          {
+            id: "faq",
+            title: "FAQ",
+            description:
+              "Frequently asked questions layout with detailed answers.",
+            code: `<Accordion type="single" collapsible className="w-full">
+  <AccordionItem value="q1">
+    <AccordionTrigger>What payment methods do you accept?</AccordionTrigger>
+    <AccordionContent>
+      We accept all major credit cards (Visa, Mastercard, American Express),
+      PayPal, and bank transfers. For enterprise customers, we also offer
+      invoice-based billing with NET 30 terms.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="q2">
+    <AccordionTrigger>How do I cancel my subscription?</AccordionTrigger>
+    <AccordionContent>
+      You can cancel your subscription at any time from your account settings.
+      Navigate to Settings → Billing → Cancel Subscription. Your access will
+      continue until the end of the current billing period.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="q3">
+    <AccordionTrigger>Do you offer a free trial?</AccordionTrigger>
+    <AccordionContent>
+      Yes! We offer a 14-day free trial with full access to all features.
+      No credit card required. After the trial ends, you can choose a plan
+      that fits your needs.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`,
+          },
         ],
         accessibility:
           "Implements WAI-ARIA Accordion pattern with full keyboard navigation via Arrow, Home, and End keys.",
@@ -156,6 +188,58 @@ export const componentCategories: ComponentCategory[] = [
         codeExample: `<AspectRatio ratio={16 / 9} className="bg-muted rounded-md">
   <img src="/placeholder.jpg" alt="Photo" className="rounded-md object-cover h-full w-full" />
 </AspectRatio>`,
+        props: [
+          {
+            name: "ratio",
+            type: "number",
+            default: "1",
+            description:
+              "The desired width-to-height ratio. For example, 16/9 for widescreen.",
+          },
+          {
+            name: "className",
+            type: "string",
+            description: "Additional CSS classes to apply to the container.",
+          },
+        ],
+        examples: [
+          {
+            id: "landscape",
+            title: "16:9 Landscape",
+            description:
+              "Standard widescreen ratio commonly used for video embeds and hero images.",
+            code: `<div className="w-[450px]">
+  <AspectRatio ratio={16 / 9} className="rounded-lg overflow-hidden">
+    <Image src="/cupia-logo-vertical.png" alt="Landscape demo" fill className="object-cover" />
+  </AspectRatio>
+</div>`,
+          },
+          {
+            id: "square",
+            title: "1:1 Square",
+            description:
+              "Square ratio ideal for profile pictures, thumbnails, and grid layouts.",
+            code: `<div className="w-[200px]">
+  <AspectRatio ratio={1} className="rounded-lg overflow-hidden">
+    <Image src="/cupia-emblem.png" alt="Square demo" fill className="object-contain bg-muted" />
+  </AspectRatio>
+</div>`,
+          },
+          {
+            id: "photo",
+            title: "4:3 Photo",
+            description:
+              "Classic photo ratio used in traditional photography and document scans.",
+            code: `<div className="w-[320px]">
+  <AspectRatio ratio={4 / 3} className="rounded-lg overflow-hidden">
+    <Image src="/cupia-logo.png" alt="Photo demo" fill className="object-contain bg-muted" />
+  </AspectRatio>
+</div>`,
+          },
+        ],
+        accessibility:
+          "Maintains accessible aspect ratios by preserving intrinsic dimensions, preventing layout shift.",
+        relatedComponents: ["card", "carousel"],
       },
       {
         name: "Card",
@@ -287,6 +371,41 @@ export const componentCategories: ComponentCategory[] = [
   </Card>
 </div>`,
           },
+          {
+            id: "notification",
+            title: "Notification Card",
+            description:
+              "Card displaying notifications with avatar, message, and timestamp.",
+            code: `<Card className="w-[380px]">
+  <CardHeader>
+    <CardTitle>Notifications</CardTitle>
+    <CardDescription>You have 3 unread messages.</CardDescription>
+  </CardHeader>
+  <CardContent className="grid gap-4">
+    <div className="flex items-start gap-4 rounded-md border p-3">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">JD</span>
+      <div className="grid gap-1">
+        <p className="text-sm font-medium">John Doe commented on your report</p>
+        <p className="text-xs text-muted-foreground">2 hours ago</p>
+      </div>
+    </div>
+    <div className="flex items-start gap-4 rounded-md border p-3">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground text-xs font-medium">AS</span>
+      <div className="grid gap-1">
+        <p className="text-sm font-medium">Alice Smith shared a document</p>
+        <p className="text-xs text-muted-foreground">5 hours ago</p>
+      </div>
+    </div>
+    <div className="flex items-start gap-4 rounded-md border p-3">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-xs font-medium">SY</span>
+      <div className="grid gap-1">
+        <p className="text-sm font-medium">System update completed</p>
+        <p className="text-xs text-muted-foreground">1 day ago</p>
+      </div>
+    </div>
+  </CardContent>
+</Card>`,
+          },
         ],
         accessibility:
           "Renders as a semantic grouping element; pair with appropriate headings inside CardTitle for screen reader clarity.",
@@ -304,6 +423,91 @@ export const componentCategories: ComponentCategory[] = [
     <p>Collapsible content here.</p>
   </CollapsibleContent>
 </Collapsible>`,
+        props: [
+          {
+            name: "open",
+            type: "boolean",
+            description: "The controlled open state of the collapsible.",
+          },
+          {
+            name: "defaultOpen",
+            type: "boolean",
+            default: "false",
+            description:
+              "The default open state when initially rendered uncontrolled.",
+          },
+          {
+            name: "onOpenChange",
+            type: "(open: boolean) => void",
+            description: "Callback invoked when the open state changes.",
+          },
+          {
+            name: "disabled",
+            type: "boolean",
+            default: "false",
+            description:
+              "When true, prevents the user from toggling the collapsible.",
+          },
+        ],
+        examples: [
+          {
+            id: "basic",
+            title: "Basic",
+            description: "Simple collapsible section with a button trigger.",
+            code: `<Collapsible>
+  <div className="flex items-center justify-between space-x-4 px-4">
+    <h4 className="text-sm font-semibold">Starred repositories</h4>
+    <CollapsibleTrigger asChild>
+      <Button variant="ghost" size="sm">
+        <ChevronsUpDown className="h-4 w-4" />
+        <span className="sr-only">Toggle</span>
+      </Button>
+    </CollapsibleTrigger>
+  </div>
+  <div className="rounded-md border px-4 py-3 text-sm mt-2">
+    @radix-ui/primitives
+  </div>
+  <CollapsibleContent className="space-y-2 mt-2">
+    <div className="rounded-md border px-4 py-3 text-sm">
+      @radix-ui/colors
+    </div>
+    <div className="rounded-md border px-4 py-3 text-sm">
+      @stitches/react
+    </div>
+  </CollapsibleContent>
+</Collapsible>`,
+          },
+          {
+            id: "with-state",
+            title: "With Open State",
+            description: "Collapsible with visible open/close state indicator.",
+            code: `<Collapsible defaultOpen>
+  <CollapsibleTrigger asChild>
+    <Button variant="outline" className="w-full justify-between">
+      <span>3 items selected</span>
+      <ChevronsUpDown className="h-4 w-4" />
+    </Button>
+  </CollapsibleTrigger>
+  <CollapsibleContent className="mt-2 space-y-2">
+    <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
+      <Badge variant="secondary">Document</Badge>
+      <span>Annual Report 2024.pdf</span>
+    </div>
+    <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
+      <Badge variant="secondary">Spreadsheet</Badge>
+      <span>Q4 Financials.xlsx</span>
+    </div>
+    <div className="flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
+      <Badge variant="secondary">Presentation</Badge>
+      <span>Strategy Deck.pptx</span>
+    </div>
+  </CollapsibleContent>
+</Collapsible>`,
+          },
+        ],
+        accessibility:
+          "Implements a disclosure widget pattern. Trigger element receives appropriate aria-expanded state.",
+        relatedComponents: ["accordion", "card"],
       },
       {
         name: "Resizable",
@@ -311,18 +515,128 @@ export const componentCategories: ComponentCategory[] = [
         description:
           "A group of resizable panels that can be adjusted by dragging.",
         importExample: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@workspace/ui/components/resizable";`,
-        codeExample: `<ResizablePanelGroup direction="horizontal">
-  <ResizablePanel>Panel One</ResizablePanel>
+        codeExample: `<ResizablePanelGroup orientation="horizontal" className="min-h-[200px] rounded-lg border">
+  <ResizablePanel defaultSize={50}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Panel One</span>
+    </div>
+  </ResizablePanel>
   <ResizableHandle />
-  <ResizablePanel>Panel Two</ResizablePanel>
+  <ResizablePanel defaultSize={50}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Panel Two</span>
+    </div>
+  </ResizablePanel>
 </ResizablePanelGroup>`,
+        props: [
+          {
+            name: "orientation",
+            type: '"horizontal" | "vertical"',
+            default: '"horizontal"',
+            description:
+              "The orientation the panels are laid out. Horizontal creates side-by-side panels, vertical creates stacked panels.",
+          },
+          {
+            name: "withHandle",
+            type: "boolean",
+            default: "false",
+            description:
+              "When true, displays a visible drag handle on the ResizableHandle separator.",
+          },
+          {
+            name: "defaultSize",
+            type: "number",
+            description:
+              "The default size of a ResizablePanel as a percentage (0-100).",
+          },
+          {
+            name: "minSize",
+            type: "number",
+            description:
+              "The minimum allowed size of a ResizablePanel as a percentage.",
+          },
+          {
+            name: "maxSize",
+            type: "number",
+            description:
+              "The maximum allowed size of a ResizablePanel as a percentage.",
+          },
+        ],
+        examples: [
+          {
+            id: "horizontal",
+            title: "Horizontal",
+            description:
+              "Two side-by-side resizable panels. Drag the handle to adjust widths.",
+            code: `<ResizablePanelGroup orientation="horizontal" className="min-h-[200px] max-w-md rounded-lg border">
+  <ResizablePanel defaultSize={50}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Sidebar</span>
+    </div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={50}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Content</span>
+    </div>
+  </ResizablePanel>
+</ResizablePanelGroup>`,
+          },
+          {
+            id: "vertical",
+            title: "Vertical",
+            description:
+              "Vertically stacked resizable panels for top-bottom layouts.",
+            code: `<ResizablePanelGroup orientation="vertical" className="min-h-[300px] max-w-md rounded-lg border">
+  <ResizablePanel defaultSize={30}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Header</span>
+    </div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={70}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Content</span>
+    </div>
+  </ResizablePanel>
+</ResizablePanelGroup>`,
+          },
+          {
+            id: "with-handle",
+            title: "With Handle",
+            description:
+              "Resizable panels with a visible drag handle indicator between them.",
+            code: `<ResizablePanelGroup orientation="horizontal" className="min-h-[200px] max-w-md rounded-lg border">
+  <ResizablePanel defaultSize={25} minSize={20}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Navigation</span>
+    </div>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize={50}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Main Content</span>
+    </div>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize={25} minSize={15}>
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Inspector</span>
+    </div>
+  </ResizablePanel>
+</ResizablePanelGroup>`,
+          },
+        ],
+        accessibility:
+          "Panels are resizable via keyboard (Arrow keys) and mouse drag. Handle elements are focusable.",
+        relatedComponents: ["separator", "scroll-area"],
       },
       {
         name: "Scroll Area",
         slug: "scroll-area",
         description:
           "Augments native scroll functionality for custom, cross-browser styling.",
-        importExample: `import { ScrollArea } from "@workspace/ui/components/scroll-area";`,
+        importExample: `import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";`,
         codeExample: `<ScrollArea className="h-72 w-48 rounded-md border">
   <div className="p-4">
     <h4 className="mb-4 text-sm font-medium">Tags</h4>
@@ -331,6 +645,73 @@ export const componentCategories: ComponentCategory[] = [
     ))}
   </div>
 </ScrollArea>`,
+        props: [
+          {
+            name: "className",
+            type: "string",
+            description:
+              "Additional CSS classes. Set a fixed height/width to enable scrolling.",
+          },
+          {
+            name: "type",
+            type: '"auto" | "always" | "scroll" | "hover"',
+            default: '"hover"',
+            description:
+              "Controls when the scrollbar is visible: auto, always, on scroll, or on hover.",
+          },
+          {
+            name: "scrollHideDelay",
+            type: "number",
+            default: "600",
+            description:
+              "Delay in ms before the scrollbar hides after the user stops scrolling.",
+          },
+        ],
+        examples: [
+          {
+            id: "vertical",
+            title: "Vertical",
+            description:
+              "Vertically scrollable list of items with custom scrollbar styling.",
+            code: `<ScrollArea className="h-72 w-48 rounded-md border">
+  <div className="p-4">
+    <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
+    {Array.from({ length: 50 }).map((_, i) => (
+      <React.Fragment key={i}>
+        <div className="text-sm">{["React", "Vue", "Angular", "Svelte", "Next.js", "Remix", "Astro", "Nuxt", "SvelteKit", "Gatsby"][i % 10]}</div>
+        <Separator className="my-2" />
+      </React.Fragment>
+    ))}
+  </div>
+</ScrollArea>`,
+          },
+          {
+            id: "horizontal",
+            title: "Horizontal",
+            description:
+              "Horizontally scrollable content area for image galleries or wide tables.",
+            code: `<ScrollArea className="w-96 whitespace-nowrap rounded-md border">
+  <div className="flex w-max space-x-4 p-4">
+    {Array.from({ length: 12 }).map((_, i) => (
+      <figure key={i} className="shrink-0">
+        <div className="overflow-hidden rounded-md">
+          <div className="h-24 w-36 bg-muted flex items-center justify-center text-sm text-muted-foreground">
+            Image {i + 1}
+          </div>
+        </div>
+        <figcaption className="pt-2 text-xs text-muted-foreground">
+          Photo by Artist {i + 1}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>`,
+          },
+        ],
+        accessibility:
+          "Provides custom scrollbar styling while maintaining native scroll behavior and keyboard accessibility.",
+        relatedComponents: ["separator", "card"],
       },
       {
         name: "Separator",
@@ -514,6 +895,32 @@ export const componentCategories: ComponentCategory[] = [
         <Button>Save password</Button>
       </CardFooter>
     </Card>
+  </TabsContent>
+</Tabs>`,
+          },
+          {
+            id: "underline",
+            title: "Line (Underline)",
+            description:
+              "Clean underline-style tabs using the built-in line variant. Active tab shows a bottom indicator.",
+            code: `<Tabs defaultValue="overview" className="w-[400px]">
+  <TabsList variant="line">
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+    <TabsTrigger value="reports">Reports</TabsTrigger>
+    <TabsTrigger value="settings">Settings</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview" className="pt-4">
+    <p className="text-sm text-muted-foreground">Overview of your project performance and key metrics.</p>
+  </TabsContent>
+  <TabsContent value="analytics" className="pt-4">
+    <p className="text-sm text-muted-foreground">Detailed analytics and user behavior insights.</p>
+  </TabsContent>
+  <TabsContent value="reports" className="pt-4">
+    <p className="text-sm text-muted-foreground">Generated reports and exportable data.</p>
+  </TabsContent>
+  <TabsContent value="settings" className="pt-4">
+    <p className="text-sm text-muted-foreground">Configure your project settings and preferences.</p>
   </TabsContent>
 </Tabs>`,
           },

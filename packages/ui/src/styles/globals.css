@@ -9,6 +9,9 @@
 @custom-variant data-horizontal (&[data-orientation=horizontal]);
 @custom-variant data-vertical (&[data-orientation=vertical]);
 @custom-variant data-active (&[data-state=active]);
+@custom-variant data-checked (&[data-state=checked]);
+@custom-variant data-unchecked (&[data-state=unchecked]);
+@custom-variant data-disabled (&[data-disabled]);
 
 :root {
   --background: oklch(1 0 0);
