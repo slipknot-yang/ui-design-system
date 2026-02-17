@@ -29,14 +29,12 @@ import {
   type NavbarBehavior,
   type SidebarStyle,
   type SidebarCollapseMode,
-  type ThemePreset,
 } from "@/lib/preferences";
 
 export function PreferencesPanel() {
   const t = useTranslations("common");
   const { theme, setTheme } = useTheme();
   const {
-    themePreset,
     font,
     pageLayout,
     navbarBehavior,
@@ -68,27 +66,6 @@ export function PreferencesPanel() {
           </p>
 
           <Separator />
-
-          {/* Theme Preset */}
-          <div className="space-y-2">
-            <Label className="text-xs font-medium">{t("themePreset")}</Label>
-            <Select
-              value={themePreset}
-              onValueChange={(v) =>
-                setPreference("themePreset", v as ThemePreset)
-              }
-            >
-              <SelectTrigger className="h-8">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="default">Default</SelectItem>
-                <SelectItem value="blue">Blue</SelectItem>
-                <SelectItem value="green">Green</SelectItem>
-                <SelectItem value="orange">Orange</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
 
           {/* Fonts */}
           <div className="space-y-2">

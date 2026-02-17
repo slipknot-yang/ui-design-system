@@ -9,7 +9,6 @@ import {
   type ReactNode,
 } from "react";
 
-export type ThemePreset = "default" | "blue" | "green" | "orange";
 export type Font = "inter" | "geist" | "mono";
 export type PageLayout = "centered" | "full-width";
 export type NavbarBehavior = "sticky" | "scroll";
@@ -17,7 +16,6 @@ export type SidebarStyle = "inset" | "sidebar" | "floating";
 export type SidebarCollapseMode = "icon" | "offcanvas";
 
 export interface Preferences {
-  themePreset: ThemePreset;
   font: Font;
   pageLayout: PageLayout;
   navbarBehavior: NavbarBehavior;
@@ -26,7 +24,6 @@ export interface Preferences {
 }
 
 const DEFAULTS: Preferences = {
-  themePreset: "default",
   font: "inter",
   pageLayout: "full-width",
   navbarBehavior: "sticky",
@@ -80,16 +77,6 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     html.classList.remove("font-inter", "font-geist", "font-mono");
     html.classList.add(`font-${prefs.font}`);
   }, [prefs.font]);
-
-  // Apply theme preset as data attribute
-  useEffect(() => {
-    const html = document.documentElement;
-    if (prefs.themePreset === "default") {
-      html.removeAttribute("data-theme-preset");
-    } else {
-      html.setAttribute("data-theme-preset", prefs.themePreset);
-    }
-  }, [prefs.themePreset]);
 
   const setPreference = useCallback(
     <K extends keyof Preferences>(key: K, value: Preferences[K]) => {
