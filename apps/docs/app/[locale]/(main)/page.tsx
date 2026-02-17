@@ -23,6 +23,8 @@ import {
   Code2,
   Paintbrush,
   Shield,
+  Folder,
+  FileText,
 } from "lucide-react";
 import { CupiaLogo } from "@/components/cupia-logo";
 
@@ -75,15 +77,28 @@ pnpm dev --filter docs
 # Build
 pnpm turbo build`;
 
-const structureCode = `ui-design-system/
-\u251C\u2500\u2500 apps/docs/              # Next.js docs site
-\u2502   \u251C\u2500\u2500 app/[locale]/       # Locale-based routing
-\u2502   \u251C\u2500\u2500 components/         # App components
-\u2502   \u2514\u2500\u2500 i18n/messages/      # Translation files (7 languages)
-\u251C\u2500\u2500 packages/ui/            # @workspace/ui component library
-\u2502   \u251C\u2500\u2500 src/components/     # 51 shadcn components
-\u2502   \u2514\u2500\u2500 src/styles/         # globals.css (OKLCh themes)
-\u2514\u2500\u2500 package.json            # pnpm workspace root`;
+const structureItems = [
+  {
+    name: "apps/docs/",
+    desc: "Next.js docs site",
+    isFolder: true,
+    children: [
+      { name: "app/[locale]/", desc: "Locale-based routing", isFolder: true },
+      { name: "components/", desc: "App components", isFolder: true },
+      { name: "i18n/messages/", desc: "Translation files (7 languages)", isFolder: true },
+    ],
+  },
+  {
+    name: "packages/ui/",
+    desc: "@workspace/ui component library",
+    isFolder: true,
+    children: [
+      { name: "src/components/", desc: "51 shadcn components", isFolder: true },
+      { name: "src/styles/", desc: "globals.css (OKLCh themes)", isFolder: true },
+    ],
+  },
+  { name: "package.json", desc: "pnpm workspace root", isFolder: false },
+] as const;
 
 const importCode = `import { Button } from "@workspace/ui/components/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@workspace/ui/components/card";
@@ -280,7 +295,46 @@ export default async function HomePage({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <CodeBlock code={structureCode} lang="plaintext" />
+          <div className="rounded-lg border bg-muted/30 p-3 text-sm">
+            <div className="mb-2 flex items-center gap-1.5 font-semibold text-foreground">
+              <Folder className="h-4 w-4 text-primary" />
+              ui-design-system/
+            </div>
+            <ul className="space-y-1 ps-2">
+              {structureItems.map((item) => (
+                <li key={item.name}>
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                    <span className="flex shrink-0 items-center gap-1.5 font-medium text-foreground">
+                      {item.isFolder ? (
+                        <Folder className="h-3.5 w-3.5 text-primary/70" />
+                      ) : (
+                        <FileText className="h-3.5 w-3.5 text-muted-foreground" />
+                      )}
+                      {item.name}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{item.desc}</span>
+                  </div>
+                  {"children" in item && item.children && (
+                    <ul className="mt-1 space-y-1 border-s border-border ps-4 ms-[7px]">
+                      {item.children.map((child) => (
+                        <li key={child.name} className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                          <span className="flex shrink-0 items-center gap-1.5 text-foreground">
+                            {child.isFolder ? (
+                              <Folder className="h-3.5 w-3.5 text-primary/70" />
+                            ) : (
+                              <FileText className="h-3.5 w-3.5 text-muted-foreground" />
+                            )}
+                            {child.name}
+                          </span>
+                          <span className="text-xs text-muted-foreground">{child.desc}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
         </CardContent>
       </Card>
 
