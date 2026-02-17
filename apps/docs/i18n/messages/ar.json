@@ -119,6 +119,7 @@
     "calendar": "التقويم",
     "workflow": "سير العمل",
     "dashboardPattern": "لوحة المعلومات",
+    "treeDetail": "شجرة + تفصيل",
     "newDeclaration": "بيان جديد",
     "declarationQuery": "استعلام البيان",
     "declarationList": "قائمة البيانات",
@@ -220,6 +221,10 @@
     "dashboard": {
       "title": "لوحة المعلومات",
       "description": "رسوم بيانية وبطاقات ملخصة للإحصائيات"
+    },
+    "treeDetail": {
+      "title": "شجرة + تفصيل",
+      "description": "تنقل شجري هرمي مع عرض تفصيلي لإدارة رموز النظام المنسق"
     }
   },
   "customs": {

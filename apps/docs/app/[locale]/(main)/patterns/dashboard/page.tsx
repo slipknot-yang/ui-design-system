@@ -6,7 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
-import { Progress } from "@workspace/ui/components/progress";
 import { Separator } from "@workspace/ui/components/separator";
 import {
   ClipboardList,
@@ -18,6 +17,10 @@ import {
 } from "lucide-react";
 import { DeclarationTrendChart } from "@/components/charts/declaration-trend-chart";
 import { ActivityTable } from "@/components/activity-table";
+import {
+  DeclarationDonutChart,
+  TopHsBarChart,
+} from "@/components/patterns/dashboard-charts";
 
 const summaryCards = [
   {
@@ -58,34 +61,6 @@ const summaryCards = [
   },
 ];
 
-const topHsCodes = [
-  {
-    code: "8471.30",
-    description: "Portable digital computers",
-    count: 1284,
-    pct: 85,
-  },
-  {
-    code: "8517.12",
-    description: "Telephones for cellular networks",
-    count: 1156,
-    pct: 76,
-  },
-  { code: "6109.10", description: "T-shirts, cotton", count: 892, pct: 59 },
-  {
-    code: "2204.21",
-    description: "Wine in containers <= 2L",
-    count: 743,
-    pct: 49,
-  },
-  {
-    code: "3004.90",
-    description: "Medicaments, packaged",
-    count: 621,
-    pct: 41,
-  },
-];
-
 export default async function DashboardPatternPage({
   params,
 }: {
@@ -95,7 +70,6 @@ export default async function DashboardPatternPage({
   setRequestLocale(locale);
   const t = await getTranslations("patterns");
   const tDash = await getTranslations("dashboard");
-  const tc = await getTranslations("customs");
 
   return (
     <div className="space-y-6">
@@ -148,37 +122,14 @@ export default async function DashboardPatternPage({
         ))}
       </div>
 
-      {/* Charts + Top HS Codes */}
+      {/* Charts Row 1: Trend + Donut */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <DeclarationTrendChart />
-
-        {/* Top HS Codes */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">
-              Top {tc("hsCode")}s by Volume
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {topHsCodes.map((item) => (
-              <div key={item.code} className="space-y-1.5">
-                <div className="flex items-center justify-between text-sm">
-                  <span>
-                    <span className="font-mono font-medium">{item.code}</span>
-                    <span className="text-muted-foreground ml-2">
-                      {item.description}
-                    </span>
-                  </span>
-                  <span className="font-medium">
-                    {item.count.toLocaleString()}
-                  </span>
-                </div>
-                <Progress value={item.pct} className="h-2" />
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        <DeclarationDonutChart />
       </div>
+
+      {/* Charts Row 2: Top HS Codes Bar Chart */}
+      <TopHsBarChart />
 
       <Separator />
 

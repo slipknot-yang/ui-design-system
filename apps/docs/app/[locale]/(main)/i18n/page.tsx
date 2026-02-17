@@ -130,46 +130,50 @@ export default async function I18nPage({
             <Badge variant="outline">{supportedLocales.length} languages</Badge>
           </div>
         </CardHeader>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-20">Code</TableHead>
-              <TableHead>Language</TableHead>
-              <TableHead>Native Name</TableHead>
-              <TableHead>Direction</TableHead>
-              <TableHead>{tCommon("language")}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {supportedLocales.map((loc) => (
-              <TableRow
-                key={loc.code}
-                className={loc.code === locale ? "bg-muted/50" : ""}
-              >
-                <TableCell className="font-mono font-medium">
-                  {loc.code}
-                  {loc.code === locale && (
-                    <Badge variant="default" className="ml-2">
-                      Active
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell>{loc.name}</TableCell>
-                <TableCell>{loc.nativeName}</TableCell>
-                <TableCell>
-                  <Badge variant={loc.rtl ? "destructive" : "secondary"}>
-                    {loc.rtl ? "RTL" : "LTR"}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <code className="text-xs bg-muted px-1.5 py-0.5 rounded font-mono">
-                    /i18n/messages/{loc.code}.json
-                  </code>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <CardContent className="px-2 pb-2">
+          <div className="overflow-hidden rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-20">Code</TableHead>
+                  <TableHead>Language</TableHead>
+                  <TableHead>Native Name</TableHead>
+                  <TableHead>Direction</TableHead>
+                  <TableHead>{tCommon("language")}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {supportedLocales.map((loc) => (
+                  <TableRow
+                    key={loc.code}
+                    className={loc.code === locale ? "bg-muted/50" : ""}
+                  >
+                    <TableCell className="font-mono font-medium">
+                      {loc.code}
+                      {loc.code === locale && (
+                        <Badge variant="default" className="ml-2">
+                          Active
+                        </Badge>
+                      )}
+                    </TableCell>
+                    <TableCell>{loc.name}</TableCell>
+                    <TableCell>{loc.nativeName}</TableCell>
+                    <TableCell>
+                      <Badge variant={loc.rtl ? "destructive" : "secondary"}>
+                        {loc.rtl ? "RTL" : "LTR"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <code className="text-xs bg-muted px-1.5 py-0.5 rounded font-mono">
+                        /i18n/messages/{loc.code}.json
+                      </code>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
       </Card>
 
       {/* Translation Namespaces */}
@@ -177,36 +181,40 @@ export default async function I18nPage({
         <CardHeader className="pb-3">
           <CardTitle className="text-base">Translation Namespaces</CardTitle>
         </CardHeader>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Namespace</TableHead>
-              <TableHead className="w-24">Keys</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Usage</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {translationNamespaces.map((ns) => (
-              <TableRow key={ns.namespace}>
-                <TableCell className="font-mono font-medium">
-                  {ns.namespace}
-                </TableCell>
-                <TableCell>
-                  <Badge variant="secondary">{ns.keyCount}</Badge>
-                </TableCell>
-                <TableCell className="text-sm text-muted-foreground">
-                  {ns.description}
-                </TableCell>
-                <TableCell>
-                  <code className="text-xs bg-muted px-1.5 py-0.5 rounded font-mono">
-                    useTranslations(&quot;{ns.namespace}&quot;)
-                  </code>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <CardContent className="px-2 pb-2">
+          <div className="overflow-hidden rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Namespace</TableHead>
+                  <TableHead className="w-24">Keys</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Usage</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {translationNamespaces.map((ns) => (
+                  <TableRow key={ns.namespace}>
+                    <TableCell className="font-mono font-medium">
+                      {ns.namespace}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">{ns.keyCount}</Badge>
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {ns.description}
+                    </TableCell>
+                    <TableCell>
+                      <code className="text-xs bg-muted px-1.5 py-0.5 rounded font-mono">
+                        useTranslations(&quot;{ns.namespace}&quot;)
+                      </code>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
       </Card>
 
       <Separator />

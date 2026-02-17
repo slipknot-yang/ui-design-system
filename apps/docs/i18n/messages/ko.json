@@ -119,6 +119,7 @@
     "calendar": "일정 관리",
     "workflow": "결재/워크플로우",
     "dashboardPattern": "대시보드",
+    "treeDetail": "트리 + 상세",
     "newDeclaration": "신고서 작성",
     "declarationQuery": "신고서 조회",
     "declarationList": "신고서 목록",
@@ -220,6 +221,10 @@
     "dashboard": {
       "title": "대시보드",
       "description": "차트와 요약 카드가 결합된 통계 패턴"
+    },
+    "treeDetail": {
+      "title": "트리 + 상세",
+      "description": "계층 구조 트리와 상세 뷰가 결합된 HS 코드 관리 패턴"
     }
   },
   "customs": {

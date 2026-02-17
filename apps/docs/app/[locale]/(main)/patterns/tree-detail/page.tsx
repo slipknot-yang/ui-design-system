@@ -1,7 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { FormStepper } from "@/components/patterns/form-stepper";
+import { TreeDetailView } from "@/components/patterns/tree-detail-view";
 
-export default async function ComplexFormPage({
+export default async function TreeDetailPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
@@ -14,13 +14,13 @@ export default async function ComplexFormPage({
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">
-          {t("complexForm.title")}
+          {t("treeDetail.title")}
         </h1>
         <p className="text-muted-foreground mt-1">
-          {t("complexForm.description")}
+          {t("treeDetail.description")}
         </p>
       </div>
-      <FormStepper />
+      <TreeDetailView />
     </div>
   );
 }

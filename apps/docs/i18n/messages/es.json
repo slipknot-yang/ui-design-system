@@ -119,6 +119,7 @@
     "calendar": "Calendario",
     "workflow": "Flujo de trabajo",
     "dashboardPattern": "Panel de control",
+    "treeDetail": "Árbol + Detalle",
     "newDeclaration": "Nueva declaración",
     "declarationQuery": "Consulta de declaración",
     "declarationList": "Lista de declaraciones",
@@ -220,6 +221,10 @@
     "dashboard": {
       "title": "Panel de control",
       "description": "Gráficos y tarjetas resumen para estadísticas"
+    },
+    "treeDetail": {
+      "title": "Árbol + Detalle",
+      "description": "Navegación de árbol jerárquico con vista de detalle para gestión de códigos SA"
     }
   },
   "customs": {

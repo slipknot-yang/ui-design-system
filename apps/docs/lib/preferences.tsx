@@ -62,10 +62,15 @@ interface PreferencesContextValue extends Preferences {
 const PreferencesContext = createContext<PreferencesContextValue | null>(null);
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
-  const [prefs, setPrefs] = useState<Preferences>(() => ({
-    ...DEFAULTS,
-    ...readCookie(),
-  }));
+  const [prefs, setPrefs] = useState<Preferences>(DEFAULTS);
+
+  // Hydrate from cookie after mount to avoid SSR/client mismatch
+  useEffect(() => {
+    const saved = readCookie();
+    if (Object.keys(saved).length > 0) {
+      setPrefs((prev) => ({ ...prev, ...saved }));
+    }
+  }, []);
 
   useEffect(() => {
     writeCookie(prefs);

@@ -119,6 +119,7 @@
     "calendar": "Calendrier",
     "workflow": "Flux de travail",
     "dashboardPattern": "Tableau de bord",
+    "treeDetail": "Arbre + Détail",
     "newDeclaration": "Nouvelle déclaration",
     "declarationQuery": "Recherche de déclaration",
     "declarationList": "Liste des déclarations",
@@ -220,6 +221,10 @@
     "dashboard": {
       "title": "Tableau de bord",
       "description": "Graphiques et cartes récapitulatives pour les statistiques"
+    },
+    "treeDetail": {
+      "title": "Arbre + Détail",
+      "description": "Navigation arborescente hiérarchique avec vue détaillée pour la gestion des codes SH"
     }
   },
   "customs": {

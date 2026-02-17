@@ -119,6 +119,7 @@
     "calendar": "日历",
     "workflow": "工作流",
     "dashboardPattern": "仪表盘",
+    "treeDetail": "树形 + 详情",
     "newDeclaration": "新建申报",
     "declarationQuery": "申报查询",
     "declarationList": "申报列表",
@@ -220,6 +221,10 @@
     "dashboard": {
       "title": "仪表盘",
       "description": "统计用图表和汇总卡片"
+    },
+    "treeDetail": {
+      "title": "树形 + 详情",
+      "description": "层级树形导航与详情视图相结合的HS编码管理模式"
     }
   },
   "customs": {

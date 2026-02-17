@@ -83,14 +83,16 @@ const categoryIcons: Record<string, LucideIcon> = {
 interface AppSidebarProps {
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
+  side?: "left" | "right";
 }
 
 export function AppSidebar({
   variant = "sidebar",
   collapsible = "offcanvas",
+  side = "left",
 }: AppSidebarProps) {
   const pathname = usePathname();
-  const { setOpenMobile } = useSidebar();
+  const { setOpenMobile, state } = useSidebar();
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
 
@@ -102,6 +104,7 @@ export function AppSidebar({
     { title: tNav("calendar"), href: "/patterns/calendar" },
     { title: tNav("workflow"), href: "/patterns/workflow" },
     { title: tNav("dashboardPattern"), href: "/patterns/dashboard" },
+    { title: tNav("treeDetail"), href: "/patterns/tree-detail" },
   ];
 
   const componentSections: NavSection[] = componentCategories.map((cat) => ({
@@ -128,66 +131,128 @@ export function AppSidebar({
     return (
       <SidebarGroup key={section.label}>
         <SidebarMenu>
-          <Collapsible defaultOpen={isActive} className="group/collapsible">
+          {state === "collapsed" ? (
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={section.label}>
-                  <section.icon className="h-4 w-4" />
-                  <span className="flex-1 text-left">{section.label}</span>
-                  <ChevronRight className="ml-auto h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    className={
+                      isActive
+                        ? "text-sidebar-foreground font-medium"
+                        : "text-muted-foreground hover:text-sidebar-foreground"
+                    }
+                  >
+                    <section.icon className="h-4 w-4 shrink-0" />
+                    <span className="flex-1 text-left">{section.label}</span>
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  side={side === "right" ? "left" : "right"}
+                  align="start"
+                  className="min-w-56 max-h-80 overflow-y-auto"
+                >
                   {section.items.map((item) => (
-                    <SidebarMenuSubItem key={`${section.label}-${item.title}`}>
-                      <SidebarMenuSubButton
-                        asChild
-                        isActive={pathname === item.href}
+                    <DropdownMenuItem
+                      key={`${section.label}-${item.title}`}
+                      asChild
+                      className={
+                        pathname === item.href
+                          ? "bg-accent font-medium"
+                          : undefined
+                      }
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={() => setOpenMobile(false)}
                       >
-                        <Link
-                          href={item.href}
-                          onClick={() => setOpenMobile(false)}
-                        >
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
+                        {item.title}
+                      </Link>
+                    </DropdownMenuItem>
                   ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </SidebarMenuItem>
-          </Collapsible>
+          ) : (
+            <Collapsible defaultOpen={isActive} className="group/collapsible">
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton
+                    tooltip={section.label}
+                    className="text-muted-foreground hover:text-sidebar-foreground group-data-[state=open]/collapsible:text-sidebar-foreground group-data-[state=open]/collapsible:font-medium"
+                  >
+                    <section.icon className="h-4 w-4 shrink-0 group-data-[state=open]/collapsible:text-sidebar-foreground" />
+                    <span className="flex-1 text-left">{section.label}</span>
+                    <ChevronRight className="ms-auto h-3.5 w-3.5 opacity-40 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-data-[state=open]/collapsible:opacity-70" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarMenuSub>
+                    {section.items.map((item) => (
+                      <SidebarMenuSubItem
+                        key={`${section.label}-${item.title}`}
+                      >
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={pathname === item.href}
+                        >
+                          <Link
+                            href={item.href}
+                            onClick={() => setOpenMobile(false)}
+                          >
+                            <span>{item.title}</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            </Collapsible>
+          )}
         </SidebarMenu>
       </SidebarGroup>
     );
   }
 
   return (
-    <Sidebar variant={variant} collapsible={collapsible}>
-      <SidebarHeader className="border-b px-4 h-14 flex items-center justify-center">
+    <Sidebar
+      variant={variant}
+      collapsible={collapsible}
+      side={side}
+      className="[--color-sidebar:var(--color-background)] [--color-sidebar-accent:oklch(0.90_0_0)] dark:[--color-sidebar-accent:oklch(0.25_0_0)]"
+    >
+      <SidebarHeader className="border-b px-4 h-14 flex items-center bg-background group-data-[collapsible=icon]:px-2 group-data-[collapsible=icon]:justify-center">
         <Link
           href="/"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2.5"
           onClick={() => setOpenMobile(false)}
         >
-          <CupiaLogo className="shrink-0 group-data-[collapsible=icon]:h-6 group-data-[collapsible=icon]:w-6" />
-          <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-            <span className="truncate font-semibold">CUPIA</span>
-            <span className="truncate text-xs text-muted-foreground">
+          <CupiaLogo
+            size="lg"
+            className="shrink-0 group-data-[collapsible=icon]:h-6 group-data-[collapsible=icon]:w-6"
+          />
+          <div className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
+            <span className="truncate text-base font-bold tracking-wide">
+              CUPIA
+            </span>
+            <span className="truncate text-xs tracking-wide text-muted-foreground">
               Design System
             </span>
           </div>
         </Link>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="bg-gradient-to-b from-primary/[0.005] via-background to-accent/[0.005]">
         {/* Home */}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/"}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/"}
+                  tooltip={tNav("home")}
+                >
                   <Link href="/" onClick={() => setOpenMobile(false)}>
                     <Home className="h-4 w-4" />
                     <span>{tNav("home")}</span>
@@ -195,7 +260,11 @@ export function AppSidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/dashboard"}
+                  tooltip={tNav("dashboard")}
+                >
                   <Link href="/dashboard" onClick={() => setOpenMobile(false)}>
                     <LayoutDashboard className="h-4 w-4" />
                     <span>{tNav("dashboard")}</span>
@@ -206,6 +275,7 @@ export function AppSidebar({
                 <SidebarMenuButton
                   asChild
                   isActive={pathname === "/components"}
+                  tooltip={tNav("components")}
                 >
                   <Link href="/components" onClick={() => setOpenMobile(false)}>
                     <Component className="h-4 w-4" />
@@ -234,7 +304,11 @@ export function AppSidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/themes"}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/themes"}
+                  tooltip={tNav("themes")}
+                >
                   <Link href="/themes" onClick={() => setOpenMobile(false)}>
                     <Palette className="h-4 w-4" />
                     <span>{tNav("themes")}</span>
@@ -242,7 +316,11 @@ export function AppSidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/i18n"}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/i18n"}
+                  tooltip={tNav("i18n")}
+                >
                   <Link href="/i18n" onClick={() => setOpenMobile(false)}>
                     <Languages className="h-4 w-4" />
                     <span>{tNav("i18n")}</span>
@@ -250,7 +328,11 @@ export function AppSidebar({
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/login"}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/login"}
+                  tooltip={tNav("login")}
+                >
                   <Link href="/login" onClick={() => setOpenMobile(false)}>
                     <LogIn className="h-4 w-4" />
                     <span>{tNav("login")}</span>

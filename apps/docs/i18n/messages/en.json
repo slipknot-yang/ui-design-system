@@ -119,6 +119,7 @@
     "calendar": "Calendar",
     "workflow": "Workflow",
     "dashboardPattern": "Dashboard",
+    "treeDetail": "Tree + Detail",
     "newDeclaration": "New Declaration",
     "declarationQuery": "Declaration Query",
     "declarationList": "Declaration List",
@@ -220,6 +221,10 @@
     "dashboard": {
       "title": "Dashboard",
       "description": "Charts and summary cards for statistics"
+    },
+    "treeDetail": {
+      "title": "Tree + Detail",
+      "description": "Hierarchical tree navigation with detail view for HS code management"
     }
   },
   "customs": {

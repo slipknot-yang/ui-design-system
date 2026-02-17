@@ -249,15 +249,15 @@ export function RecentDeclarationsTable() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem>
-                      <Eye className="mr-2 h-3.5 w-3.5" />
+                      <Eye className="me-2 h-3.5 w-3.5" />
                       {t("view")}
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Pencil className="mr-2 h-3.5 w-3.5" />
+                      <Pencil className="me-2 h-3.5 w-3.5" />
                       {t("edit")}
                     </DropdownMenuItem>
                     <DropdownMenuItem className="text-destructive">
-                      <Trash2 className="mr-2 h-3.5 w-3.5" />
+                      <Trash2 className="me-2 h-3.5 w-3.5" />
                       {t("delete")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>

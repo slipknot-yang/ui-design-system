@@ -40,10 +40,9 @@ export function CountrySwitcher() {
 
   useEffect(() => {
     const saved = localStorage.getItem("country-theme") as CountryTheme | null;
-    if (saved) {
-      setCurrent(saved);
-      document.documentElement.dataset.countryTheme = saved;
-    }
+    const theme = saved || "korea";
+    setCurrent(theme);
+    document.documentElement.dataset.countryTheme = theme;
   }, []);
 
   function onSelect(country: CountryTheme) {
@@ -69,7 +68,7 @@ export function CountrySwitcher() {
             onClick={() => onSelect(c.code)}
             className={current === c.code ? "bg-accent" : ""}
           >
-            <span className="mr-2">{c.flag}</span>
+            <span className="me-2">{c.flag}</span>
             {c.name}
           </DropdownMenuItem>
         ))}

@@ -75,7 +75,7 @@ export function CommandSearch() {
         <Search className="h-4 w-4 sm:me-2" />
         <span className="hidden lg:inline-flex">{t("searchPlaceholder")}</span>
         <span className="hidden sm:inline-flex lg:hidden">{t("search")}</span>
-        <span className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-0.5">
+        <span className="pointer-events-none absolute end-1.5 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-0.5">
           <Kbd className="text-[10px]">⌘</Kbd>
           <Kbd className="text-[10px]">K</Kbd>
         </span>
