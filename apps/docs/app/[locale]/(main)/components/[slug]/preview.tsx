@@ -10,6 +10,7 @@ import {
   X as XIcon,
   Info as InfoIcon,
   AlertCircle as AlertCircleIcon,
+  ChevronsUpDown,
 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
@@ -165,6 +166,11 @@ import {
   CommandItem,
   CommandList,
 } from "@workspace/ui/components/command";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@workspace/ui/components/input-otp";
 import { Calendar } from "@workspace/ui/components/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
@@ -226,7 +232,9 @@ function CalendarDisabledPreview() {
       mode="single"
       selected={date}
       onSelect={setDate}
-      disabled={(d) => d < new Date(today.getFullYear(), today.getMonth(), today.getDate())}
+      disabled={(d) =>
+        d < new Date(today.getFullYear(), today.getMonth(), today.getDate())
+      }
       className="rounded-md border"
     />
   );
@@ -247,6 +255,53 @@ function CalendarDatePickerPreview() {
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar mode="single" selected={date} onSelect={setDate} />
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function ComboboxWithCheckPreview() {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
+  const frameworks = [
+    { value: "next", label: "Next.js" },
+    { value: "remix", label: "Remix" },
+    { value: "astro", label: "Astro" },
+    { value: "nuxt", label: "Nuxt" },
+  ];
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button variant="outline" className="w-[200px] justify-between">
+          {value
+            ? frameworks.find((f) => f.value === value)?.label
+            : "Select framework..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search..." />
+          <CommandList>
+            <CommandEmpty>No results.</CommandEmpty>
+            <CommandGroup>
+              {frameworks.map((fw) => (
+                <CommandItem
+                  key={fw.value}
+                  onSelect={() => {
+                    setValue(fw.value);
+                    setOpen(false);
+                  }}
+                >
+                  <CheckIcon
+                    className={`mr-2 h-4 w-4 ${value === fw.value ? "opacity-100" : "opacity-0"}`}
+                  />
+                  {fw.label}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
       </PopoverContent>
     </Popover>
   );
@@ -388,11 +443,7 @@ const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  combobox: (
-    <div className="text-sm text-muted-foreground border rounded-md p-4 w-full max-w-sm">
-      Combobox — autocomplete dropdown (interactive demo)
-    </div>
-  ),
+  combobox: <ComboboxWithCheckPreview />,
 
   field: (
     <div className="w-full max-w-sm space-y-2">
@@ -1001,7 +1052,9 @@ const examplePreviews: Record<string, React.ReactNode> = {
           <CardTitle className="text-2xl">$45,231.89</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+          <p className="text-xs text-muted-foreground">
+            +20.1% from last month
+          </p>
         </CardContent>
       </Card>
       <Card>
@@ -1010,7 +1063,9 @@ const examplePreviews: Record<string, React.ReactNode> = {
           <CardTitle className="text-2xl">+2,350</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-xs text-muted-foreground">+12.4% from last month</p>
+          <p className="text-xs text-muted-foreground">
+            +12.4% from last month
+          </p>
         </CardContent>
       </Card>
       <Card>
@@ -1169,7 +1224,9 @@ const examplePreviews: Record<string, React.ReactNode> = {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create event</DialogTitle>
-          <DialogDescription>Add a new event to your calendar.</DialogDescription>
+          <DialogDescription>
+            Add a new event to your calendar.
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
@@ -1373,11 +1430,7 @@ const examplePreviews: Record<string, React.ReactNode> = {
     </div>
   ),
   "textarea:disabled": (
-    <Textarea
-      placeholder="Disabled textarea"
-      disabled
-      className="max-w-sm"
-    />
+    <Textarea placeholder="Disabled textarea" disabled className="max-w-sm" />
   ),
 
   // Toggle
@@ -1437,6 +1490,166 @@ const examplePreviews: Record<string, React.ReactNode> = {
         Right
       </ToggleGroupItem>
     </ToggleGroup>
+  ),
+
+  // Combobox
+  "combobox:basic": (
+    <Command className="rounded-lg border shadow-md w-full max-w-sm">
+      <CommandInput placeholder="Search framework..." />
+      <CommandList>
+        <CommandEmpty>No framework found.</CommandEmpty>
+        <CommandGroup heading="Frameworks">
+          <CommandItem>Next.js</CommandItem>
+          <CommandItem>Remix</CommandItem>
+          <CommandItem>Astro</CommandItem>
+          <CommandItem>Nuxt</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  ),
+  "combobox:with-check": <ComboboxWithCheckPreview />,
+  "combobox:disabled": (
+    <Button variant="outline" className="w-[200px] justify-between" disabled>
+      Select framework...
+    </Button>
+  ),
+
+  // Field
+  "field:basic": (
+    <div className="w-full max-w-sm space-y-2">
+      <Label htmlFor="field-email">Email</Label>
+      <Input id="field-email" placeholder="email@example.com" />
+      <p className="text-xs text-muted-foreground">Enter your email address</p>
+    </div>
+  ),
+  "field:required": (
+    <div className="w-full max-w-sm space-y-2">
+      <Label htmlFor="field-name">
+        Full Name <span className="text-destructive">*</span>
+      </Label>
+      <Input id="field-name" placeholder="John Doe" required />
+      <p className="text-xs text-muted-foreground">Your legal full name.</p>
+    </div>
+  ),
+  "field:error": (
+    <div className="w-full max-w-sm space-y-2">
+      <Label htmlFor="field-pw" className="text-destructive">
+        Password
+      </Label>
+      <Input id="field-pw" type="password" className="border-destructive" />
+      <p className="text-xs text-destructive">
+        Password must be at least 8 characters.
+      </p>
+    </div>
+  ),
+  "field:with-select": (
+    <div className="w-full max-w-sm space-y-2">
+      <Label>Country</Label>
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Select country" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="kr">South Korea</SelectItem>
+          <SelectItem value="us">United States</SelectItem>
+          <SelectItem value="jp">Japan</SelectItem>
+        </SelectContent>
+      </Select>
+      <p className="text-xs text-muted-foreground">
+        Select your country of residence.
+      </p>
+    </div>
+  ),
+
+  // Input Group
+  "input-group:with-icon": (
+    <div className="relative w-full max-w-sm">
+      <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <Input className="pl-8" placeholder="Search..." />
+    </div>
+  ),
+  "input-group:with-button": (
+    <div className="flex w-full max-w-sm gap-2">
+      <Input placeholder="Enter your email" />
+      <Button>Subscribe</Button>
+    </div>
+  ),
+  "input-group:with-addon": (
+    <div className="flex w-full max-w-sm">
+      <span className="inline-flex items-center rounded-l-md border border-r-0 bg-muted px-3 text-sm text-muted-foreground">
+        https://
+      </span>
+      <Input className="rounded-l-none" placeholder="example.com" />
+    </div>
+  ),
+
+  // Input OTP
+  "input-otp:six-digits": (
+    <InputOTP maxLength={6}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  ),
+  "input-otp:with-separator": (
+    <InputOTP maxLength={6}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+      </InputOTPGroup>
+      <span className="mx-2 text-muted-foreground">&mdash;</span>
+      <InputOTPGroup>
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  ),
+  "input-otp:four-digits": (
+    <InputOTP maxLength={4}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+      </InputOTPGroup>
+    </InputOTP>
+  ),
+
+  // Label
+  "label:with-input": (
+    <div className="grid w-full max-w-sm gap-1.5">
+      <Label htmlFor="label-email">Email</Label>
+      <Input type="email" id="label-email" placeholder="Email" />
+    </div>
+  ),
+  "label:with-checkbox": (
+    <div className="flex items-center space-x-2">
+      <Checkbox id="label-terms" />
+      <Label htmlFor="label-terms">Accept terms and conditions</Label>
+    </div>
+  ),
+  "label:required": (
+    <div className="grid w-full max-w-sm gap-1.5">
+      <Label htmlFor="label-name">
+        Name <span className="text-destructive">*</span>
+      </Label>
+      <Input id="label-name" placeholder="Your name" required />
+    </div>
+  ),
+  "label:disabled": (
+    <div className="grid w-full max-w-sm gap-1.5">
+      <Label htmlFor="label-disabled" className="text-muted-foreground">
+        Disabled
+      </Label>
+      <Input id="label-disabled" disabled placeholder="Cannot edit" />
+    </div>
   ),
 
   // Accordion
@@ -1815,15 +2028,11 @@ const examplePreviews: Record<string, React.ReactNode> = {
       <DropdownMenuContent className="w-48">
         <DropdownMenuItem>
           New File
-          <span className="ml-auto text-xs text-muted-foreground">
-            Ctrl+N
-          </span>
+          <span className="ml-auto text-xs text-muted-foreground">Ctrl+N</span>
         </DropdownMenuItem>
         <DropdownMenuItem>
           Save
-          <span className="ml-auto text-xs text-muted-foreground">
-            Ctrl+S
-          </span>
+          <span className="ml-auto text-xs text-muted-foreground">Ctrl+S</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>

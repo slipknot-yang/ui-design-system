@@ -14,7 +14,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
     usePreferences();
 
   return (
-    <SidebarProvider>
+    <SidebarProvider key={`${sidebarStyle}-${sidebarCollapseMode}`}>
       <AppSidebar variant={sidebarStyle} collapsible={sidebarCollapseMode} />
       <SidebarInset className="min-w-0 overflow-x-hidden">
         <AppHeader navbarBehavior={navbarBehavior} />

@@ -100,7 +100,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "single",
             title: "Single (Collapsible)",
-            description: "Only one item can be open at a time. Click the open item again to close it.",
+            description:
+              "Only one item can be open at a time. Click the open item again to close it.",
             code: `<Accordion type="single" collapsible>
   <AccordionItem value="item-1">
     <AccordionTrigger>Is it accessible?</AccordionTrigger>
@@ -200,7 +201,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "basic",
             title: "Basic",
-            description: "A simple card with header, description, and content area.",
+            description:
+              "A simple card with header, description, and content area.",
             code: `<Card>
   <CardHeader>
     <CardTitle>Card Title</CardTitle>
@@ -217,7 +219,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "with-form",
             title: "With Form",
-            description: "Card containing a form layout for settings or data entry.",
+            description:
+              "Card containing a form layout for settings or data entry.",
             code: `<Card className="w-[380px]">
   <CardHeader>
     <CardTitle>Create project</CardTitle>
@@ -374,7 +377,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "horizontal",
             title: "Horizontal",
-            description: "Default horizontal separator between content sections.",
+            description:
+              "Default horizontal separator between content sections.",
             code: `<div>
   <div className="space-y-1">
     <h4 className="text-sm font-medium">Radix Primitives</h4>
@@ -466,7 +470,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "with-cards",
             title: "With Cards",
-            description: "Tabs with card-based content for richer layouts like a settings page.",
+            description:
+              "Tabs with card-based content for richer layouts like a settings page.",
             code: `<Tabs defaultValue="account" className="w-[400px]">
   <TabsList className="grid w-full grid-cols-2">
     <TabsTrigger value="account">Account</TabsTrigger>
@@ -591,7 +596,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "variants",
             title: "Variants",
-            description: "All six built-in visual variants for different intent levels.",
+            description:
+              "All six built-in visual variants for different intent levels.",
             code: `<div className="flex flex-wrap gap-2">
   <Button>Default</Button>
   <Button variant="secondary">Secondary</Button>
@@ -604,7 +610,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "sizes",
             title: "Sizes",
-            description: "Available size options: sm, default, lg, and icon for icon-only buttons.",
+            description:
+              "Available size options: sm, default, lg, and icon for icon-only buttons.",
             code: `<div className="flex items-center gap-2">
   <Button size="sm">Small</Button>
   <Button size="default">Default</Button>
@@ -615,7 +622,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "with-icon",
             title: "With Icon",
-            description: "Buttons with leading or trailing icons for added context.",
+            description:
+              "Buttons with leading or trailing icons for added context.",
             code: `<div className="flex gap-2">
   <Button>
     <MailIcon className="mr-2 h-4 w-4" /> Login with Email
@@ -628,7 +636,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "loading",
             title: "Loading",
-            description: "Disabled button with a spinner to indicate an in-progress action.",
+            description:
+              "Disabled button with a spinner to indicate an in-progress action.",
             code: `<Button disabled>
   <Spinner className="mr-2 h-4 w-4" />
   Please wait
@@ -637,7 +646,8 @@ export const componentCategories: ComponentCategory[] = [
           {
             id: "as-link",
             title: "As Link",
-            description: "Use asChild to render an anchor tag styled as a button for navigation.",
+            description:
+              "Use asChild to render an anchor tag styled as a button for navigation.",
             code: `<Button asChild>
   <a href="/dashboard">Go to Dashboard</a>
 </Button>`,
@@ -816,7 +826,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             name: "className",
             type: "string",
-            description: "Additional CSS classes to apply to the calendar root.",
+            description:
+              "Additional CSS classes to apply to the calendar root.",
           },
           {
             name: "classNames",
@@ -926,6 +937,64 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   ]}
   placeholder="Select framework..."
 />`,
+        examples: [
+          {
+            id: "basic",
+            title: "Basic Combobox",
+            description:
+              "Autocomplete dropdown with a filterable list of framework options.",
+            code: `<Command className="rounded-lg border shadow-md w-full max-w-sm">
+  <CommandInput placeholder="Search framework..." />
+  <CommandList>
+    <CommandEmpty>No framework found.</CommandEmpty>
+    <CommandGroup heading="Frameworks">
+      <CommandItem>Next.js</CommandItem>
+      <CommandItem>Remix</CommandItem>
+      <CommandItem>Astro</CommandItem>
+      <CommandItem>Nuxt</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>`,
+          },
+          {
+            id: "with-check",
+            title: "With Selection Indicator",
+            description:
+              "Combobox that shows a check icon next to the selected option.",
+            code: `<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline" className="w-[200px] justify-between">
+      Select framework...
+      <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-[200px] p-0">
+    <Command>
+      <CommandInput placeholder="Search..." />
+      <CommandList>
+        <CommandEmpty>No results.</CommandEmpty>
+        <CommandGroup>
+          <CommandItem>
+            <Check className="mr-2 h-4 w-4" /> Next.js
+          </CommandItem>
+          <CommandItem>Remix</CommandItem>
+          <CommandItem>Astro</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  </PopoverContent>
+</Popover>`,
+          },
+          {
+            id: "disabled",
+            title: "Disabled State",
+            description:
+              "Combobox in a disabled state that prevents user interaction.",
+            code: `<Button variant="outline" className="w-[200px] justify-between" disabled>
+  Select framework...
+</Button>`,
+          },
+        ],
       },
       {
         name: "Field",
@@ -936,6 +1005,63 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         codeExample: `<Field label="Email" description="Enter your email address">
   <Input placeholder="email@example.com" />
 </Field>`,
+        examples: [
+          {
+            id: "basic",
+            title: "Basic Field",
+            description:
+              "A simple form field with label, input, and description text.",
+            code: `<div className="w-full max-w-sm space-y-2">
+  <Label htmlFor="field-email">Email</Label>
+  <Input id="field-email" placeholder="email@example.com" />
+  <p className="text-xs text-muted-foreground">Enter your email address</p>
+</div>`,
+          },
+          {
+            id: "required",
+            title: "Required Field",
+            description:
+              "A required field with visual indicator and validation message.",
+            code: `<div className="w-full max-w-sm space-y-2">
+  <Label htmlFor="field-name">
+    Full Name <span className="text-destructive">*</span>
+  </Label>
+  <Input id="field-name" placeholder="John Doe" required />
+  <p className="text-xs text-muted-foreground">Your legal full name.</p>
+</div>`,
+          },
+          {
+            id: "error",
+            title: "Error State",
+            description:
+              "A field showing an error message with destructive styling.",
+            code: `<div className="w-full max-w-sm space-y-2">
+  <Label htmlFor="field-pw" className="text-destructive">Password</Label>
+  <Input id="field-pw" type="password" className="border-destructive" />
+  <p className="text-xs text-destructive">Password must be at least 8 characters.</p>
+</div>`,
+          },
+          {
+            id: "with-select",
+            title: "Field with Select",
+            description:
+              "A form field using a Select dropdown instead of a text input.",
+            code: `<div className="w-full max-w-sm space-y-2">
+  <Label>Country</Label>
+  <Select>
+    <SelectTrigger>
+      <SelectValue placeholder="Select country" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="kr">South Korea</SelectItem>
+      <SelectItem value="us">United States</SelectItem>
+      <SelectItem value="jp">Japan</SelectItem>
+    </SelectContent>
+  </Select>
+  <p className="text-xs text-muted-foreground">Select your country of residence.</p>
+</div>`,
+          },
+        ],
       },
       {
         name: "Input",
@@ -1005,7 +1131,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-helper",
             title: "With Helper Text",
-            description: "Input paired with a description text below for guidance.",
+            description:
+              "Input paired with a description text below for guidance.",
             code: `<div className="grid w-full max-w-sm gap-1.5">
   <Label htmlFor="username">Username</Label>
   <Input id="username" placeholder="johndoe" />
@@ -1037,6 +1164,36 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         codeExample: `<InputGroup>
   <Input placeholder="Search..." />
 </InputGroup>`,
+        examples: [
+          {
+            id: "with-icon",
+            title: "With Search Icon",
+            description: "Input group with a leading search icon.",
+            code: `<div className="relative w-full max-w-sm">
+  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+  <Input className="pl-8" placeholder="Search..." />
+</div>`,
+          },
+          {
+            id: "with-button",
+            title: "With Button",
+            description: "Input combined with a submit button in a single row.",
+            code: `<div className="flex w-full max-w-sm gap-2">
+  <Input placeholder="Enter your email" />
+  <Button>Subscribe</Button>
+</div>`,
+          },
+          {
+            id: "with-addon",
+            title: "With Text Addon",
+            description:
+              "Input with a prepended text addon for URL or currency input.",
+            code: `<div className="flex w-full max-w-sm">
+  <span className="inline-flex items-center rounded-l-md border border-r-0 bg-muted px-3 text-sm text-muted-foreground">https://</span>
+  <Input className="rounded-l-none" placeholder="example.com" />
+</div>`,
+          },
+        ],
       },
       {
         name: "Input OTP",
@@ -1054,6 +1211,54 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     <InputOTPSlot index={5} />
   </InputOTPGroup>
 </InputOTP>`,
+        examples: [
+          {
+            id: "six-digits",
+            title: "Six Digit OTP",
+            description: "Standard 6-digit verification code input.",
+            code: `<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>`,
+          },
+          {
+            id: "with-separator",
+            title: "With Separator",
+            description: "OTP input split into groups with a dash separator.",
+            code: `<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+  </InputOTPGroup>
+  <span className="mx-2 text-muted-foreground">—</span>
+  <InputOTPGroup>
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>`,
+          },
+          {
+            id: "four-digits",
+            title: "Four Digit PIN",
+            description: "Short 4-digit PIN code input.",
+            code: `<InputOTP maxLength={4}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+    <InputOTPSlot index={3} />
+  </InputOTPGroup>
+</InputOTP>`,
+          },
+        ],
       },
       {
         name: "Label",
@@ -1064,6 +1269,46 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <Label htmlFor="message">Your message</Label>
   <Textarea placeholder="Type your message here." id="message" />
 </div>`,
+        examples: [
+          {
+            id: "with-input",
+            title: "With Input",
+            description: "Label associated with a text input via htmlFor.",
+            code: `<div className="grid w-full max-w-sm gap-1.5">
+  <Label htmlFor="label-email">Email</Label>
+  <Input type="email" id="label-email" placeholder="Email" />
+</div>`,
+          },
+          {
+            id: "with-checkbox",
+            title: "With Checkbox",
+            description: "Label paired with a checkbox for terms acceptance.",
+            code: `<div className="flex items-center space-x-2">
+  <Checkbox id="label-terms" />
+  <Label htmlFor="label-terms">Accept terms and conditions</Label>
+</div>`,
+          },
+          {
+            id: "required",
+            title: "Required Label",
+            description: "Label with a required field indicator asterisk.",
+            code: `<div className="grid w-full max-w-sm gap-1.5">
+  <Label htmlFor="label-name">
+    Name <span className="text-destructive">*</span>
+  </Label>
+  <Input id="label-name" placeholder="Your name" required />
+</div>`,
+          },
+          {
+            id: "disabled",
+            title: "Disabled Label",
+            description: "Label with a disabled input shows muted styling.",
+            code: `<div className="grid w-full max-w-sm gap-1.5">
+  <Label htmlFor="label-disabled" className="text-muted-foreground">Disabled</Label>
+  <Input id="label-disabled" disabled placeholder="Cannot edit" />
+</div>`,
+          },
+        ],
         props: [
           {
             name: "htmlFor",
@@ -1124,7 +1369,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-description",
             title: "With Description",
-            description: "Each radio option includes a description for extra context.",
+            description:
+              "Each radio option includes a description for extra context.",
             code: `<RadioGroup defaultValue="comfortable">
   <div className="flex items-start space-x-2">
     <RadioGroupItem value="default" id="r-default" className="mt-1" />
@@ -1286,7 +1532,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-description",
             title: "With Description",
-            description: "Switch with a label and supplementary description text, common in settings pages.",
+            description:
+              "Switch with a label and supplementary description text, common in settings pages.",
             code: `<div className="flex items-center justify-between rounded-lg border p-4 w-full max-w-sm">
   <div className="space-y-0.5">
     <Label htmlFor="marketing">Marketing emails</Label>
@@ -1401,7 +1648,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "outline",
             title: "Outline",
-            description: "Toggle with outline variant for a more subtle appearance.",
+            description:
+              "Toggle with outline variant for a more subtle appearance.",
             code: `<Toggle variant="outline" aria-label="Toggle italic">
   <span className="italic">I</span>
 </Toggle>`,
@@ -1441,7 +1689,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "multiple",
             title: "Multiple Selection",
-            description: "Allow selecting multiple toggles at once, like a text formatting toolbar.",
+            description:
+              "Allow selecting multiple toggles at once, like a text formatting toolbar.",
             code: `<ToggleGroup type="multiple">
   <ToggleGroupItem value="bold" aria-label="Toggle bold">
     <span className="font-bold">B</span>
@@ -1457,7 +1706,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "single",
             title: "Single Selection",
-            description: "Only one toggle can be active at a time, like view mode switching.",
+            description:
+              "Only one toggle can be active at a time, like view mode switching.",
             code: `<ToggleGroup type="single" defaultValue="list">
   <ToggleGroupItem value="grid" aria-label="Grid view">Grid</ToggleGroupItem>
   <ToggleGroupItem value="list" aria-label="List view">List</ToggleGroupItem>
@@ -1467,7 +1717,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "outline",
             title: "Outline Variant",
-            description: "Toggle group with outline variant for a more subtle, bordered appearance.",
+            description:
+              "Toggle group with outline variant for a more subtle, bordered appearance.",
             code: `<ToggleGroup type="single" variant="outline" defaultValue="center">
   <ToggleGroupItem value="left" aria-label="Align left">Left</ToggleGroupItem>
   <ToggleGroupItem value="center" aria-label="Align center">Center</ToggleGroupItem>
@@ -1530,7 +1781,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "group",
             title: "Avatar Group",
-            description: "Stacked overlapping avatars for team or group display.",
+            description:
+              "Stacked overlapping avatars for team or group display.",
             code: `<div className="flex -space-x-3">
   <Avatar className="border-2 border-background">
     <AvatarFallback>A</AvatarFallback>
@@ -1589,7 +1841,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "variants",
             title: "Variants",
-            description: "Four built-in styles to convey different meanings: default, secondary, outline, and destructive.",
+            description:
+              "Four built-in styles to convey different meanings: default, secondary, outline, and destructive.",
             code: `<div className="flex gap-2">
   <Badge>Default</Badge>
   <Badge variant="secondary">Secondary</Badge>
@@ -1600,7 +1853,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "status-indicator",
             title: "Status Indicator",
-            description: "Use badges as colored status indicators in tables or lists.",
+            description:
+              "Use badges as colored status indicators in tables or lists.",
             code: `<div className="flex gap-2">
   <Badge className="bg-green-500/10 text-green-600 border-green-200">
     <span className="mr-1 h-1.5 w-1.5 rounded-full bg-green-500 inline-block" />
@@ -1619,7 +1873,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-icon",
             title: "With Icon",
-            description: "Combine badges with Lucide icons for richer labeling.",
+            description:
+              "Combine badges with Lucide icons for richer labeling.",
             code: `<div className="flex gap-2">
   <Badge><CheckIcon className="mr-1 h-3 w-3" /> Verified</Badge>
   <Badge variant="secondary"><ClockIcon className="mr-1 h-3 w-3" /> In Progress</Badge>
@@ -1718,7 +1973,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-label",
             title: "With Label",
-            description: "Progress bar with a percentage label showing the current value.",
+            description:
+              "Progress bar with a percentage label showing the current value.",
             code: `<div className="w-full max-w-sm space-y-2">
   <div className="flex justify-between text-sm">
     <span>Upload progress</span>
@@ -1748,7 +2004,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "profile",
             title: "Profile",
-            description: "Skeleton layout mimicking a user profile card with avatar and text.",
+            description:
+              "Skeleton layout mimicking a user profile card with avatar and text.",
             code: `<div className="flex items-center space-x-4">
   <Skeleton className="h-12 w-12 rounded-full" />
   <div className="space-y-2">
@@ -1760,7 +2017,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "card",
             title: "Card",
-            description: "Skeleton layout for a content card with image, title, and description.",
+            description:
+              "Skeleton layout for a content card with image, title, and description.",
             code: `<div className="space-y-3 w-full max-w-sm">
   <Skeleton className="h-[125px] w-full rounded-xl" />
   <div className="space-y-2">
@@ -1962,7 +2220,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "destructive",
             title: "Destructive",
-            description: "Error or warning alert to draw attention to critical issues.",
+            description:
+              "Error or warning alert to draw attention to critical issues.",
             code: `<Alert variant="destructive">
   <AlertCircleIcon className="h-4 w-4" />
   <AlertTitle>Error</AlertTitle>
@@ -2036,7 +2295,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "destructive",
             title: "Destructive Action",
-            description: "Alert dialog for dangerous operations like data deletion.",
+            description:
+              "Alert dialog for dangerous operations like data deletion.",
             code: `<AlertDialog>
   <AlertDialogTrigger asChild>
     <Button variant="destructive">Delete Account</Button>
@@ -2118,7 +2378,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "basic",
             title: "Basic",
-            description: "Simple dialog with a title, description, and an input field.",
+            description:
+              "Simple dialog with a title, description, and an input field.",
             code: `<Dialog>
   <DialogTrigger asChild>
     <Button variant="outline">Open Dialog</Button>
@@ -2135,7 +2396,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-form",
             title: "With Form",
-            description: "Dialog containing a complete form with footer actions.",
+            description:
+              "Dialog containing a complete form with footer actions.",
             code: `<Dialog>
   <DialogTrigger asChild>
     <Button>New Event</Button>
@@ -2169,7 +2431,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "confirmation",
             title: "Confirmation",
-            description: "Confirmation dialog before performing a destructive action.",
+            description:
+              "Confirmation dialog before performing a destructive action.",
             code: `<Dialog>
   <DialogTrigger asChild>
     <Button variant="destructive">Delete Account</Button>
@@ -2321,7 +2584,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-form",
             title: "With Form",
-            description: "Popover containing a compact form for quick inline editing.",
+            description:
+              "Popover containing a compact form for quick inline editing.",
             code: `<Popover>
   <PopoverTrigger asChild>
     <Button variant="outline">Edit Settings</Button>
@@ -2403,7 +2667,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "left",
             title: "Left Side",
-            description: "Sheet sliding in from the left, useful for navigation panels.",
+            description:
+              "Sheet sliding in from the left, useful for navigation panels.",
             code: `<Sheet>
   <SheetTrigger asChild>
     <Button variant="outline">Open Left Sheet</Button>
@@ -2472,7 +2737,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "positions",
             title: "Positions",
-            description: "Tooltips can be placed on different sides of the trigger.",
+            description:
+              "Tooltips can be placed on different sides of the trigger.",
             code: `<TooltipProvider>
   <div className="flex gap-4">
     <Tooltip>
@@ -2553,7 +2819,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-ellipsis",
             title: "With Ellipsis",
-            description: "Truncated breadcrumb for deep navigation paths using an ellipsis.",
+            description:
+              "Truncated breadcrumb for deep navigation paths using an ellipsis.",
             code: `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
@@ -2663,7 +2930,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-label",
             title: "With Label & Separator",
-            description: "Dropdown menu with label header, separators, and grouped items.",
+            description:
+              "Dropdown menu with label header, separators, and grouped items.",
             code: `<DropdownMenu>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">My Account</Button>
@@ -2682,7 +2950,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           {
             id: "with-shortcuts",
             title: "With Shortcuts",
-            description: "Menu items with keyboard shortcut hints using the Kbd component.",
+            description:
+              "Menu items with keyboard shortcut hints using the Kbd component.",
             code: `<DropdownMenu>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">Actions</Button>
