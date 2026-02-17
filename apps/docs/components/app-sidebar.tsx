@@ -124,10 +124,12 @@ export function AppSidebar({
   }
 
   function renderCollapsibleSection(section: NavSection) {
+    const isActive = isSectionActive(section);
     return (
       <SidebarGroup key={section.label}>
         <Collapsible
-          defaultOpen={isSectionActive(section)}
+          open={isActive ? true : undefined}
+          defaultOpen={false}
           className="group/collapsible"
         >
           <SidebarGroupLabel asChild>
