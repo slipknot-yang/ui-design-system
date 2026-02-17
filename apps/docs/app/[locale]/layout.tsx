@@ -1,4 +1,4 @@
-import { Geist, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -8,15 +8,29 @@ import { Providers } from "@/components/providers";
 
 import "@workspace/ui/globals.css";
 
-const fontSans = Geist({
-  subsets: ["latin"],
+const fontSans = localFont({
+  src: [{ path: "../../public/fonts/GeistVF.woff2", style: "normal" }],
   variable: "--font-sans",
+  display: "swap",
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
-const fontMono = JetBrains_Mono({
-  subsets: ["latin"],
+const fontMono = localFont({
+  src: [
+    {
+      path: "../../public/fonts/JetBrainsMono-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/JetBrainsMono-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
   variable: "--font-mono",
-  weight: ["400", "500"],
+  display: "swap",
+  fallback: ["ui-monospace", "monospace"],
 });
 
 export function generateStaticParams() {
