@@ -56,7 +56,11 @@ import { Progress } from "@workspace/ui/components/progress";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 import { Spinner } from "@workspace/ui/components/spinner";
 import { Separator } from "@workspace/ui/components/separator";
-import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@workspace/ui/components/avatar";
 import { Kbd } from "@workspace/ui/components/kbd";
 import {
   Card,
@@ -210,6 +214,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  useCarousel,
 } from "@workspace/ui/components/carousel";
 import {
   Command,
@@ -1688,6 +1693,35 @@ function SonnerPromisePreview() {
   );
 }
 
+function CarouselIndicators({ count }: { count: number }) {
+  const { api } = useCarousel();
+  const [current, setCurrent] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
+
+  return (
+    <div className="flex justify-center gap-2 pt-2">
+      {Array.from({ length: count }).map((_, i) => (
+        <button
+          key={i}
+          type="button"
+          aria-label={`Go to slide ${i + 1}`}
+          className={`h-2 w-2 rounded-full transition-colors ${i === current ? "bg-primary" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"}`}
+          onClick={() => api?.scrollTo(i)}
+        />
+      ))}
+    </div>
+  );
+}
+
 /* ────────────────────────────────────────────────────────────────────────────
  *  Example previews — keyed by "slug:exampleId"
  * ──────────────────────────────────────────────────────────────────────────── */
@@ -2883,9 +2917,11 @@ const examplePreviews: Record<string, React.ReactNode> = {
   "avatar:default": (
     <div className="flex gap-4">
       <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
       <Avatar>
+        <AvatarImage src="https://github.com/leerob.png" alt="@leerob" />
         <AvatarFallback>JD</AvatarFallback>
       </Avatar>
       <Avatar>
@@ -2896,12 +2932,15 @@ const examplePreviews: Record<string, React.ReactNode> = {
   "avatar:sizes": (
     <div className="flex items-center gap-4">
       <Avatar className="h-6 w-6 text-xs">
+        <AvatarImage src="https://github.com/shadcn.png" alt="Small" />
         <AvatarFallback>S</AvatarFallback>
       </Avatar>
       <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="Medium" />
         <AvatarFallback>MD</AvatarFallback>
       </Avatar>
       <Avatar className="h-14 w-14 text-lg">
+        <AvatarImage src="https://github.com/shadcn.png" alt="Large" />
         <AvatarFallback>LG</AvatarFallback>
       </Avatar>
     </div>
@@ -2909,12 +2948,15 @@ const examplePreviews: Record<string, React.ReactNode> = {
   "avatar:group": (
     <div className="flex -space-x-3">
       <Avatar className="border-2 border-background">
+        <AvatarImage src="https://github.com/shadcn.png" alt="A" />
         <AvatarFallback>A</AvatarFallback>
       </Avatar>
       <Avatar className="border-2 border-background">
+        <AvatarImage src="https://github.com/leerob.png" alt="B" />
         <AvatarFallback>B</AvatarFallback>
       </Avatar>
       <Avatar className="border-2 border-background">
+        <AvatarImage src="https://github.com/rauchg.png" alt="C" />
         <AvatarFallback>C</AvatarFallback>
       </Avatar>
       <Avatar className="border-2 border-background">
@@ -3761,18 +3803,96 @@ const examplePreviews: Record<string, React.ReactNode> = {
           <SheetTitle>Navigation</SheetTitle>
           <SheetDescription>Browse sections of the app.</SheetDescription>
         </SheetHeader>
-        <div className="grid gap-2 py-4 text-sm">
-          <span className="block px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
+        <div className="grid gap-1 py-4">
+          <span className="flex items-center gap-3 rounded-md bg-muted px-3 py-2 text-sm font-medium cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect width="7" height="9" x="3" y="3" rx="1" />
+              <rect width="7" height="5" x="14" y="3" rx="1" />
+              <rect width="7" height="9" x="14" y="12" rx="1" />
+              <rect width="7" height="5" x="3" y="16" rx="1" />
+            </svg>
             Dashboard
           </span>
-          <span className="block px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
+          <span className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer transition-colors">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 1v6m0 6v6m-7.07-3.93 4.24-4.24m5.66-5.66 4.24-4.24M1 12h6m6 0h6m-3.93 7.07-4.24-4.24m-5.66-5.66L3.93 4.93" />
+            </svg>
             Settings
           </span>
-          <span className="block px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
+          <span className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer transition-colors">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
             Users
           </span>
-          <span className="block px-2 py-1.5 rounded hover:bg-muted cursor-pointer">
+          <span className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer transition-colors">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+              <path d="m7 11 4-7 4 4 4-4" />
+            </svg>
             Reports
+          </span>
+          <Separator className="my-2" />
+          <span className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer transition-colors">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+            </svg>
+            Audit Log
           </span>
         </div>
       </SheetContent>
@@ -4517,12 +4637,14 @@ const examplePreviews: Record<string, React.ReactNode> = {
     <div className="flex gap-4">
       <div className="relative">
         <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="Online" />
           <AvatarFallback>JD</AvatarFallback>
         </Avatar>
         <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-background bg-green-500" />
       </div>
       <div className="relative">
         <Avatar>
+          <AvatarImage src="https://github.com/leerob.png" alt="Busy" />
           <AvatarFallback>KS</AvatarFallback>
         </Avatar>
         <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-background bg-yellow-500" />
@@ -5377,7 +5499,7 @@ const examplePreviews: Record<string, React.ReactNode> = {
     </Carousel>
   ),
   "carousel:with-indicators": (
-    <div className="w-full max-w-sm space-y-4">
+    <div className="w-full max-w-sm">
       <Carousel className="w-full">
         <CarouselContent>
           {[1, 2, 3, 4, 5].map((n) => (
@@ -5392,15 +5514,8 @@ const examplePreviews: Record<string, React.ReactNode> = {
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />
+        <CarouselIndicators count={5} />
       </Carousel>
-      <div className="flex justify-center gap-2">
-        {[1, 2, 3, 4, 5].map((n) => (
-          <span
-            key={n}
-            className={`h-2 w-2 rounded-full ${n === 1 ? "bg-primary" : "bg-muted-foreground/30"}`}
-          />
-        ))}
-      </div>
     </div>
   ),
   "carousel:auto-size": (
