@@ -32,14 +32,14 @@ export async function CodeBlock({ code, lang = "tsx" }: CodeBlockProps) {
     <div className="overflow-hidden rounded-lg border bg-muted">
       {/* Header bar: language label + copy button */}
       <div className="flex items-center justify-between border-b bg-muted/50 px-4 py-1.5">
-        <span className="select-none font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+        <span className="select-none font-mono text-[10px] font-medium uppercase tracking-widest text-muted-foreground/70">
           {displayLabel}
         </span>
         <CopyButton code={code} />
       </div>
       {/* Code */}
       <div
-        className="text-[13.5px] leading-6 [&_pre]:overflow-x-auto [&_pre]:px-4 [&_pre]:py-3.5 [&_pre]:font-mono [&_.shiki]:!bg-transparent dark:[&_.shiki_span]:!text-[var(--shiki-dark)]"
+        className="text-[12.5px] leading-[1.7] [&_pre]:overflow-x-auto [&_pre]:px-4 [&_pre]:py-3.5 [&_pre]:font-mono [&_code]:font-mono [&_.shiki]:!bg-transparent dark:[&_.shiki_span]:!text-[var(--shiki-dark)]"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>
