@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
@@ -7,6 +8,26 @@ import { locales, isRtl, type Locale } from "@/i18n/config";
 import { Providers } from "@/components/providers";
 
 import "@workspace/ui/globals.css";
+
+export const metadata: Metadata = {
+  title: "CUPIA Design System",
+  description: "Customs Uni-Pass International Agency - UI Design System",
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-icon-180x180.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  openGraph: {
+    title: "CUPIA Design System",
+    description: "Customs Uni-Pass International Agency - UI Design System",
+    images: [{ url: "/og-image.jpg", width: 800, height: 400 }],
+  },
+};
 
 const fontSans = localFont({
   src: [{ path: "../../public/fonts/GeistVF.woff2", style: "normal" }],

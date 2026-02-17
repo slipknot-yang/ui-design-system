@@ -81,6 +81,16 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     html.classList.add(`font-${prefs.font}`);
   }, [prefs.font]);
 
+  // Apply theme preset as data attribute
+  useEffect(() => {
+    const html = document.documentElement;
+    if (prefs.themePreset === "default") {
+      html.removeAttribute("data-theme-preset");
+    } else {
+      html.setAttribute("data-theme-preset", prefs.themePreset);
+    }
+  }, [prefs.themePreset]);
+
   const setPreference = useCallback(
     <K extends keyof Preferences>(key: K, value: Preferences[K]) => {
       setPrefs((prev) => ({ ...prev, [key]: value }));
