@@ -39,6 +39,7 @@ import {
   SidebarMenuSubItem,
   SidebarFooter,
   SidebarSeparator,
+  useSidebar,
 } from "@workspace/ui/components/sidebar";
 import {
   Avatar,
@@ -98,6 +99,7 @@ export function AppSidebar({
   collapsible = "offcanvas",
 }: AppSidebarProps) {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
 
   const componentSections: NavSection[] = componentCategories.map((cat) => ({
     label: `${cat.category} (${cat.items.length})`,
@@ -143,7 +145,10 @@ export function AppSidebar({
                           asChild
                           isActive={pathname === item.href}
                         >
-                          <Link href={item.href}>
+                          <Link
+                            href={item.href}
+                            onClick={() => setOpenMobile(false)}
+                          >
                             <span>{item.title}</span>
                           </Link>
                         </SidebarMenuSubButton>
@@ -162,7 +167,11 @@ export function AppSidebar({
   return (
     <Sidebar variant={variant} collapsible={collapsible}>
       <SidebarHeader className="border-b px-4 py-3">
-        <Link href="/" className="flex items-center gap-2">
+        <Link
+          href="/"
+          className="flex items-center gap-2"
+          onClick={() => setOpenMobile(false)}
+        >
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Shield className="h-4 w-4" />
           </div>
@@ -184,7 +193,7 @@ export function AppSidebar({
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/"}>
-                  <Link href="/">
+                  <Link href="/" onClick={() => setOpenMobile(false)}>
                     <Home className="h-4 w-4" />
                     <span>Home</span>
                   </Link>
@@ -192,7 +201,7 @@ export function AppSidebar({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
-                  <Link href="/dashboard">
+                  <Link href="/dashboard" onClick={() => setOpenMobile(false)}>
                     <LayoutDashboard className="h-4 w-4" />
                     <span>Dashboard</span>
                   </Link>
@@ -203,7 +212,7 @@ export function AppSidebar({
                   asChild
                   isActive={pathname === "/components"}
                 >
-                  <Link href="/components">
+                  <Link href="/components" onClick={() => setOpenMobile(false)}>
                     <Component className="h-4 w-4" />
                     <span>Components</span>
                   </Link>
@@ -231,7 +240,7 @@ export function AppSidebar({
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/themes"}>
-                  <Link href="/themes">
+                  <Link href="/themes" onClick={() => setOpenMobile(false)}>
                     <Palette className="h-4 w-4" />
                     <span>Themes</span>
                   </Link>
@@ -239,7 +248,7 @@ export function AppSidebar({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/i18n"}>
-                  <Link href="/i18n">
+                  <Link href="/i18n" onClick={() => setOpenMobile(false)}>
                     <Languages className="h-4 w-4" />
                     <span>i18n</span>
                   </Link>
@@ -247,7 +256,7 @@ export function AppSidebar({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/login"}>
-                  <Link href="/login">
+                  <Link href="/login" onClick={() => setOpenMobile(false)}>
                     <LogIn className="h-4 w-4" />
                     <span>Login (Demo)</span>
                   </Link>

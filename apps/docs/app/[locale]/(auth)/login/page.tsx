@@ -42,9 +42,9 @@ export default function LoginPage() {
   const [userType, setUserType] = useState<"company" | "personal">("company");
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-background via-background to-muted/50 p-4">
+    <div className="flex min-h-screen flex-col items-center bg-gradient-to-br from-background via-background to-muted/50 p-4">
       {/* Top bar */}
-      <div className="absolute top-4 right-4 flex items-center gap-2">
+      <div className="flex w-full max-w-[420px] items-center justify-end gap-2 py-2">
         <CountrySwitcher />
         <Select defaultValue="ko">
           <SelectTrigger className="h-8 w-[120px] text-xs">
@@ -65,7 +65,7 @@ export default function LoginPage() {
       </div>
 
       {/* Logo & title */}
-      <Link href="/" className="mb-8 text-center block">
+      <Link href="/" className="mt-auto mb-8 text-center block">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
           <Shield className="h-8 w-8" />
         </div>
@@ -182,7 +182,7 @@ export default function LoginPage() {
       </Card>
 
       {/* Footer */}
-      <div className="mt-8 flex items-center gap-2 text-xs text-muted-foreground">
+      <div className="mt-auto pt-8 flex items-center gap-2 text-xs text-muted-foreground">
         <Badge variant="outline" className="text-[10px]">
           v1.0.0
         </Badge>
