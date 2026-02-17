@@ -102,7 +102,7 @@ export const componentCategories: ComponentCategory[] = [
             title: "Single (Collapsible)",
             description:
               "Only one item can be open at a time. Click the open item again to close it.",
-            code: `<Accordion type="single" collapsible>
+            code: `<Accordion type="single" collapsible className="w-full max-w-md">
   <AccordionItem value="item-1">
     <AccordionTrigger>Is it accessible?</AccordionTrigger>
     <AccordionContent>
@@ -127,7 +127,7 @@ export const componentCategories: ComponentCategory[] = [
             id: "multiple",
             title: "Multiple",
             description: "Multiple items can be open simultaneously.",
-            code: `<Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
+            code: `<Accordion type="multiple" defaultValue={["item-1", "item-2"]} className="w-full max-w-md">
   <AccordionItem value="item-1">
     <AccordionTrigger>Section One</AccordionTrigger>
     <AccordionContent>Content for section one.</AccordionContent>
@@ -147,7 +147,7 @@ export const componentCategories: ComponentCategory[] = [
             title: "FAQ",
             description:
               "Frequently asked questions layout with detailed answers.",
-            code: `<Accordion type="single" collapsible className="w-full">
+            code: `<Accordion type="single" collapsible className="w-full max-w-md">
   <AccordionItem value="q1">
     <AccordionTrigger>What payment methods do you accept?</AccordionTrigger>
     <AccordionContent>
@@ -185,9 +185,12 @@ export const componentCategories: ComponentCategory[] = [
         description:
           "Displays content within a desired ratio, constraining the width/height.",
         importExample: `import { AspectRatio } from "@workspace/ui/components/aspect-ratio";`,
-        codeExample: `<AspectRatio ratio={16 / 9} className="bg-muted rounded-md">
-  <img src="/placeholder.jpg" alt="Photo" className="rounded-md object-cover h-full w-full" />
-</AspectRatio>`,
+        codeExample: `<div
+  className="w-[300px] bg-muted rounded-md flex items-center justify-center"
+  style={{ aspectRatio: "16/9" }}
+>
+  <span className="text-muted-foreground text-sm">16:9</span>
+</div>`,
         props: [
           {
             name: "ratio",
@@ -253,17 +256,14 @@ export const componentCategories: ComponentCategory[] = [
         description:
           "Displays a card with header, content, and footer sections.",
         importExample: `import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@workspace/ui/components/card";`,
-        codeExample: `<Card>
+        codeExample: `<Card className="w-full max-w-sm">
   <CardHeader>
     <CardTitle>Card Title</CardTitle>
     <CardDescription>Card Description</CardDescription>
   </CardHeader>
   <CardContent>
-    <p>Card Content</p>
+    <p className="text-sm text-muted-foreground">Card content goes here.</p>
   </CardContent>
-  <CardFooter>
-    <p>Card Footer</p>
-  </CardFooter>
 </Card>`,
         props: [
           {
@@ -323,8 +323,8 @@ export const componentCategories: ComponentCategory[] = [
             description:
               "Card with a hero image, badges, and call-to-action — commonly used for product or project showcases.",
             code: `<Card className="w-full max-w-sm overflow-hidden">
-  <div className="relative h-48 w-full">
-    <Image src="/cupia-logo-vertical.png" alt="Project" fill className="object-cover" />
+  <div className="flex h-48 w-full items-center justify-center bg-muted/50 p-6">
+    <Image src={cupiaLogoVertical} alt="CUPIA Customs System" width={280} height={140} className="h-full w-auto object-contain" />
   </div>
   <CardHeader>
     <CardTitle>UNI-PASS System</CardTitle>
@@ -332,10 +332,12 @@ export const componentCategories: ComponentCategory[] = [
   </CardHeader>
   <CardContent>
     <p className="text-sm text-muted-foreground">
-      A comprehensive customs clearance system deployed across 10+ countries.
+      A comprehensive customs clearance system deployed across 10+
+      countries, processing millions of declarations annually.
     </p>
     <div className="mt-3 flex gap-2">
       <Badge variant="secondary">Customs</Badge>
+      <Badge variant="secondary">E-Gov</Badge>
       <Badge variant="outline">Active</Badge>
     </div>
   </CardContent>
@@ -349,7 +351,7 @@ export const componentCategories: ComponentCategory[] = [
             title: "With Form",
             description:
               "Card containing a form layout for settings or data entry.",
-            code: `<Card className="w-[380px]">
+            code: `<Card className="w-full max-w-sm">
   <CardHeader>
     <CardTitle>Create project</CardTitle>
     <CardDescription>Deploy your new project in one-click.</CardDescription>
@@ -357,13 +359,13 @@ export const componentCategories: ComponentCategory[] = [
   <CardContent>
     <form className="grid gap-4">
       <div className="grid gap-2">
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" placeholder="My Project" />
+        <Label htmlFor="card-name">Name</Label>
+        <Input id="card-name" placeholder="My Project" />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="framework">Framework</Label>
+        <Label htmlFor="card-fw">Framework</Label>
         <Select>
-          <SelectTrigger id="framework">
+          <SelectTrigger id="card-fw">
             <SelectValue placeholder="Select" />
           </SelectTrigger>
           <SelectContent>
@@ -385,7 +387,7 @@ export const componentCategories: ComponentCategory[] = [
             id: "stats",
             title: "Stats Card",
             description: "Compact stat cards for dashboard KPIs.",
-            code: `<div className="grid grid-cols-3 gap-4">
+            code: `<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
   <Card>
     <CardHeader className="pb-2">
       <CardDescription>Total Revenue</CardDescription>
@@ -461,10 +463,16 @@ export const componentCategories: ComponentCategory[] = [
         description:
           "An interactive component which expands/collapses a panel.",
         importExample: `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@workspace/ui/components/collapsible";`,
-        codeExample: `<Collapsible>
-  <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+        codeExample: `<Collapsible className="w-full max-w-sm space-y-2">
+  <CollapsibleTrigger asChild>
+    <Button variant="outline" size="sm">
+      Toggle Content
+    </Button>
+  </CollapsibleTrigger>
   <CollapsibleContent>
-    <p>Collapsible content here.</p>
+    <div className="rounded-md border px-4 py-3 text-sm">
+      This content can be toggled.
+    </div>
   </CollapsibleContent>
 </Collapsible>`,
         props: [
@@ -559,16 +567,16 @@ export const componentCategories: ComponentCategory[] = [
         description:
           "A group of resizable panels that can be adjusted by dragging.",
         importExample: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@workspace/ui/components/resizable";`,
-        codeExample: `<ResizablePanelGroup orientation="horizontal" className="min-h-[200px] rounded-lg border">
+        codeExample: `<ResizablePanelGroup orientation="horizontal" className="min-h-[100px] max-w-md rounded-lg border">
   <ResizablePanel defaultSize={50}>
     <div className="flex h-full items-center justify-center p-6">
-      <span className="font-semibold">Panel One</span>
+      <span className="text-sm font-semibold">Panel A</span>
     </div>
   </ResizablePanel>
   <ResizableHandle />
   <ResizablePanel defaultSize={50}>
     <div className="flex h-full items-center justify-center p-6">
-      <span className="font-semibold">Panel Two</span>
+      <span className="text-sm font-semibold">Panel B</span>
     </div>
   </ResizablePanel>
 </ResizablePanelGroup>`,
@@ -681,11 +689,11 @@ export const componentCategories: ComponentCategory[] = [
         description:
           "Augments native scroll functionality for custom, cross-browser styling.",
         importExample: `import { ScrollArea, ScrollBar } from "@workspace/ui/components/scroll-area";`,
-        codeExample: `<ScrollArea className="h-72 w-48 rounded-md border">
+        codeExample: `<ScrollArea className="h-48 w-48 rounded-md border">
   <div className="p-4">
     <h4 className="mb-4 text-sm font-medium">Tags</h4>
-    {Array.from({ length: 50 }).map((_, i) => (
-      <div key={i} className="text-sm">Tag {i + 1}</div>
+    {Array.from({ length: 20 }).map((_, i) => (
+      <div key={i} className="text-sm py-1">Tag {i + 1}</div>
     ))}
   </div>
 </ScrollArea>`,
@@ -836,13 +844,13 @@ export const componentCategories: ComponentCategory[] = [
         description:
           "A set of layered sections of content, known as tab panels, that are displayed one at a time.",
         importExample: `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";`,
-        codeExample: `<Tabs defaultValue="account">
+        codeExample: `<Tabs defaultValue="account" className="w-full max-w-md">
   <TabsList>
     <TabsTrigger value="account">Account</TabsTrigger>
     <TabsTrigger value="password">Password</TabsTrigger>
   </TabsList>
-  <TabsContent value="account">Account settings here.</TabsContent>
-  <TabsContent value="password">Password settings here.</TabsContent>
+  <TabsContent value="account" className="text-sm text-muted-foreground">Account settings here.</TabsContent>
+  <TabsContent value="password" className="text-sm text-muted-foreground">Password settings here.</TabsContent>
 </Tabs>`,
         props: [
           {
@@ -883,13 +891,13 @@ export const componentCategories: ComponentCategory[] = [
             id: "default",
             title: "Default",
             description: "Basic horizontal tabs with text content.",
-            code: `<Tabs defaultValue="account">
+            code: `<Tabs defaultValue="account" className="w-full max-w-md">
   <TabsList>
     <TabsTrigger value="account">Account</TabsTrigger>
     <TabsTrigger value="password">Password</TabsTrigger>
   </TabsList>
-  <TabsContent value="account">Account settings here.</TabsContent>
-  <TabsContent value="password">Password settings here.</TabsContent>
+  <TabsContent value="account" className="text-sm text-muted-foreground">Account settings here.</TabsContent>
+  <TabsContent value="password" className="text-sm text-muted-foreground">Password settings here.</TabsContent>
 </Tabs>`,
           },
           {
@@ -897,7 +905,7 @@ export const componentCategories: ComponentCategory[] = [
             title: "With Cards",
             description:
               "Tabs with card-based content for richer layouts like a settings page.",
-            code: `<Tabs defaultValue="account" className="w-[400px]">
+            code: `<Tabs defaultValue="account" className="w-full max-w-md">
   <TabsList className="grid w-full grid-cols-2">
     <TabsTrigger value="account">Account</TabsTrigger>
     <TabsTrigger value="password">Password</TabsTrigger>
@@ -910,8 +918,8 @@ export const componentCategories: ComponentCategory[] = [
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="space-y-1">
-          <Label htmlFor="name">Name</Label>
-          <Input id="name" defaultValue="Pedro Duarte" />
+          <Label htmlFor="tab-name">Name</Label>
+          <Input id="tab-name" defaultValue="Pedro Duarte" />
         </div>
       </CardContent>
       <CardFooter>
@@ -927,12 +935,12 @@ export const componentCategories: ComponentCategory[] = [
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="space-y-1">
-          <Label htmlFor="current">Current password</Label>
-          <Input id="current" type="password" />
+          <Label htmlFor="tab-cur">Current password</Label>
+          <Input id="tab-cur" type="password" />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="new">New password</Label>
-          <Input id="new" type="password" />
+          <Label htmlFor="tab-new">New password</Label>
+          <Input id="tab-new" type="password" />
         </div>
       </CardContent>
       <CardFooter>
@@ -984,7 +992,7 @@ export const componentCategories: ComponentCategory[] = [
         description:
           "Displays a button or a component that looks like a button.",
         importExample: `import { Button } from "@workspace/ui/components/button";`,
-        codeExample: `<div className="flex gap-2">
+        codeExample: `<div className="flex flex-wrap gap-2">
   <Button>Default</Button>
   <Button variant="secondary">Secondary</Button>
   <Button variant="destructive">Destructive</Button>
@@ -1100,7 +1108,7 @@ export const componentCategories: ComponentCategory[] = [
             description:
               "Use asChild to render an anchor tag styled as a button for navigation.",
             code: `<Button asChild>
-  <a href="/dashboard">Go to Dashboard</a>
+  <a href="#">Go to Dashboard</a>
 </Button>`,
           },
           {
@@ -1109,17 +1117,14 @@ export const componentCategories: ComponentCategory[] = [
             description:
               "Toolbar-style grouped buttons for related actions like text formatting or view switching.",
             code: `<div className="flex">
-  <Button variant="outline" className="rounded-r-none border-r-0">
-    <BoldIcon className="h-4 w-4" />
+  <Button variant="outline" className="rounded-r-none border-r-0" size="sm">
+    <Bold className="h-4 w-4" />
   </Button>
-  <Button variant="outline" className="rounded-none border-r-0">
-    <ItalicIcon className="h-4 w-4" />
+  <Button variant="outline" className="rounded-none border-r-0" size="sm">
+    <Italic className="h-4 w-4" />
   </Button>
-  <Button variant="outline" className="rounded-none border-r-0">
-    <UnderlineIcon className="h-4 w-4" />
-  </Button>
-  <Button variant="outline" className="rounded-l-none">
-    <StrikethroughIcon className="h-4 w-4" />
+  <Button variant="outline" className="rounded-l-none" size="sm">
+    <Underline className="h-4 w-4" />
   </Button>
 </div>`,
           },
@@ -1128,15 +1133,12 @@ export const componentCategories: ComponentCategory[] = [
             title: "Async Action",
             description:
               "Button with loading state that disables during async operations — common pattern for form submissions.",
-            code: `<div className="flex gap-4 items-center">
+            code: `<div className="flex gap-3 items-center">
   <Button disabled>
-    <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+    <Spinner className="h-4 w-4 mr-2" />
     Submitting...
   </Button>
-  <Button>
-    <SendIcon className="mr-2 h-4 w-4" />
-    Submit Declaration
-  </Button>
+  <Button>Submit Declaration</Button>
 </div>`,
           },
         ],
@@ -1335,8 +1337,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           "A control that allows the user to toggle between checked and not checked.",
         importExample: `import { Checkbox } from "@workspace/ui/components/checkbox";`,
         codeExample: `<div className="flex items-center space-x-2">
-  <Checkbox id="terms" />
-  <label htmlFor="terms" className="text-sm">Accept terms and conditions</label>
+  <Checkbox id="ex-terms" />
+  <label htmlFor="ex-terms" className="text-sm">Accept terms and conditions</label>
 </div>`,
         examples: [
           {
@@ -1344,8 +1346,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             title: "Default",
             description: "Basic checkbox paired with a label.",
             code: `<div className="flex items-center space-x-2">
-  <Checkbox id="terms" />
-  <Label htmlFor="terms">Accept terms and conditions</Label>
+  <Checkbox id="ex-terms" />
+  <Label htmlFor="ex-terms">Accept terms and conditions</Label>
 </div>`,
           },
           {
@@ -1353,9 +1355,9 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             title: "With Description",
             description: "Checkbox with supplementary description text.",
             code: `<div className="items-top flex space-x-2">
-  <Checkbox id="terms2" />
+  <Checkbox id="ex-terms2" />
   <div className="grid gap-1.5 leading-none">
-    <Label htmlFor="terms2">Accept terms and conditions</Label>
+    <Label htmlFor="ex-terms2">Accept terms and conditions</Label>
     <p className="text-sm text-muted-foreground">
       You agree to our Terms of Service and Privacy Policy.
     </p>
@@ -1367,8 +1369,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             title: "Disabled",
             description: "Checkbox in a disabled state that cannot be toggled.",
             code: `<div className="flex items-center space-x-2">
-  <Checkbox id="disabled" disabled />
-  <Label htmlFor="disabled" className="text-muted-foreground">Disabled option</Label>
+  <Checkbox id="ex-disabled-cb" disabled />
+  <Label htmlFor="ex-disabled-cb" className="text-muted-foreground">Disabled option</Label>
 </div>`,
           },
           {
@@ -1697,8 +1699,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         description: "Displays a form input field.",
         importExample: `import { Input } from "@workspace/ui/components/input";`,
         codeExample: `<div className="grid w-full max-w-sm gap-1.5">
-  <Label htmlFor="email">Email</Label>
-  <Input type="email" id="email" placeholder="Email" />
+  <Label htmlFor="ex-email">Email</Label>
+  <Input type="email" id="ex-email" placeholder="Email" />
 </div>`,
         props: [
           {
@@ -1746,8 +1748,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             title: "Default",
             description: "Basic text input with a label.",
             code: `<div className="grid w-full max-w-sm gap-1.5">
-  <Label htmlFor="email">Email</Label>
-  <Input type="email" id="email" placeholder="Email" />
+  <Label htmlFor="ex-email">Email</Label>
+  <Input type="email" id="ex-email" placeholder="Email" />
 </div>`,
           },
           {
@@ -1762,8 +1764,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             description:
               "Input paired with a description text below for guidance.",
             code: `<div className="grid w-full max-w-sm gap-1.5">
-  <Label htmlFor="username">Username</Label>
-  <Input id="username" placeholder="johndoe" />
+  <Label htmlFor="ex-username">Username</Label>
+  <Input id="ex-username" placeholder="johndoe" />
   <p className="text-xs text-muted-foreground">
     This is your public display name.
   </p>
@@ -1774,8 +1776,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             title: "File",
             description: "File input for uploading documents or images.",
             code: `<div className="grid w-full max-w-sm gap-1.5">
-  <Label htmlFor="document">Document</Label>
-  <Input id="document" type="file" />
+  <Label htmlFor="ex-doc">Document</Label>
+  <Input id="ex-doc" type="file" />
 </div>`,
           },
           {
@@ -2106,12 +2108,12 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         importExample: `import { RadioGroup, RadioGroupItem } from "@workspace/ui/components/radio-group";`,
         codeExample: `<RadioGroup defaultValue="option-one">
   <div className="flex items-center space-x-2">
-    <RadioGroupItem value="option-one" id="option-one" />
-    <Label htmlFor="option-one">Option One</Label>
+    <RadioGroupItem value="option-one" id="ex-r1" />
+    <Label htmlFor="ex-r1">Option One</Label>
   </div>
   <div className="flex items-center space-x-2">
-    <RadioGroupItem value="option-two" id="option-two" />
-    <Label htmlFor="option-two">Option Two</Label>
+    <RadioGroupItem value="option-two" id="ex-r2" />
+    <Label htmlFor="ex-r2">Option Two</Label>
   </div>
 </RadioGroup>`,
         examples: [
@@ -2121,12 +2123,12 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             description: "Basic radio group with two options.",
             code: `<RadioGroup defaultValue="option-one">
   <div className="flex items-center space-x-2">
-    <RadioGroupItem value="option-one" id="option-one" />
-    <Label htmlFor="option-one">Option One</Label>
+    <RadioGroupItem value="option-one" id="ex-r1" />
+    <Label htmlFor="ex-r1">Option One</Label>
   </div>
   <div className="flex items-center space-x-2">
-    <RadioGroupItem value="option-two" id="option-two" />
-    <Label htmlFor="option-two">Option Two</Label>
+    <RadioGroupItem value="option-two" id="ex-r2" />
+    <Label htmlFor="ex-r2">Option Two</Label>
   </div>
 </RadioGroup>`,
           },
@@ -2137,23 +2139,23 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
               "Each radio option includes a description for extra context.",
             code: `<RadioGroup defaultValue="comfortable">
   <div className="flex items-start space-x-2">
-    <RadioGroupItem value="default" id="r-default" className="mt-1" />
+    <RadioGroupItem value="default" id="ex-rd1" className="mt-1" />
     <div>
-      <Label htmlFor="r-default">Default</Label>
+      <Label htmlFor="ex-rd1">Default</Label>
       <p className="text-sm text-muted-foreground">Standard spacing and size.</p>
     </div>
   </div>
   <div className="flex items-start space-x-2">
-    <RadioGroupItem value="comfortable" id="r-comfortable" className="mt-1" />
+    <RadioGroupItem value="comfortable" id="ex-rd2" className="mt-1" />
     <div>
-      <Label htmlFor="r-comfortable">Comfortable</Label>
+      <Label htmlFor="ex-rd2">Comfortable</Label>
       <p className="text-sm text-muted-foreground">More padding for a relaxed layout.</p>
     </div>
   </div>
   <div className="flex items-start space-x-2">
-    <RadioGroupItem value="compact" id="r-compact" className="mt-1" />
+    <RadioGroupItem value="compact" id="ex-rd3" className="mt-1" />
     <div>
-      <Label htmlFor="r-compact">Compact</Label>
+      <Label htmlFor="ex-rd3">Compact</Label>
       <p className="text-sm text-muted-foreground">Tight spacing to display more items.</p>
     </div>
   </div>
@@ -2418,8 +2420,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
           "A control that allows the user to toggle between on and off.",
         importExample: `import { Switch } from "@workspace/ui/components/switch";`,
         codeExample: `<div className="flex items-center space-x-2">
-  <Switch id="airplane-mode" />
-  <Label htmlFor="airplane-mode">Airplane Mode</Label>
+  <Switch id="ex-airplane" />
+  <Label htmlFor="ex-airplane">Airplane Mode</Label>
 </div>`,
         examples: [
           {
@@ -2427,8 +2429,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             title: "Default",
             description: "Basic switch with a label.",
             code: `<div className="flex items-center space-x-2">
-  <Switch id="airplane-mode" />
-  <Label htmlFor="airplane-mode">Airplane Mode</Label>
+  <Switch id="ex-airplane" />
+  <Label htmlFor="ex-airplane">Airplane Mode</Label>
 </div>`,
           },
           {
@@ -2438,12 +2440,12 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
               "Switch with a label and supplementary description text, common in settings pages.",
             code: `<div className="flex items-center justify-between rounded-lg border p-4 w-full max-w-sm">
   <div className="space-y-0.5">
-    <Label htmlFor="marketing">Marketing emails</Label>
+    <Label htmlFor="ex-marketing">Marketing emails</Label>
     <p className="text-sm text-muted-foreground">
       Receive emails about new products, features, and more.
     </p>
   </div>
-  <Switch id="marketing" />
+  <Switch id="ex-marketing" />
 </div>`,
           },
           {
@@ -2451,8 +2453,8 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             title: "Disabled",
             description: "Switch in a disabled state.",
             code: `<div className="flex items-center space-x-2">
-  <Switch id="disabled-switch" disabled />
-  <Label htmlFor="disabled-switch" className="text-muted-foreground">Disabled</Label>
+  <Switch id="ex-disabled-sw" disabled />
+  <Label htmlFor="ex-disabled-sw" className="text-muted-foreground">Disabled</Label>
 </div>`,
           },
           {
@@ -2803,7 +2805,7 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     <AvatarFallback>S</AvatarFallback>
   </Avatar>
   <Avatar>
-    <AvatarImage src="https://github.com/leerob.png" alt="Medium" />
+    <AvatarImage src="https://github.com/shadcn.png" alt="Medium" />
     <AvatarFallback>MD</AvatarFallback>
   </Avatar>
   <Avatar className="h-14 w-14 text-lg">
@@ -2819,15 +2821,15 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
               "Stacked overlapping avatars for team or group display.",
             code: `<div className="flex -space-x-3">
   <Avatar className="border-2 border-background">
-    <AvatarImage src="https://github.com/shadcn.png" alt="User A" />
+    <AvatarImage src="https://github.com/shadcn.png" alt="A" />
     <AvatarFallback>A</AvatarFallback>
   </Avatar>
   <Avatar className="border-2 border-background">
-    <AvatarImage src="https://github.com/leerob.png" alt="User B" />
+    <AvatarImage src="https://github.com/leerob.png" alt="B" />
     <AvatarFallback>B</AvatarFallback>
   </Avatar>
   <Avatar className="border-2 border-background">
-    <AvatarImage src="https://github.com/rauchg.png" alt="User C" />
+    <AvatarImage src="https://github.com/rauchg.png" alt="C" />
     <AvatarFallback>C</AvatarFallback>
   </Avatar>
   <Avatar className="border-2 border-background">
@@ -3533,7 +3535,7 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, Line, LineChart, Pie, Pi
             id: "table",
             title: "Table Rows",
             description: "Skeleton rows for a loading table.",
-            code: `<div className="space-y-3 w-full">
+            code: `<div className="space-y-3 w-full max-w-md">
   <div className="flex gap-4">
     <Skeleton className="h-4 w-[100px]" />
     <Skeleton className="h-4 w-[150px]" />
@@ -4217,12 +4219,12 @@ const filtered = invoices.filter(inv =>
             title: "Info Alert",
             description:
               "Blue-tinted informational alert with InfoIcon about system maintenance schedule.",
-            code: `<Alert className="border-blue-200 bg-blue-50 text-blue-900 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-100">
-  <InfoIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-  <AlertTitle>Scheduled Maintenance</AlertTitle>
+            code: `<Alert className="max-w-md">
+  <InfoIcon className="h-4 w-4" />
+  <AlertTitle>System Maintenance</AlertTitle>
   <AlertDescription>
-    The system will undergo maintenance on Saturday, Feb 22 from 2:00 AM to 6:00 AM UTC.
-    Please save your work before then.
+    Scheduled downtime on Saturday, March 15 from 02:00 to 06:00 UTC. Please
+    save your work before this time.
   </AlertDescription>
 </Alert>`,
           },
@@ -4231,14 +4233,14 @@ const filtered = invoices.filter(inv =>
             title: "Closable Alert",
             description:
               "Alert with an XIcon close button positioned top-right for dismissible notifications.",
-            code: `<Alert className="relative pr-10">
-  <CheckIcon className="h-4 w-4" />
-  <AlertTitle>Success</AlertTitle>
+            code: `<Alert className="max-w-md relative pr-10">
+  <InfoIcon className="h-4 w-4" />
+  <AlertTitle>New version available</AlertTitle>
   <AlertDescription>
-    Your declaration has been submitted successfully.
+    Version 3.2.0 includes performance improvements and bug fixes.
   </AlertDescription>
-  <button className="absolute top-3 right-3 rounded-full p-0.5 hover:bg-muted">
-    <XIcon className="h-4 w-4 text-muted-foreground" />
+  <button className="absolute top-2 right-2 rounded-sm p-1 opacity-70 hover:opacity-100">
+    <XIcon className="h-4 w-4" />
   </button>
 </Alert>`,
           },
@@ -4513,22 +4515,50 @@ const filtered = invoices.filter(inv =>
               "Dialog with long terms-of-service text that scrolls within a max-h container.",
             code: `<Dialog>
   <DialogTrigger asChild>
-    <Button variant="outline">Terms of Service</Button>
+    <Button variant="outline">View Terms</Button>
   </DialogTrigger>
   <DialogContent>
     <DialogHeader>
       <DialogTitle>Terms of Service</DialogTitle>
-      <DialogDescription>Please read and accept the terms below.</DialogDescription>
+      <DialogDescription>
+        Please read the following terms carefully.
+      </DialogDescription>
     </DialogHeader>
-    <div className="max-h-[300px] overflow-y-auto rounded border p-4 text-sm text-muted-foreground space-y-4">
-      <p>1. These Terms of Service govern your use of our customs declaration platform and all related services provided through the system.</p>
-      <p>2. By accessing or using the platform, you agree to be bound by these terms. If you do not agree, you must not use the service.</p>
-      <p>3. Users are responsible for ensuring the accuracy and completeness of all declaration data submitted through the system.</p>
-      <p>4. The platform reserves the right to suspend or terminate access for any user who violates these terms or applicable customs regulations.</p>
-      <p>5. All data submitted through the platform is subject to review by customs authorities in the relevant jurisdiction.</p>
-      <p>6. We do not guarantee uninterrupted access to the platform. Scheduled maintenance windows will be communicated in advance.</p>
-      <p>7. Users must maintain the confidentiality of their login credentials and notify us immediately of any unauthorized access.</p>
-      <p>8. These terms may be updated from time to time. Continued use of the platform constitutes acceptance of revised terms.</p>
+    <div className="max-h-[300px] overflow-y-auto space-y-4 text-sm text-muted-foreground pr-2">
+      <p>
+        <strong>1. Acceptance of Terms</strong> — By accessing and using the
+        UNI-PASS Customs Clearance System, you accept and agree to be bound
+        by the terms and provision of this agreement.
+      </p>
+      <p>
+        <strong>2. Use License</strong> — Permission is granted to
+        temporarily access the system for personal, non-commercial
+        transitory use. This is the grant of a license, not a transfer of
+        title.
+      </p>
+      <p>
+        <strong>3. Disclaimer</strong> — The materials on this system are
+        provided on an 'as is' basis. The system makes no
+        warranties, expressed or implied, and hereby disclaims all other
+        warranties.
+      </p>
+      <p>
+        <strong>4. Limitations</strong> — In no event shall the system or
+        its suppliers be liable for any damages arising out of the use or
+        inability to use the materials on the system.
+      </p>
+      <p>
+        <strong>5. Accuracy of Materials</strong> — The materials appearing
+        on the system could include technical, typographical, or
+        photographic errors. The system does not warrant that any of the
+        materials are accurate, complete, or current.
+      </p>
+      <p>
+        <strong>6. Modifications</strong> — The system may revise these
+        terms of service at any time without notice. By using this system,
+        you are agreeing to be bound by the then-current version of these
+        terms.
+      </p>
     </div>
     <DialogFooter>
       <Button variant="outline">Decline</Button>
@@ -4544,38 +4574,45 @@ const filtered = invoices.filter(inv =>
               "Wide dialog (max-w-2xl) with a 2-column grid form layout for detailed data entry.",
             code: `<Dialog>
   <DialogTrigger asChild>
-    <Button>New Declaration</Button>
+    <Button>Add User</Button>
   </DialogTrigger>
   <DialogContent className="max-w-2xl">
     <DialogHeader>
-      <DialogTitle>Create Declaration</DialogTitle>
-      <DialogDescription>Enter the declaration details below.</DialogDescription>
+      <DialogTitle>Add New User</DialogTitle>
+      <DialogDescription>
+        Fill in the details to create a new user account.
+      </DialogDescription>
     </DialogHeader>
     <div className="grid grid-cols-2 gap-4 py-4">
       <div className="grid gap-2">
-        <Label htmlFor="dec-ref">Reference Number</Label>
-        <Input id="dec-ref" placeholder="DEC-2024-XXX" />
+        <Label htmlFor="dlg-fw-name">Full Name</Label>
+        <Input id="dlg-fw-name" placeholder="John Doe" />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="dec-type">Declaration Type</Label>
-        <Input id="dec-type" placeholder="Import / Export / Transit" />
+        <Label htmlFor="dlg-fw-email">Email</Label>
+        <Input id="dlg-fw-email" type="email" placeholder="john@example.com" />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="dec-country">Country</Label>
-        <Input id="dec-country" placeholder="Select country" />
+        <Label htmlFor="dlg-fw-dept">Department</Label>
+        <Input id="dlg-fw-dept" placeholder="Customs Division" />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="dec-date">Filing Date</Label>
-        <Input id="dec-date" type="date" />
-      </div>
-      <div className="grid gap-2 col-span-2">
-        <Label htmlFor="dec-desc">Description of Goods</Label>
-        <Textarea id="dec-desc" placeholder="Describe the goods being declared..." />
+        <Label htmlFor="dlg-fw-role">Role</Label>
+        <Select>
+          <SelectTrigger id="dlg-fw-role">
+            <SelectValue placeholder="Select role" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="admin">Admin</SelectItem>
+            <SelectItem value="officer">Customs Officer</SelectItem>
+            <SelectItem value="viewer">Viewer</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
     </div>
     <DialogFooter>
       <Button variant="outline">Cancel</Button>
-      <Button type="submit">Create</Button>
+      <Button>Create User</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`,
@@ -4675,42 +4712,46 @@ const filtered = invoices.filter(inv =>
               "Drawer containing a complete form with Name, Email, Role select, and message textarea.",
             code: `<Drawer>
   <DrawerTrigger asChild>
-    <Button variant="outline">Contact Form</Button>
+    <Button variant="outline">Edit Profile</Button>
   </DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>
-      <DrawerTitle>Contact Us</DrawerTitle>
-      <DrawerDescription>Fill out the form and we'll get back to you.</DrawerDescription>
+      <DrawerTitle>Edit Profile</DrawerTitle>
+      <DrawerDescription>
+        Update your personal information below.
+      </DrawerDescription>
     </DrawerHeader>
     <div className="px-4 grid gap-4">
       <div className="grid gap-2">
-        <Label htmlFor="drawer-form-name">Name</Label>
-        <Input id="drawer-form-name" placeholder="Your name" />
+        <Label htmlFor="dwf-name">Name</Label>
+        <Input id="dwf-name" placeholder="John Doe" />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="drawer-form-email">Email</Label>
-        <Input id="drawer-form-email" type="email" placeholder="you@example.com" />
+        <Label htmlFor="dwf-email">Email</Label>
+        <Input id="dwf-email" type="email" placeholder="john@example.com" />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="drawer-form-role">Role</Label>
+        <Label htmlFor="dwf-role">Role</Label>
         <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a role" />
+          <SelectTrigger id="dwf-role">
+            <SelectValue placeholder="Select role" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="admin">Admin</SelectItem>
-            <SelectItem value="operator">Operator</SelectItem>
+            <SelectItem value="editor">Editor</SelectItem>
             <SelectItem value="viewer">Viewer</SelectItem>
           </SelectContent>
         </Select>
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="drawer-form-msg">Message</Label>
-        <Textarea id="drawer-form-msg" placeholder="Your message..." />
+        <Label htmlFor="dwf-notes">Notes</Label>
+        <Textarea id="dwf-notes" placeholder="Additional notes..." />
       </div>
     </div>
     <DrawerFooter className="flex-row justify-end gap-2">
-      <Button variant="outline">Cancel</Button>
+      <DrawerClose asChild>
+        <Button variant="outline">Cancel</Button>
+      </DrawerClose>
       <Button>Save</Button>
     </DrawerFooter>
   </DrawerContent>
@@ -4723,38 +4764,38 @@ const filtered = invoices.filter(inv =>
               "Right-side drawer with a notification list showing recent activities.",
             code: `<Drawer direction="right">
   <DrawerTrigger asChild>
-    <Button variant="outline">Notifications</Button>
+    <Button variant="outline">Activity Log</Button>
   </DrawerTrigger>
-  <DrawerContent>
+  <DrawerContent className="h-full w-[380px] ml-auto rounded-l-lg rounded-r-none">
     <DrawerHeader>
       <DrawerTitle>Recent Activity</DrawerTitle>
-      <DrawerDescription>Your latest notifications.</DrawerDescription>
+      <DrawerDescription>Your latest notifications</DrawerDescription>
     </DrawerHeader>
     <div className="px-4 space-y-3">
-      <div className="flex gap-3 rounded-lg border p-3">
-        <CheckIcon className="h-5 w-5 text-green-500 shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-medium">Declaration approved</p>
-          <p className="text-xs text-muted-foreground">DEC-2024-001 was approved by customs.</p>
-          <p className="text-xs text-muted-foreground mt-1">2 hours ago</p>
+      {[
+        { icon: "check", text: "Declaration KR-001 approved", time: "2 min ago" },
+        { icon: "clock", text: "Report generation started", time: "15 min ago" },
+        { icon: "mail", text: "New message from Admin", time: "1 hour ago" },
+        { icon: "alert", text: "Declaration KR-003 flagged", time: "3 hours ago" },
+      ].map((item) => (
+        <div key={item.text} className="flex items-start gap-3 rounded-md border p-3">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs">
+            {item.icon === "check" ? (
+              <CheckIcon className="h-4 w-4" />
+            ) : item.icon === "clock" ? (
+              <ClockIcon className="h-4 w-4" />
+            ) : item.icon === "mail" ? (
+              <MailIcon className="h-4 w-4" />
+            ) : (
+              <AlertCircleIcon className="h-4 w-4" />
+            )}
+          </span>
+          <div>
+            <p className="text-sm">{item.text}</p>
+            <p className="text-xs text-muted-foreground">{item.time}</p>
+          </div>
         </div>
-      </div>
-      <div className="flex gap-3 rounded-lg border p-3">
-        <InfoIcon className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-medium">Review required</p>
-          <p className="text-xs text-muted-foreground">DEC-2024-003 needs additional documents.</p>
-          <p className="text-xs text-muted-foreground mt-1">5 hours ago</p>
-        </div>
-      </div>
-      <div className="flex gap-3 rounded-lg border p-3">
-        <AlertCircleIcon className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-medium">Declaration rejected</p>
-          <p className="text-xs text-muted-foreground">DEC-2024-005 was rejected. Please revise.</p>
-          <p className="text-xs text-muted-foreground mt-1">1 day ago</p>
-        </div>
-      </div>
+      ))}
     </div>
   </DrawerContent>
 </Drawer>`,
@@ -4838,37 +4879,31 @@ const filtered = invoices.filter(inv =>
               "Popover with switches for notification preferences and a select for timezone.",
             code: `<Popover>
   <PopoverTrigger asChild>
-    <Button variant="outline">Preferences</Button>
+    <Button variant="outline">
+      <Settings className="mr-2 h-4 w-4" /> Notification Settings
+    </Button>
   </PopoverTrigger>
   <PopoverContent className="w-80">
     <div className="grid gap-4">
-      <div className="space-y-2">
-        <h4 className="font-medium leading-none">Notification Preferences</h4>
-        <p className="text-sm text-muted-foreground">Manage how you receive alerts.</p>
-      </div>
+      <h4 className="font-medium leading-none">Notifications</h4>
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <Label htmlFor="email-notif">Email Notifications</Label>
-          <Switch id="email-notif" defaultChecked />
+          <Label htmlFor="pop-email-notif" className="font-normal">
+            Email notifications
+          </Label>
+          <Switch id="pop-email-notif" defaultChecked />
         </div>
         <div className="flex items-center justify-between">
-          <Label htmlFor="push-notif">Push Notifications</Label>
-          <Switch id="push-notif" />
+          <Label htmlFor="pop-push-notif" className="font-normal">
+            Push notifications
+          </Label>
+          <Switch id="pop-push-notif" />
         </div>
-        <Separator />
-        <div className="grid gap-2">
-          <Label>Timezone</Label>
-          <Select>
-            <SelectTrigger className="h-8">
-              <SelectValue placeholder="Select timezone" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="utc">UTC</SelectItem>
-              <SelectItem value="kst">KST (UTC+9)</SelectItem>
-              <SelectItem value="est">EST (UTC-5)</SelectItem>
-              <SelectItem value="pst">PST (UTC-8)</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="pop-marketing" className="font-normal">
+            Marketing
+          </Label>
+          <Switch id="pop-marketing" />
         </div>
       </div>
     </div>
@@ -4882,28 +4917,25 @@ const filtered = invoices.filter(inv =>
               "Popover with date range inputs (From/To) and preset buttons.",
             code: `<Popover>
   <PopoverTrigger asChild>
-    <Button variant="outline">Date Range</Button>
+    <Button variant="outline">
+      <CalendarIcon className="mr-2 h-4 w-4" /> Date Range
+    </Button>
   </PopoverTrigger>
   <PopoverContent className="w-80">
     <div className="grid gap-4">
-      <div className="space-y-2">
-        <h4 className="font-medium leading-none">Filter by Date</h4>
-        <p className="text-sm text-muted-foreground">Select a date range.</p>
+      <h4 className="font-medium leading-none">Filter by Date</h4>
+      <div className="grid gap-2">
+        <Label htmlFor="pop-from">From</Label>
+        <Input id="pop-from" type="date" />
       </div>
       <div className="grid gap-2">
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="from-date">From</Label>
-          <Input id="from-date" type="date" className="col-span-2 h-8" />
-        </div>
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="to-date">To</Label>
-          <Input id="to-date" type="date" className="col-span-2 h-8" />
-        </div>
+        <Label htmlFor="pop-to">To</Label>
+        <Input id="pop-to" type="date" />
       </div>
-      <div className="flex gap-2">
-        <Button variant="outline" size="sm" className="flex-1">Today</Button>
-        <Button variant="outline" size="sm" className="flex-1">This Week</Button>
-        <Button variant="outline" size="sm" className="flex-1">This Month</Button>
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm">Today</Button>
+        <Button variant="outline" size="sm">This Week</Button>
+        <Button variant="outline" size="sm">This Month</Button>
       </div>
     </div>
   </PopoverContent>
@@ -4995,36 +5027,26 @@ const filtered = invoices.filter(inv =>
   <SheetTrigger asChild>
     <Button variant="outline">View Details</Button>
   </SheetTrigger>
-  <SheetContent>
+  <SheetContent side="right">
     <SheetHeader>
       <SheetTitle>Declaration Details</SheetTitle>
-      <SheetDescription>DEC-2024-001</SheetDescription>
+      <SheetDescription>
+        Full details for the selected declaration.
+      </SheetDescription>
     </SheetHeader>
     <div className="grid gap-4 py-4">
-      <div className="grid grid-cols-3 items-center">
-        <span className="text-sm text-muted-foreground">Status</span>
-        <span className="col-span-2"><Badge>Cleared</Badge></span>
-      </div>
-      <Separator />
-      <div className="grid grid-cols-3 items-center">
-        <span className="text-sm text-muted-foreground">Type</span>
-        <span className="col-span-2 text-sm">Import</span>
-      </div>
-      <Separator />
-      <div className="grid grid-cols-3 items-center">
-        <span className="text-sm text-muted-foreground">Country</span>
-        <span className="col-span-2 text-sm">South Korea</span>
-      </div>
-      <Separator />
-      <div className="grid grid-cols-3 items-center">
-        <span className="text-sm text-muted-foreground">Filed</span>
-        <span className="col-span-2 text-sm">January 15, 2024</span>
-      </div>
-      <Separator />
-      <div className="grid grid-cols-3 items-center">
-        <span className="text-sm text-muted-foreground">Value</span>
-        <span className="col-span-2 text-sm font-medium">$45,200.00</span>
-      </div>
+      {[
+        { label: "Declaration No.", value: "KR-2024-001234" },
+        { label: "Status", value: "Approved" },
+        { label: "Date", value: "2024-01-15" },
+        { label: "Country", value: "South Korea" },
+        { label: "Amount", value: "$12,500.00" },
+      ].map((pair) => (
+        <div key={pair.label} className="grid grid-cols-3 items-center gap-2">
+          <span className="text-sm text-muted-foreground">{pair.label}</span>
+          <span className="col-span-2 text-sm font-medium">{pair.value}</span>
+        </div>
+      ))}
     </div>
   </SheetContent>
 </Sheet>`,
@@ -5038,10 +5060,12 @@ const filtered = invoices.filter(inv =>
   <SheetTrigger asChild>
     <Button variant="outline">Filters</Button>
   </SheetTrigger>
-  <SheetContent>
+  <SheetContent side="right">
     <SheetHeader>
       <SheetTitle>Filter Declarations</SheetTitle>
-      <SheetDescription>Narrow down results using the filters below.</SheetDescription>
+      <SheetDescription>
+        Narrow your results using the filters below.
+      </SheetDescription>
     </SheetHeader>
     <div className="grid gap-4 py-4">
       <div className="grid gap-2">
@@ -5051,41 +5075,40 @@ const filtered = invoices.filter(inv =>
             <SelectValue placeholder="All statuses" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="cleared">Cleared</SelectItem>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
           </SelectContent>
         </Select>
       </div>
       <div className="grid gap-2">
-        <Label>Country</Label>
-        <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="All countries" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="kr">South Korea</SelectItem>
-            <SelectItem value="ec">Ecuador</SelectItem>
-            <SelectItem value="et">Ethiopia</SelectItem>
-          </SelectContent>
-        </Select>
+        <Label htmlFor="sf-date">Date</Label>
+        <Input id="sf-date" type="date" />
       </div>
-      <div className="grid gap-2">
-        <Label htmlFor="sheet-from">From Date</Label>
-        <Input id="sheet-from" type="date" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="sheet-to">To Date</Label>
-        <Input id="sheet-to" type="date" />
-      </div>
-      <div className="flex items-center gap-2">
-        <Checkbox id="sheet-urgent" />
-        <Label htmlFor="sheet-urgent">Urgent only</Label>
+      <div className="space-y-2">
+        <Label>Type</Label>
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="sf-import" defaultChecked />
+            <Label htmlFor="sf-import" className="font-normal">Import</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox id="sf-export" defaultChecked />
+            <Label htmlFor="sf-export" className="font-normal">Export</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox id="sf-transit" />
+            <Label htmlFor="sf-transit" className="font-normal">Transit</Label>
+          </div>
+        </div>
       </div>
     </div>
     <SheetFooter className="flex-row gap-2">
       <Button variant="outline" className="flex-1">Reset</Button>
-      <Button className="flex-1">Apply Filters</Button>
+      <SheetClose asChild>
+        <Button className="flex-1">Apply</Button>
+      </SheetClose>
     </SheetFooter>
   </SheetContent>
 </Sheet>`,
@@ -5238,35 +5261,15 @@ const filtered = invoices.filter(inv =>
             description:
               "Tooltip content includes action name and Kbd shortcut.",
             code: `<TooltipProvider>
-  <div className="flex gap-4">
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button variant="outline" size="sm">Save</Button>
-      </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-2">
-        <span>Save</span>
-        <Kbd>Ctrl+S</Kbd>
-      </TooltipContent>
-    </Tooltip>
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button variant="outline" size="sm">Search</Button>
-      </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-2">
-        <span>Search</span>
-        <Kbd>Ctrl+F</Kbd>
-      </TooltipContent>
-    </Tooltip>
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button variant="outline" size="sm">New</Button>
-      </TooltipTrigger>
-      <TooltipContent className="flex items-center gap-2">
-        <span>New Declaration</span>
-        <Kbd>Ctrl+N</Kbd>
-      </TooltipContent>
-    </Tooltip>
-  </div>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button variant="outline">Save</Button>
+    </TooltipTrigger>
+    <TooltipContent className="flex items-center gap-2">
+      <span>Save document</span>
+      <Kbd className="text-xs">{"⌘"}S</Kbd>
+    </TooltipContent>
+  </Tooltip>
 </TooltipProvider>`,
           },
           {
@@ -5277,17 +5280,17 @@ const filtered = invoices.filter(inv =>
             code: `<TooltipProvider>
   <Tooltip>
     <TooltipTrigger asChild>
-      <Button variant="link" className="p-0 h-auto">@john.doe</Button>
+      <Button variant="link" className="p-0 h-auto">Admin User</Button>
     </TooltipTrigger>
     <TooltipContent className="w-64 p-3">
       <div className="flex items-start gap-3">
         <Avatar className="h-10 w-10">
-          <AvatarFallback className="bg-blue-500 text-white">JD</AvatarFallback>
+          <AvatarFallback>AU</AvatarFallback>
         </Avatar>
-        <div className="space-y-1">
-          <p className="text-sm font-medium">John Doe</p>
-          <p className="text-xs text-muted-foreground">john.doe@customs.gov</p>
-          <Badge variant="secondary" className="text-xs">Senior Officer</Badge>
+        <div className="space-y-0.5">
+          <p className="text-sm font-medium">Admin User</p>
+          <p className="text-xs text-muted-foreground">admin@customs.gov</p>
+          <p className="text-xs text-muted-foreground">System Administrator</p>
         </div>
       </div>
     </TooltipContent>
@@ -5454,23 +5457,17 @@ const filtered = invoices.filter(inv =>
             title: "Basic Carousel",
             description:
               "Simple carousel with 5 numbered cards showing CarouselPrevious/CarouselNext buttons.",
-            code: `<Carousel className="w-full max-w-sm mx-auto">
+            code: `<Carousel className="w-full max-w-sm">
   <CarouselContent>
-    <CarouselItem>
-      <div className="flex items-center justify-center h-40 rounded-lg border bg-muted text-2xl font-semibold">1</div>
-    </CarouselItem>
-    <CarouselItem>
-      <div className="flex items-center justify-center h-40 rounded-lg border bg-muted text-2xl font-semibold">2</div>
-    </CarouselItem>
-    <CarouselItem>
-      <div className="flex items-center justify-center h-40 rounded-lg border bg-muted text-2xl font-semibold">3</div>
-    </CarouselItem>
-    <CarouselItem>
-      <div className="flex items-center justify-center h-40 rounded-lg border bg-muted text-2xl font-semibold">4</div>
-    </CarouselItem>
-    <CarouselItem>
-      <div className="flex items-center justify-center h-40 rounded-lg border bg-muted text-2xl font-semibold">5</div>
-    </CarouselItem>
+    {[1, 2, 3, 4, 5].map((n) => (
+      <CarouselItem key={n}>
+        <Card>
+          <CardContent className="flex aspect-square items-center justify-center p-6">
+            <span className="text-3xl font-semibold">Slide {n}</span>
+          </CardContent>
+        </Card>
+      </CarouselItem>
+    ))}
   </CarouselContent>
   <CarouselPrevious />
   <CarouselNext />
@@ -5508,19 +5505,28 @@ const filtered = invoices.filter(inv =>
             id: "auto-size",
             title: "Auto Size",
             description: "Carousel with items of different sizes and content.",
-            code: `<Carousel className="w-full max-w-md mx-auto">
-  <CarouselContent className="-ml-2">
-    <CarouselItem className="pl-2 basis-1/2">
-      <div className="flex items-center justify-center h-32 rounded-lg border bg-blue-50 dark:bg-blue-950 text-sm font-medium">Short</div>
+            code: `<Carousel className="w-full max-w-sm">
+  <CarouselContent>
+    <CarouselItem>
+      <Card>
+        <CardContent className="flex h-[120px] items-center justify-center p-6">
+          <span className="text-lg font-semibold">Short card</span>
+        </CardContent>
+      </Card>
     </CarouselItem>
-    <CarouselItem className="pl-2 basis-2/3">
-      <div className="flex items-center justify-center h-32 rounded-lg border bg-green-50 dark:bg-green-950 text-sm font-medium">Medium Content</div>
+    <CarouselItem>
+      <Card>
+        <CardContent className="flex h-[200px] items-center justify-center p-6">
+          <span className="text-lg font-semibold">Tall card with more content</span>
+        </CardContent>
+      </Card>
     </CarouselItem>
-    <CarouselItem className="pl-2 basis-1/3">
-      <div className="flex items-center justify-center h-32 rounded-lg border bg-purple-50 dark:bg-purple-950 text-sm font-medium">Sm</div>
-    </CarouselItem>
-    <CarouselItem className="pl-2 basis-3/4">
-      <div className="flex items-center justify-center h-32 rounded-lg border bg-orange-50 dark:bg-orange-950 text-sm font-medium">Wider Card Here</div>
+    <CarouselItem>
+      <Card>
+        <CardContent className="flex h-[160px] items-center justify-center p-6">
+          <span className="text-lg font-semibold">Medium card</span>
+        </CardContent>
+      </Card>
     </CarouselItem>
   </CarouselContent>
   <CarouselPrevious />
@@ -5551,34 +5557,35 @@ const filtered = invoices.filter(inv =>
             title: "Grouped Commands",
             description:
               "Command palette with groups: Suggestions, Settings, Help, each with icons and descriptions.",
-            code: `<Command className="rounded-lg border shadow-md">
+            code: `<Command className="rounded-lg border shadow-md w-full max-w-sm">
   <CommandInput placeholder="Type a command or search..." />
   <CommandList>
     <CommandEmpty>No results found.</CommandEmpty>
     <CommandGroup heading="Suggestions">
       <CommandItem>
-        <SearchIcon className="mr-2 h-4 w-4" />
-        <span>Search Declarations</span>
+        <CalendarIcon className="mr-2 h-4 w-4" />
+        <span>Calendar</span>
       </CommandItem>
       <CommandItem>
-        <MailIcon className="mr-2 h-4 w-4" />
-        <span>Send Report</span>
+        <SearchIcon className="mr-2 h-4 w-4" />
+        <span>Search</span>
+      </CommandItem>
+      <CommandItem>
+        <Settings className="mr-2 h-4 w-4" />
+        <span>Settings</span>
       </CommandItem>
     </CommandGroup>
+    <CommandSeparator />
     <CommandGroup heading="Settings">
       <CommandItem>
-        <span className="mr-2 h-4 w-4 inline-flex items-center justify-center">&#9881;</span>
-        <span>General Settings</span>
+        <Users className="mr-2 h-4 w-4" />
+        <span>Profile</span>
+        <CommandShortcut>{"\u2318"}P</CommandShortcut>
       </CommandItem>
       <CommandItem>
-        <span className="mr-2 h-4 w-4 inline-flex items-center justify-center">&#128274;</span>
-        <span>Security</span>
-      </CommandItem>
-    </CommandGroup>
-    <CommandGroup heading="Help">
-      <CommandItem>
-        <InfoIcon className="mr-2 h-4 w-4" />
-        <span>Documentation</span>
+        <Bell className="mr-2 h-4 w-4" />
+        <span>Notifications</span>
+        <CommandShortcut>{"\u2318"}N</CommandShortcut>
       </CommandItem>
     </CommandGroup>
   </CommandList>
@@ -5636,18 +5643,36 @@ const filtered = invoices.filter(inv =>
             description:
               "Context menu with nested Share submenu containing Email, Slack, Copy Link.",
             code: `<ContextMenu>
-  <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+  <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
     Right click here
   </ContextMenuTrigger>
   <ContextMenuContent className="w-48">
-    <ContextMenuItem>Open</ContextMenuItem>
-    <ContextMenuItem>Edit</ContextMenuItem>
+    <ContextMenuItem>
+      <Copy className="mr-2 h-4 w-4" /> Copy
+    </ContextMenuItem>
+    <ContextMenuItem>
+      <Pencil className="mr-2 h-4 w-4" /> Edit
+    </ContextMenuItem>
+    <ContextMenuSub>
+      <ContextMenuSubTrigger>
+        <Share2 className="mr-2 h-4 w-4" /> Share
+      </ContextMenuSubTrigger>
+      <ContextMenuSubContent className="w-40">
+        <ContextMenuItem>
+          <MailIcon className="mr-2 h-4 w-4" /> Email
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <FileText className="mr-2 h-4 w-4" /> Slack
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <Link2 className="mr-2 h-4 w-4" /> Copy Link
+        </ContextMenuItem>
+      </ContextMenuSubContent>
+    </ContextMenuSub>
     <ContextMenuSeparator />
-    <ContextMenuItem>Share via Email</ContextMenuItem>
-    <ContextMenuItem>Share via Slack</ContextMenuItem>
-    <ContextMenuItem>Copy Link</ContextMenuItem>
-    <ContextMenuSeparator />
-    <ContextMenuItem className="text-destructive">Delete</ContextMenuItem>
+    <ContextMenuItem className="text-destructive">
+      <Trash2 className="mr-2 h-4 w-4" /> Delete
+    </ContextMenuItem>
   </ContextMenuContent>
 </ContextMenu>`,
           },
@@ -5657,31 +5682,25 @@ const filtered = invoices.filter(inv =>
             description:
               "Right-click menu with Cut, Copy, Paste, Delete, Rename with keyboard shortcuts and separators.",
             code: `<ContextMenu>
-  <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
-    Right click for file options
+  <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+    Right click here
   </ContextMenuTrigger>
-  <ContextMenuContent className="w-56">
+  <ContextMenuContent className="w-52">
     <ContextMenuItem>
-      Cut
-      <span className="ml-auto text-xs text-muted-foreground">Ctrl+X</span>
+      Cut <ContextMenuShortcut>{"\u2318"}X</ContextMenuShortcut>
     </ContextMenuItem>
     <ContextMenuItem>
-      Copy
-      <span className="ml-auto text-xs text-muted-foreground">Ctrl+C</span>
+      Copy <ContextMenuShortcut>{"\u2318"}C</ContextMenuShortcut>
     </ContextMenuItem>
     <ContextMenuItem>
-      Paste
-      <span className="ml-auto text-xs text-muted-foreground">Ctrl+V</span>
-    </ContextMenuItem>
-    <ContextMenuSeparator />
-    <ContextMenuItem>
-      Rename
-      <span className="ml-auto text-xs text-muted-foreground">F2</span>
+      Paste <ContextMenuShortcut>{"\u2318"}V</ContextMenuShortcut>
     </ContextMenuItem>
     <ContextMenuSeparator />
     <ContextMenuItem className="text-destructive">
-      Delete
-      <span className="ml-auto text-xs text-muted-foreground">Del</span>
+      Delete <ContextMenuShortcut>Del</ContextMenuShortcut>
+    </ContextMenuItem>
+    <ContextMenuItem>
+      Rename <ContextMenuShortcut>F2</ContextMenuShortcut>
     </ContextMenuItem>
   </ContextMenuContent>
 </ContextMenu>`,
@@ -5776,20 +5795,17 @@ const filtered = invoices.filter(inv =>
     <Button variant="outline">Columns</Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent className="w-48">
-    <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
+    <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem>
-      <Checkbox id="col-status" defaultChecked className="mr-2" />
-      <label htmlFor="col-status">Status</label>
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <Checkbox id="col-email" defaultChecked className="mr-2" />
-      <label htmlFor="col-email">Email</label>
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <Checkbox id="col-amount" className="mr-2" />
-      <label htmlFor="col-amount">Amount</label>
-    </DropdownMenuItem>
+    <DropdownMenuCheckboxItem checked>
+      Status
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem checked>
+      Email
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem>
+      Amount
+    </DropdownMenuCheckboxItem>
   </DropdownMenuContent>
 </DropdownMenu>`,
           },
@@ -5800,23 +5816,19 @@ const filtered = invoices.filter(inv =>
               "Dropdown menu with radio group for sort options (Name, Date, Status, Amount).",
             code: `<DropdownMenu>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline">Sort By</Button>
+    <Button variant="outline">
+      Sort by <ChevronDown className="ml-2 h-4 w-4" />
+    </Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent className="w-48">
-    <DropdownMenuLabel>Sort Order</DropdownMenuLabel>
+    <DropdownMenuLabel>Sort by</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem className="font-medium">
-      <span className="mr-2">&#9679;</span> Name
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <span className="mr-2 text-muted-foreground">&#9675;</span> Date
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <span className="mr-2 text-muted-foreground">&#9675;</span> Status
-    </DropdownMenuItem>
-    <DropdownMenuItem>
-      <span className="mr-2 text-muted-foreground">&#9675;</span> Amount
-    </DropdownMenuItem>
+    <DropdownMenuRadioGroup value="date">
+      <DropdownMenuRadioItem value="name">Name</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="date">Date</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="status">Status</DropdownMenuRadioItem>
+      <DropdownMenuRadioItem value="amount">Amount</DropdownMenuRadioItem>
+    </DropdownMenuRadioGroup>
   </DropdownMenuContent>
 </DropdownMenu>`,
           },
@@ -5847,18 +5859,18 @@ const filtered = invoices.filter(inv =>
               "HoverCard showing avatar, full name, email, role, and a View Profile link on user name hover.",
             code: `<HoverCard>
   <HoverCardTrigger asChild>
-    <Button variant="link" className="p-0 h-auto">@john.doe</Button>
+    <Button variant="link" className="p-0 h-auto">@admin</Button>
   </HoverCardTrigger>
   <HoverCardContent className="w-72">
-    <div className="flex items-start gap-3">
+    <div className="flex gap-4">
       <Avatar>
-        <AvatarFallback className="bg-blue-500 text-white">JD</AvatarFallback>
+        <AvatarFallback>AU</AvatarFallback>
       </Avatar>
       <div className="space-y-1">
-        <h4 className="text-sm font-semibold">John Doe</h4>
-        <p className="text-xs text-muted-foreground">john.doe@customs.gov</p>
-        <p className="text-xs text-muted-foreground">Senior Customs Officer</p>
-        <a href="#" className="text-xs text-primary hover:underline">View Profile</a>
+        <h4 className="text-sm font-semibold">Admin User</h4>
+        <p className="text-xs text-muted-foreground">admin@customs.gov</p>
+        <p className="text-xs text-muted-foreground">System Administrator</p>
+        <Button variant="link" className="p-0 h-auto text-xs">View Profile</Button>
       </div>
     </div>
   </HoverCardContent>
@@ -5871,16 +5883,17 @@ const filtered = invoices.filter(inv =>
               "HoverCard on a URL showing page title, description, and domain.",
             code: `<HoverCard>
   <HoverCardTrigger asChild>
-    <a href="#" className="text-primary underline text-sm">ALCES Customs Platform</a>
+    <Button variant="link" className="p-0 h-auto">customs.go.kr</Button>
   </HoverCardTrigger>
   <HoverCardContent className="w-80">
     <div className="space-y-2">
-      <h4 className="text-sm font-semibold">ALCES - Advanced Customs System</h4>
+      <h4 className="text-sm font-semibold">UNI-PASS Portal</h4>
       <p className="text-xs text-muted-foreground">
-        A comprehensive customs declaration management platform supporting 10 countries
-        with multi-language interfaces and automated clearance workflows.
+        The official electronic customs clearance system providing
+        integrated customs services for import, export, and transit
+        operations.
       </p>
-      <p className="text-xs text-muted-foreground">customs.alces.io</p>
+      <p className="text-xs text-muted-foreground">customs.go.kr</p>
     </div>
   </HoverCardContent>
 </HoverCard>`,
@@ -5912,17 +5925,29 @@ const filtered = invoices.filter(inv =>
   <MenubarMenu>
     <MenubarTrigger>File</MenubarTrigger>
     <MenubarContent>
-      <MenubarItem>New</MenubarItem>
-      <MenubarItem>Open</MenubarItem>
-      <MenubarItem>Save</MenubarItem>
-      <MenubarItem>Print</MenubarItem>
+      <MenubarItem>
+        New <MenubarShortcut>{"\u2318"}N</MenubarShortcut>
+      </MenubarItem>
+      <MenubarItem>
+        Open <MenubarShortcut>{"\u2318"}O</MenubarShortcut>
+      </MenubarItem>
+      <MenubarItem>
+        Save <MenubarShortcut>{"\u2318"}S</MenubarShortcut>
+      </MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>
+        Print <MenubarShortcut>{"\u2318"}P</MenubarShortcut>
+      </MenubarItem>
     </MenubarContent>
   </MenubarMenu>
   <MenubarMenu>
     <MenubarTrigger>Edit</MenubarTrigger>
     <MenubarContent>
-      <MenubarItem>Undo</MenubarItem>
+      <MenubarItem>
+        Undo <MenubarShortcut>{"\u2318"}Z</MenubarShortcut>
+      </MenubarItem>
       <MenubarItem>Redo</MenubarItem>
+      <MenubarSeparator />
       <MenubarItem>Cut</MenubarItem>
       <MenubarItem>Copy</MenubarItem>
       <MenubarItem>Paste</MenubarItem>
@@ -5933,6 +5958,7 @@ const filtered = invoices.filter(inv =>
     <MenubarContent>
       <MenubarItem>Zoom In</MenubarItem>
       <MenubarItem>Zoom Out</MenubarItem>
+      <MenubarSeparator />
       <MenubarItem>Toggle Sidebar</MenubarItem>
     </MenubarContent>
   </MenubarMenu>
@@ -5948,10 +5974,20 @@ const filtered = invoices.filter(inv =>
     <MenubarTrigger>File</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        New <span className="ml-auto text-xs text-muted-foreground">Ctrl+N</span>
+        New Declaration <MenubarShortcut>{"\u2318"}N</MenubarShortcut>
       </MenubarItem>
       <MenubarItem>
-        Save <span className="ml-auto text-xs text-muted-foreground">Ctrl+S</span>
+        Open <MenubarShortcut>{"\u2318"}O</MenubarShortcut>
+      </MenubarItem>
+      <MenubarItem>
+        Save <MenubarShortcut>{"\u2318"}S</MenubarShortcut>
+      </MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>
+        Export PDF <MenubarShortcut>{"\u2318"}E</MenubarShortcut>
+      </MenubarItem>
+      <MenubarItem>
+        Print <MenubarShortcut>{"\u2318"}P</MenubarShortcut>
       </MenubarItem>
     </MenubarContent>
   </MenubarMenu>
@@ -5959,10 +5995,20 @@ const filtered = invoices.filter(inv =>
     <MenubarTrigger>Edit</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        Undo <span className="ml-auto text-xs text-muted-foreground">Ctrl+Z</span>
+        Undo <MenubarShortcut>{"\u2318"}Z</MenubarShortcut>
       </MenubarItem>
       <MenubarItem>
-        Redo <span className="ml-auto text-xs text-muted-foreground">Ctrl+Y</span>
+        Redo <MenubarShortcut>{"\u21E7"}{"\u2318"}Z</MenubarShortcut>
+      </MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>
+        Cut <MenubarShortcut>{"\u2318"}X</MenubarShortcut>
+      </MenubarItem>
+      <MenubarItem>
+        Copy <MenubarShortcut>{"\u2318"}C</MenubarShortcut>
+      </MenubarItem>
+      <MenubarItem>
+        Paste <MenubarShortcut>{"\u2318"}V</MenubarShortcut>
       </MenubarItem>
     </MenubarContent>
   </MenubarMenu>
@@ -5996,30 +6042,50 @@ const filtered = invoices.filter(inv =>
     <NavigationMenuItem>
       <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
       <NavigationMenuContent>
-        <div className="grid gap-3 p-4 w-[400px]">
-          <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
-            <div className="text-sm font-medium">Introduction</div>
-            <p className="text-xs text-muted-foreground">Learn the basics of the customs platform.</p>
-          </NavigationMenuLink>
-          <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
-            <div className="text-sm font-medium">Installation</div>
-            <p className="text-xs text-muted-foreground">Set up your development environment.</p>
-          </NavigationMenuLink>
+        <div className="grid gap-3 p-4 w-[400px] grid-cols-2">
+          <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+            <h4 className="text-sm font-medium">Introduction</h4>
+            <p className="text-xs text-muted-foreground">
+              Overview of the customs clearance system and its features.
+            </p>
+          </div>
+          <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+            <h4 className="text-sm font-medium">Installation</h4>
+            <p className="text-xs text-muted-foreground">
+              Step-by-step guide to setting up your environment.
+            </p>
+          </div>
+          <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+            <h4 className="text-sm font-medium">Configuration</h4>
+            <p className="text-xs text-muted-foreground">
+              Configure themes, locales, and country settings.
+            </p>
+          </div>
+          <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+            <h4 className="text-sm font-medium">Components</h4>
+            <p className="text-xs text-muted-foreground">
+              Browse all available UI components.
+            </p>
+          </div>
         </div>
       </NavigationMenuContent>
     </NavigationMenuItem>
     <NavigationMenuItem>
-      <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+      <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
       <NavigationMenuContent>
-        <div className="grid gap-3 p-4 w-[400px]">
-          <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
-            <div className="text-sm font-medium">Data Display</div>
-            <p className="text-xs text-muted-foreground">Tables, badges, charts, and more.</p>
-          </NavigationMenuLink>
-          <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
-            <div className="text-sm font-medium">Forms</div>
-            <p className="text-xs text-muted-foreground">Inputs, selects, and form layouts.</p>
-          </NavigationMenuLink>
+        <div className="grid gap-3 p-4 w-[300px]">
+          <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+            <h4 className="text-sm font-medium">Documentation</h4>
+            <p className="text-xs text-muted-foreground">
+              Full API reference and usage guides.
+            </p>
+          </div>
+          <div className="space-y-1 rounded-md p-3 hover:bg-muted">
+            <h4 className="text-sm font-medium">Examples</h4>
+            <p className="text-xs text-muted-foreground">
+              Real-world examples and templates.
+            </p>
+          </div>
         </div>
       </NavigationMenuContent>
     </NavigationMenuItem>
@@ -6034,23 +6100,18 @@ const filtered = invoices.filter(inv =>
             code: `<NavigationMenu>
   <NavigationMenuList>
     <NavigationMenuItem>
-      <NavigationMenuLink href="#" className="px-3 py-2 text-sm font-medium">
+      <NavigationMenuLink className={navigationMenuTriggerStyle()} href="#">
         Dashboard
       </NavigationMenuLink>
     </NavigationMenuItem>
     <NavigationMenuItem>
-      <NavigationMenuLink href="#" className="px-3 py-2 text-sm font-medium">
+      <NavigationMenuLink className={navigationMenuTriggerStyle()} href="#">
         Reports
       </NavigationMenuLink>
     </NavigationMenuItem>
     <NavigationMenuItem>
-      <NavigationMenuLink href="#" className="px-3 py-2 text-sm font-medium">
+      <NavigationMenuLink className={navigationMenuTriggerStyle()} href="#">
         Settings
-      </NavigationMenuLink>
-    </NavigationMenuItem>
-    <NavigationMenuItem>
-      <NavigationMenuLink href="#" className="px-3 py-2 text-sm font-medium">
-        Help
       </NavigationMenuLink>
     </NavigationMenuItem>
   </NavigationMenuList>
@@ -6146,12 +6207,12 @@ const filtered = invoices.filter(inv =>
             title: "With Page Size",
             description:
               "Pagination with a Select dropdown for rows per page alongside page navigation.",
-            code: `<div className="flex items-center justify-between w-full">
-  <div className="flex items-center gap-2 text-sm">
-    <span className="text-muted-foreground">Rows per page:</span>
-    <Select>
+            code: `<div className="flex items-center justify-between w-full max-w-lg">
+  <div className="flex items-center gap-2">
+    <span className="text-sm text-muted-foreground">Rows per page</span>
+    <Select defaultValue="10">
       <SelectTrigger className="w-[70px] h-8">
-        <SelectValue placeholder="10" />
+        <SelectValue />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="10">10</SelectItem>
@@ -6161,16 +6222,16 @@ const filtered = invoices.filter(inv =>
       </SelectContent>
     </Select>
   </div>
-  <Pagination>
+  <Pagination className="w-auto mx-0">
     <PaginationContent>
       <PaginationItem>
         <PaginationPrevious href="#" />
       </PaginationItem>
       <PaginationItem>
-        <PaginationLink href="#" isActive>1</PaginationLink>
+        <PaginationLink href="#">1</PaginationLink>
       </PaginationItem>
       <PaginationItem>
-        <PaginationLink href="#">2</PaginationLink>
+        <PaginationLink href="#" isActive>2</PaginationLink>
       </PaginationItem>
       <PaginationItem>
         <PaginationLink href="#">3</PaginationLink>
@@ -6187,7 +6248,7 @@ const filtered = invoices.filter(inv =>
             title: "Compact",
             description:
               "Minimal pagination with just Previous/Next buttons and page text, suitable for mobile.",
-            code: `<div className="flex items-center justify-between w-full">
+            code: `<div className="flex items-center gap-4">
   <Button variant="outline" size="sm">Previous</Button>
   <span className="text-sm text-muted-foreground">Page 1 of 10</span>
   <Button variant="outline" size="sm">Next</Button>
@@ -6218,28 +6279,27 @@ const filtered = invoices.filter(inv =>
             title: "Collapsible Groups",
             description:
               "Mini sidebar mockup with collapsible sections containing menu items.",
-            code: `<div className="w-64 rounded-lg border bg-background">
-  <div className="p-4 font-semibold border-b">ALCES</div>
-  <div className="p-2">
-    <div className="mb-2">
-      <button className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
-        Declarations
-        <ChevronDown className="h-4 w-4" />
-      </button>
-      <div className="ml-4 space-y-1 mt-1">
-        <a href="#" className="block rounded-md px-3 py-1.5 text-sm hover:bg-muted">Import</a>
-        <a href="#" className="block rounded-md px-3 py-1.5 text-sm hover:bg-muted">Export</a>
-        <a href="#" className="block rounded-md px-3 py-1.5 text-sm hover:bg-muted">Transit</a>
+            code: `<div className="w-[240px] rounded-lg border">
+  <div className="p-3 space-y-1">
+    <div className="flex items-center justify-between rounded-md p-2 hover:bg-muted cursor-pointer">
+      <span className="text-sm font-medium">Declarations</span>
+      <ChevronDown className="h-4 w-4" />
+    </div>
+    <div className="ml-4 space-y-1">
+      <div className="text-sm text-muted-foreground rounded-md p-2 hover:bg-muted cursor-pointer">
+        Import
+      </div>
+      <div className="text-sm text-muted-foreground rounded-md p-2 hover:bg-muted cursor-pointer">
+        Export
       </div>
     </div>
-    <div className="mb-2">
-      <button className="flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
-        Reports
-        <ChevronRight className="h-4 w-4" />
-      </button>
+    <div className="flex items-center justify-between rounded-md p-2 hover:bg-muted cursor-pointer">
+      <span className="text-sm font-medium">Reports</span>
+      <ChevronRight className="h-4 w-4" />
     </div>
-    <div>
-      <a href="#" className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">Settings</a>
+    <div className="flex items-center justify-between rounded-md p-2 hover:bg-muted cursor-pointer">
+      <span className="text-sm font-medium">Settings</span>
+      <ChevronRight className="h-4 w-4" />
     </div>
   </div>
 </div>`,
@@ -6249,20 +6309,22 @@ const filtered = invoices.filter(inv =>
             title: "Icon Only",
             description:
               "Compact sidebar showing just icons in a narrow column.",
-            code: `<div className="w-14 rounded-lg border bg-background flex flex-col items-center py-4 gap-4">
-  <button className="flex items-center justify-center h-10 w-10 rounded-md hover:bg-muted" title="Home">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>
-  </button>
-  <button className="flex items-center justify-center h-10 w-10 rounded-md hover:bg-muted" title="Search">
-    <SearchIcon className="h-5 w-5" />
-  </button>
-  <button className="flex items-center justify-center h-10 w-10 rounded-md hover:bg-muted" title="Mail">
-    <MailIcon className="h-5 w-5" />
-  </button>
-  <Separator />
-  <button className="flex items-center justify-center h-10 w-10 rounded-md hover:bg-muted" title="Settings">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>
-  </button>
+            code: `<div className="w-[52px] rounded-lg border py-3 flex flex-col items-center gap-3">
+  <div className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted cursor-pointer">
+    <Home className="h-5 w-5 text-muted-foreground" />
+  </div>
+  <div className="flex h-9 w-9 items-center justify-center rounded-md bg-muted cursor-pointer">
+    <FileText className="h-5 w-5" />
+  </div>
+  <div className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted cursor-pointer">
+    <Users className="h-5 w-5 text-muted-foreground" />
+  </div>
+  <div className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted cursor-pointer">
+    <Settings className="h-5 w-5 text-muted-foreground" />
+  </div>
+  <div className="flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted cursor-pointer">
+    <Bell className="h-5 w-5 text-muted-foreground" />
+  </div>
 </div>`,
           },
         ],
