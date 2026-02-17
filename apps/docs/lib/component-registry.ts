@@ -205,12 +205,18 @@ export const componentCategories: ComponentCategory[] = [
         examples: [
           {
             id: "landscape",
-            title: "16:9 Landscape",
+            title: "16:9 Video Embed",
             description:
-              "Standard widescreen ratio commonly used for video embeds and hero images.",
+              "Standard widescreen ratio for embedding videos. AspectRatio ensures the iframe maintains 16:9 regardless of container width.",
             code: `<div className="w-[450px]">
-  <AspectRatio ratio={16 / 9} className="rounded-lg overflow-hidden">
-    <Image src="/cupia-logo-vertical.png" alt="Landscape demo" fill className="object-cover" />
+  <AspectRatio ratio={16 / 9} className="rounded-lg overflow-hidden bg-black">
+    <iframe
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+      title="Video demo"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+      className="h-full w-full"
+    />
   </AspectRatio>
 </div>`,
           },
@@ -286,17 +292,55 @@ export const componentCategories: ComponentCategory[] = [
             id: "basic",
             title: "Basic",
             description:
-              "A simple card with header, description, and content area.",
-            code: `<Card>
+              "A practical card showing a meeting invite with schedule, participants, and action buttons.",
+            code: `<Card className="w-full max-w-sm">
   <CardHeader>
-    <CardTitle>Card Title</CardTitle>
-    <CardDescription>Card Description</CardDescription>
+    <CardTitle>Team Meeting</CardTitle>
+    <CardDescription>Weekly sync with the engineering team</CardDescription>
+  </CardHeader>
+  <CardContent className="grid gap-3">
+    <div className="flex items-center gap-3">
+      <ClockIcon className="h-4 w-4 text-muted-foreground" />
+      <span className="text-sm">Monday, 10:00 AM - 11:00 AM</span>
+    </div>
+    <div className="flex items-center gap-3">
+      <MailIcon className="h-4 w-4 text-muted-foreground" />
+      <span className="text-sm">5 participants confirmed</span>
+    </div>
+    <p className="text-sm text-muted-foreground">
+      Sprint review, blockers discussion, and next week planning.
+    </p>
+  </CardContent>
+  <CardFooter className="flex justify-between">
+    <Button variant="outline" size="sm">Decline</Button>
+    <Button size="sm">Join Meeting</Button>
+  </CardFooter>
+</Card>`,
+          },
+          {
+            id: "with-image",
+            title: "With Image",
+            description:
+              "Card with a hero image, badges, and call-to-action — commonly used for product or project showcases.",
+            code: `<Card className="w-full max-w-sm overflow-hidden">
+  <div className="relative h-48 w-full">
+    <Image src="/cupia-logo-vertical.png" alt="Project" fill className="object-cover" />
+  </div>
+  <CardHeader>
+    <CardTitle>UNI-PASS System</CardTitle>
+    <CardDescription>Electronic Customs Clearance Platform</CardDescription>
   </CardHeader>
   <CardContent>
-    <p>Card Content</p>
+    <p className="text-sm text-muted-foreground">
+      A comprehensive customs clearance system deployed across 10+ countries.
+    </p>
+    <div className="mt-3 flex gap-2">
+      <Badge variant="secondary">Customs</Badge>
+      <Badge variant="outline">Active</Badge>
+    </div>
   </CardContent>
   <CardFooter>
-    <p>Card Footer</p>
+    <Button className="w-full">Learn More</Button>
   </CardFooter>
 </Card>`,
           },
@@ -1059,6 +1103,42 @@ export const componentCategories: ComponentCategory[] = [
   <a href="/dashboard">Go to Dashboard</a>
 </Button>`,
           },
+          {
+            id: "button-group",
+            title: "Button Group",
+            description:
+              "Toolbar-style grouped buttons for related actions like text formatting or view switching.",
+            code: `<div className="flex">
+  <Button variant="outline" className="rounded-r-none border-r-0">
+    <BoldIcon className="h-4 w-4" />
+  </Button>
+  <Button variant="outline" className="rounded-none border-r-0">
+    <ItalicIcon className="h-4 w-4" />
+  </Button>
+  <Button variant="outline" className="rounded-none border-r-0">
+    <UnderlineIcon className="h-4 w-4" />
+  </Button>
+  <Button variant="outline" className="rounded-l-none">
+    <StrikethroughIcon className="h-4 w-4" />
+  </Button>
+</div>`,
+          },
+          {
+            id: "async-action",
+            title: "Async Action",
+            description:
+              "Button with loading state that disables during async operations — common pattern for form submissions.",
+            code: `<div className="flex gap-4 items-center">
+  <Button disabled>
+    <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+    Submitting...
+  </Button>
+  <Button>
+    <SendIcon className="mr-2 h-4 w-4" />
+    Submit Declaration
+  </Button>
+</div>`,
+          },
         ],
         accessibility:
           "Renders a native <button> element with full keyboard support; use asChild with an <a> for navigation links.",
@@ -1291,6 +1371,54 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <Label htmlFor="disabled" className="text-muted-foreground">Disabled option</Label>
 </div>`,
           },
+          {
+            id: "terms-agreement",
+            title: "Terms Agreement",
+            description:
+              "Required checkbox for accepting terms and conditions before form submission.",
+            code: `<div className="space-y-4 w-full max-w-sm">
+  <div className="items-top flex space-x-2">
+    <Checkbox id="agree-terms" required />
+    <div className="grid gap-1.5 leading-none">
+      <Label htmlFor="agree-terms">
+        I agree to the Terms of Service and Privacy Policy
+      </Label>
+      <p className="text-xs text-muted-foreground">
+        By checking this box, you confirm that you have read and accept our
+        terms of service, privacy policy, and customs declaration regulations.
+      </p>
+    </div>
+  </div>
+  <Button disabled className="w-full">Submit Application</Button>
+</div>`,
+          },
+          {
+            id: "filter-checkboxes",
+            title: "Filter Checkboxes",
+            description:
+              "Multiple checkboxes used as filters — common in search and data table UIs.",
+            code: `<div className="rounded-lg border p-4 w-full max-w-xs space-y-3">
+  <h4 className="text-sm font-medium">Filter by Status</h4>
+  <div className="space-y-2">
+    <div className="flex items-center space-x-2">
+      <Checkbox id="filter-pending" defaultChecked />
+      <Label htmlFor="filter-pending" className="text-sm font-normal">Pending (24)</Label>
+    </div>
+    <div className="flex items-center space-x-2">
+      <Checkbox id="filter-approved" defaultChecked />
+      <Label htmlFor="filter-approved" className="text-sm font-normal">Approved (156)</Label>
+    </div>
+    <div className="flex items-center space-x-2">
+      <Checkbox id="filter-rejected" />
+      <Label htmlFor="filter-rejected" className="text-sm font-normal">Rejected (8)</Label>
+    </div>
+    <div className="flex items-center space-x-2">
+      <Checkbox id="filter-review" />
+      <Label htmlFor="filter-review" className="text-sm font-normal">Under Review (42)</Label>
+    </div>
+  </div>
+</div>`,
+          },
         ],
         props: [
           {
@@ -1401,6 +1529,79 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   Select framework...
 </Button>`,
           },
+          {
+            id: "country-select",
+            title: "Country Select",
+            description:
+              "Searchable country selector — common in customs and international trade applications.",
+            code: `<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline" className="w-[280px] justify-between">
+      <GlobeIcon className="mr-2 h-4 w-4" />
+      Select country...
+      <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-[280px] p-0">
+    <Command>
+      <CommandInput placeholder="Search country..." />
+      <CommandList>
+        <CommandEmpty>No country found.</CommandEmpty>
+        <CommandGroup heading="Countries">
+          <CommandItem>South Korea</CommandItem>
+          <CommandItem>Ecuador</CommandItem>
+          <CommandItem>Ethiopia</CommandItem>
+          <CommandItem>Algeria</CommandItem>
+          <CommandItem>Ghana</CommandItem>
+          <CommandItem>Cameroon</CommandItem>
+          <CommandItem>Uzbekistan</CommandItem>
+          <CommandItem>Tanzania</CommandItem>
+          <CommandItem>Nepal</CommandItem>
+          <CommandItem>Guatemala</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  </PopoverContent>
+</Popover>`,
+          },
+          {
+            id: "multi-select",
+            title: "Multi Select",
+            description:
+              "Combobox pattern supporting multiple selections with badge display.",
+            code: `<div className="space-y-2 w-full max-w-sm">
+  <div className="flex flex-wrap gap-1">
+    <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
+      South Korea <XIcon className="ml-1 h-3 w-3 cursor-pointer" />
+    </span>
+    <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
+      Ecuador <XIcon className="ml-1 h-3 w-3 cursor-pointer" />
+    </span>
+  </div>
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button variant="outline" className="w-full justify-between">
+        Add countries...
+        <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent className="p-0">
+      <Command>
+        <CommandInput placeholder="Search..." />
+        <CommandList>
+          <CommandEmpty>No results.</CommandEmpty>
+          <CommandGroup>
+            <CommandItem><Check className="mr-2 h-4 w-4" /> South Korea</CommandItem>
+            <CommandItem><Check className="mr-2 h-4 w-4" /> Ecuador</CommandItem>
+            <CommandItem><Check className="mr-2 h-4 w-4 opacity-0" /> Ethiopia</CommandItem>
+            <CommandItem><Check className="mr-2 h-4 w-4 opacity-0" /> Ghana</CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </PopoverContent>
+  </Popover>
+</div>`,
+          },
         ],
       },
       {
@@ -1466,6 +1667,26 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     </SelectContent>
   </Select>
   <p className="text-xs text-muted-foreground">Select your country of residence.</p>
+</div>`,
+          },
+          {
+            id: "inline-layout",
+            title: "Inline Layout",
+            description:
+              "Horizontal label-input layout for compact forms — common in data-heavy enterprise interfaces.",
+            code: `<div className="w-full max-w-lg space-y-4">
+  <div className="grid grid-cols-[8rem_1fr] items-center gap-4">
+    <Label className="text-right text-sm">Declaration No.</Label>
+    <Input placeholder="e.g. IMP-2026-001234" />
+  </div>
+  <div className="grid grid-cols-[8rem_1fr] items-center gap-4">
+    <Label className="text-right text-sm">HS Code</Label>
+    <Input placeholder="e.g. 8471.30.0000" />
+  </div>
+  <div className="grid grid-cols-[8rem_1fr] items-center gap-4">
+    <Label className="text-right text-sm">Country of Origin</Label>
+    <Input placeholder="e.g. South Korea" />
+  </div>
 </div>`,
           },
         ],
@@ -1557,6 +1778,34 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <Input id="document" type="file" />
 </div>`,
           },
+          {
+            id: "search",
+            title: "Search Input",
+            description:
+              "Input with search icon and clear button — standard pattern for filtering and search UIs.",
+            code: `<div className="relative w-full max-w-sm">
+  <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+  <Input className="pl-9 pr-9" placeholder="Search declarations..." />
+  <button className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+    <XIcon className="h-4 w-4" />
+  </button>
+</div>`,
+          },
+          {
+            id: "password",
+            title: "Password Input",
+            description:
+              "Password field with show/hide toggle for authentication forms.",
+            code: `<div className="relative w-full max-w-sm">
+  <Input type="password" placeholder="Enter your password" className="pr-10" />
+  <button
+    type="button"
+    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+  >
+    <EyeIcon className="h-4 w-4" />
+  </button>
+</div>`,
+          },
         ],
         accessibility:
           "Renders a native <input> element; always associate with a Label component using matching htmlFor and id attributes.",
@@ -1598,6 +1847,41 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             code: `<div className="flex w-full max-w-sm">
   <span className="inline-flex items-center rounded-l-md border border-r-0 bg-muted px-3 text-sm text-muted-foreground">https://</span>
   <Input className="rounded-l-none" placeholder="example.com" />
+</div>`,
+          },
+          {
+            id: "currency",
+            title: "Currency Input",
+            description:
+              "Input with currency prefix and dropdown — common in financial and customs valuation forms.",
+            code: `<div className="flex w-full max-w-sm">
+  <Select defaultValue="usd">
+    <SelectTrigger className="w-[100px] rounded-r-none border-r-0">
+      <SelectValue />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="usd">USD</SelectItem>
+      <SelectItem value="krw">KRW</SelectItem>
+      <SelectItem value="eur">EUR</SelectItem>
+    </SelectContent>
+  </Select>
+  <Input
+    type="number"
+    className="rounded-l-none"
+    placeholder="0.00"
+  />
+</div>`,
+          },
+          {
+            id: "url-input",
+            title: "URL Input",
+            description:
+              "Input with protocol prefix for entering web addresses.",
+            code: `<div className="flex w-full max-w-sm">
+  <span className="inline-flex items-center rounded-l-md border border-r-0 bg-muted px-3 text-sm text-muted-foreground">
+    https://
+  </span>
+  <Input className="rounded-l-none" placeholder="www.example.com" />
 </div>`,
           },
         ],
@@ -1679,6 +1963,39 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <InputOTPGroup><InputOTPSlot index={5} /></InputOTPGroup>
 </InputOTP>`,
           },
+          {
+            id: "verification",
+            title: "Verification Flow",
+            description:
+              "Complete verification UI with OTP input, timer, and resend link — typical email/SMS verification pattern.",
+            code: `<div className="flex flex-col items-center space-y-4">
+  <div className="text-center space-y-1">
+    <h3 className="text-lg font-semibold">Verify your email</h3>
+    <p className="text-sm text-muted-foreground">
+      Enter the 6-digit code sent to your email
+    </p>
+  </div>
+  <InputOTP maxLength={6}>
+    <InputOTPGroup>
+      <InputOTPSlot index={0} />
+      <InputOTPSlot index={1} />
+      <InputOTPSlot index={2} />
+    </InputOTPGroup>
+    <span className="mx-2 text-muted-foreground">—</span>
+    <InputOTPGroup>
+      <InputOTPSlot index={3} />
+      <InputOTPSlot index={4} />
+      <InputOTPSlot index={5} />
+    </InputOTPGroup>
+  </InputOTP>
+  <div className="text-center space-y-1">
+    <p className="text-sm text-muted-foreground">Time remaining: 2:30</p>
+    <button className="text-sm text-primary underline-offset-4 hover:underline">
+      Resend code
+    </button>
+  </div>
+</div>`,
+          },
         ],
       },
       {
@@ -1727,6 +2044,32 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             code: `<div className="grid w-full max-w-sm gap-1.5">
   <Label htmlFor="label-disabled" className="text-muted-foreground">Disabled</Label>
   <Input id="label-disabled" disabled placeholder="Cannot edit" />
+</div>`,
+          },
+          {
+            id: "form-layout",
+            title: "Form Layout",
+            description:
+              "Labels in a structured form layout with aligned columns — enterprise form standard.",
+            code: `<div className="w-full max-w-lg space-y-4">
+  <div className="flex items-center gap-4">
+    <Label htmlFor="fl-declaration" className="w-32 text-right text-sm shrink-0">
+      Declaration No.
+    </Label>
+    <Input id="fl-declaration" placeholder="IMP-2026-001234" />
+  </div>
+  <div className="flex items-center gap-4">
+    <Label htmlFor="fl-company" className="w-32 text-right text-sm shrink-0">
+      Company Name
+    </Label>
+    <Input id="fl-company" placeholder="Acme Trading Co." />
+  </div>
+  <div className="flex items-center gap-4">
+    <Label htmlFor="fl-date" className="w-32 text-right text-sm shrink-0">
+      Filing Date
+    </Label>
+    <Input id="fl-date" type="date" />
+  </div>
 </div>`,
           },
         ],
@@ -1812,6 +2155,100 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
     <div>
       <Label htmlFor="r-compact">Compact</Label>
       <p className="text-sm text-muted-foreground">Tight spacing to display more items.</p>
+    </div>
+  </div>
+</RadioGroup>`,
+          },
+          {
+            id: "horizontal",
+            title: "Horizontal Layout",
+            description:
+              "Radio buttons laid out horizontally for compact single-row selection.",
+            code: `<RadioGroup defaultValue="weekly" className="flex flex-row gap-4">
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="daily" id="rh-daily" />
+    <Label htmlFor="rh-daily">Daily</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="weekly" id="rh-weekly" />
+    <Label htmlFor="rh-weekly">Weekly</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="monthly" id="rh-monthly" />
+    <Label htmlFor="rh-monthly">Monthly</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="yearly" id="rh-yearly" />
+    <Label htmlFor="rh-yearly">Yearly</Label>
+  </div>
+</RadioGroup>`,
+          },
+          {
+            id: "payment-method",
+            title: "Payment Method",
+            description:
+              "Card-style radio selection for payment methods — common in e-commerce and duty payment.",
+            code: `<RadioGroup defaultValue="credit-card" className="grid gap-3 w-full max-w-sm">
+  <Label
+    htmlFor="pm-credit"
+    className="flex items-center gap-3 rounded-lg border p-4 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 [&:has(:checked)]:border-primary"
+  >
+    <RadioGroupItem value="credit-card" id="pm-credit" />
+    <CreditCardIcon className="h-5 w-5" />
+    <div>
+      <p className="text-sm font-medium">Credit Card</p>
+      <p className="text-xs text-muted-foreground">Visa, Mastercard, AMEX</p>
+    </div>
+  </Label>
+  <Label
+    htmlFor="pm-bank"
+    className="flex items-center gap-3 rounded-lg border p-4 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 [&:has(:checked)]:border-primary"
+  >
+    <RadioGroupItem value="bank-transfer" id="pm-bank" />
+    <BuildingIcon className="h-5 w-5" />
+    <div>
+      <p className="text-sm font-medium">Bank Transfer</p>
+      <p className="text-xs text-muted-foreground">Direct bank-to-bank payment</p>
+    </div>
+  </Label>
+  <Label
+    htmlFor="pm-debit"
+    className="flex items-center gap-3 rounded-lg border p-4 cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 [&:has(:checked)]:border-primary"
+  >
+    <RadioGroupItem value="direct-debit" id="pm-debit" />
+    <WalletIcon className="h-5 w-5" />
+    <div>
+      <p className="text-sm font-medium">Direct Debit</p>
+      <p className="text-xs text-muted-foreground">Automatic recurring payment</p>
+    </div>
+  </Label>
+</RadioGroup>`,
+          },
+          {
+            id: "shipping-options",
+            title: "Shipping Options",
+            description:
+              "Radio options with descriptions inside bordered cards — common for shipping or service tier selection.",
+            code: `<RadioGroup defaultValue="standard" className="space-y-3 w-full max-w-md">
+  <div className="flex items-start space-x-3 rounded-md border p-3">
+    <RadioGroupItem value="express" id="ship-express" className="mt-0.5" />
+    <div>
+      <Label htmlFor="ship-express" className="font-medium">Express Shipping</Label>
+      <p className="text-xs text-muted-foreground">Delivered in 1-2 business days</p>
+    </div>
+  </div>
+  <div className="flex items-start space-x-3 rounded-md border p-3 border-primary">
+    <RadioGroupItem value="standard" id="ship-standard" className="mt-0.5" />
+    <div>
+      <Label htmlFor="ship-standard" className="font-medium">Standard Shipping</Label>
+      <p className="text-xs text-muted-foreground">Delivered in 5-7 business days</p>
+    </div>
+  </div>
+  <div className="flex items-start space-x-3 rounded-md border p-3">
+    <RadioGroupItem value="economy" id="ship-economy" className="mt-0.5" />
+    <div>
+      <Label htmlFor="ship-economy" className="font-medium">Economy Shipping</Label>
+      <p className="text-xs text-muted-foreground">Delivered in 10-14 business days</p>
     </div>
   </div>
 </RadioGroup>`,
@@ -1925,6 +2362,50 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   </SelectContent>
 </Select>`,
           },
+          {
+            id: "with-icons",
+            title: "With Icons",
+            description:
+              "Select options with leading icons for visual identification.",
+            code: `<Select>
+  <SelectTrigger className="w-[220px]">
+    <SelectValue placeholder="Select country" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="kr">South Korea</SelectItem>
+    <SelectItem value="ec">Ecuador</SelectItem>
+    <SelectItem value="et">Ethiopia</SelectItem>
+    <SelectItem value="dz">Algeria</SelectItem>
+    <SelectItem value="gh">Ghana</SelectItem>
+    <SelectItem value="cm">Cameroon</SelectItem>
+  </SelectContent>
+</Select>`,
+          },
+          {
+            id: "form-select",
+            title: "Form Select",
+            description:
+              "Select integrated in a form layout with label and validation.",
+            code: `<div className="grid w-full max-w-sm gap-1.5">
+  <Label htmlFor="decl-type">
+    Declaration Type <span className="text-destructive">*</span>
+  </Label>
+  <Select>
+    <SelectTrigger id="decl-type">
+      <SelectValue placeholder="Select type" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="import">Import</SelectItem>
+      <SelectItem value="export">Export</SelectItem>
+      <SelectItem value="transit">Transit</SelectItem>
+      <SelectItem value="re-export">Re-export</SelectItem>
+    </SelectContent>
+  </Select>
+  <p className="text-xs text-muted-foreground">
+    Choose the customs declaration type for this shipment.
+  </p>
+</div>`,
+          },
         ],
         accessibility:
           "Implements WAI-ARIA Listbox pattern with full keyboard navigation; Arrow keys browse items, Enter selects.",
@@ -1972,6 +2453,47 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             code: `<div className="flex items-center space-x-2">
   <Switch id="disabled-switch" disabled />
   <Label htmlFor="disabled-switch" className="text-muted-foreground">Disabled</Label>
+</div>`,
+          },
+          {
+            id: "settings-group",
+            title: "Settings Group",
+            description:
+              "Multiple switches in a settings panel layout — standard pattern for preference pages.",
+            code: `<div className="rounded-lg border p-4 w-full max-w-sm space-y-4">
+  <h4 className="text-sm font-medium">Notification Preferences</h4>
+  <div className="flex items-center justify-between">
+    <Label htmlFor="sw-email" className="text-sm font-normal">Email Notifications</Label>
+    <Switch id="sw-email" defaultChecked />
+  </div>
+  <div className="flex items-center justify-between">
+    <Label htmlFor="sw-sms" className="text-sm font-normal">SMS Alerts</Label>
+    <Switch id="sw-sms" defaultChecked />
+  </div>
+  <div className="flex items-center justify-between">
+    <Label htmlFor="sw-dark" className="text-sm font-normal">Dark Mode</Label>
+    <Switch id="sw-dark" />
+  </div>
+  <div className="flex items-center justify-between">
+    <Label htmlFor="sw-auto" className="text-sm font-normal">Auto-save Drafts</Label>
+    <Switch id="sw-auto" defaultChecked />
+  </div>
+</div>`,
+          },
+          {
+            id: "with-detail",
+            title: "With Description",
+            description:
+              "Switch with label and detailed description for complex toggle options.",
+            code: `<div className="flex items-center justify-between rounded-lg border p-4 w-full max-w-sm">
+  <div className="space-y-0.5">
+    <Label htmlFor="sw-2fa">Two-Factor Authentication</Label>
+    <p className="text-sm text-muted-foreground">
+      Add an extra layer of security to your account by requiring a
+      verification code on each login.
+    </p>
+  </div>
+  <Switch id="sw-2fa" />
 </div>`,
           },
         ],
@@ -2044,6 +2566,40 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             description: "Textarea in a disabled state.",
             code: `<Textarea placeholder="Disabled textarea" disabled />`,
           },
+          {
+            id: "with-counter",
+            title: "With Character Counter",
+            description:
+              "Textarea with character count display — required for fields with length limits.",
+            code: `<div className="grid w-full gap-1.5">
+  <Label htmlFor="remarks">Remarks</Label>
+  <Textarea
+    id="remarks"
+    placeholder="Enter additional remarks for the declaration..."
+    maxLength={500}
+  />
+  <div className="flex justify-end">
+    <span className="text-xs text-muted-foreground">0 / 500</span>
+  </div>
+</div>`,
+          },
+          {
+            id: "auto-resize",
+            title: "Auto Resize",
+            description:
+              "Textarea that grows with content using min and max height constraints.",
+            code: `<div className="grid w-full gap-1.5">
+  <Label htmlFor="description">Description</Label>
+  <Textarea
+    id="description"
+    placeholder="Start typing and the textarea will grow..."
+    className="min-h-[80px] max-h-[200px] resize-none overflow-y-auto"
+  />
+  <p className="text-xs text-muted-foreground">
+    The field expands as you type, up to a maximum height.
+  </p>
+</div>`,
+          },
         ],
         accessibility:
           "Renders a native <textarea> element; always associate with a Label using matching htmlFor and id.",
@@ -2083,6 +2639,21 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <span className="font-bold mr-2">B</span>
   Bold
 </Toggle>`,
+          },
+          {
+            id: "with-state",
+            title: "Stateful Toggle",
+            description:
+              "Toggle with visual feedback showing pressed/unpressed state with different icons.",
+            code: `<div className="flex gap-2 items-center">
+  <Toggle aria-label="Toggle favorite" variant="outline">
+    <StarIcon className="h-4 w-4" />
+  </Toggle>
+  <Toggle aria-label="Toggle favorite" variant="outline" data-state="on" className="data-[state=on]:bg-yellow-100 data-[state=on]:text-yellow-600">
+    <StarIcon className="h-4 w-4 fill-current" />
+  </Toggle>
+  <span className="text-sm text-muted-foreground ml-2">Click to toggle favorite</span>
+</div>`,
           },
         ],
         accessibility:
@@ -2144,6 +2715,43 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <ToggleGroupItem value="left" aria-label="Align left">Left</ToggleGroupItem>
   <ToggleGroupItem value="center" aria-label="Align center">Center</ToggleGroupItem>
   <ToggleGroupItem value="right" aria-label="Align right">Right</ToggleGroupItem>
+</ToggleGroup>`,
+          },
+          {
+            id: "text-align",
+            title: "Text Alignment",
+            description:
+              "Toggle group for text alignment — classic toolbar control pattern.",
+            code: `<ToggleGroup type="single" defaultValue="left">
+  <ToggleGroupItem value="left" aria-label="Align left">
+    <AlignLeftIcon className="h-4 w-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="center" aria-label="Align center">
+    <AlignCenterIcon className="h-4 w-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="right" aria-label="Align right">
+    <AlignRightIcon className="h-4 w-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="justify" aria-label="Justify">
+    <AlignJustifyIcon className="h-4 w-4" />
+  </ToggleGroupItem>
+</ToggleGroup>`,
+          },
+          {
+            id: "view-switcher",
+            title: "View Switcher",
+            description:
+              "Toggle between different view modes like grid, list, and kanban.",
+            code: `<ToggleGroup type="single" defaultValue="list" variant="outline">
+  <ToggleGroupItem value="grid" aria-label="Grid view">
+    <LayoutGridIcon className="h-4 w-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="list" aria-label="List view">
+    <ListIcon className="h-4 w-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="kanban" aria-label="Kanban view">
+    <LayoutDashboardIcon className="h-4 w-4" />
+  </ToggleGroupItem>
 </ToggleGroup>`,
           },
         ],

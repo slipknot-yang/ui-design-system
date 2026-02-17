@@ -18,6 +18,20 @@ import {
   Trash2,
   ChevronRight,
   ChevronDown,
+  Bold,
+  Italic,
+  Underline,
+  Eye,
+  Star,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  AlignJustify,
+  Grid3X3,
+  List,
+  CreditCard,
+  Building2,
+  Landmark,
 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
@@ -1484,14 +1498,57 @@ const examplePreviews: Record<string, React.ReactNode> = {
   "card:basic": (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardTitle>Team Meeting</CardTitle>
+        <CardDescription>Weekly sync with the engineering team</CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-3">
+        <div className="flex items-center gap-3">
+          <ClockIcon className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm">Monday, 10:00 AM - 11:00 AM</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <MailIcon className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm">5 participants confirmed</span>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Sprint review, blockers discussion, and next week planning.
+        </p>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button variant="outline" size="sm">
+          Decline
+        </Button>
+        <Button size="sm">Join Meeting</Button>
+      </CardFooter>
+    </Card>
+  ),
+  "card:with-image": (
+    <Card className="w-full max-w-sm overflow-hidden">
+      <div className="relative h-48 w-full">
+        <Image
+          src="/cupia-logo-vertical.png"
+          alt="CUPIA Customs System"
+          fill
+          className="object-cover"
+        />
+      </div>
+      <CardHeader>
+        <CardTitle>UNI-PASS System</CardTitle>
+        <CardDescription>Electronic Customs Clearance Platform</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">Card content goes here.</p>
+        <p className="text-sm text-muted-foreground">
+          A comprehensive customs clearance system deployed across 10+
+          countries, processing millions of declarations annually.
+        </p>
+        <div className="mt-3 flex gap-2">
+          <Badge variant="secondary">Customs</Badge>
+          <Badge variant="secondary">E-Gov</Badge>
+          <Badge variant="outline">Active</Badge>
+        </div>
       </CardContent>
       <CardFooter>
-        <p className="text-sm text-muted-foreground">Card Footer</p>
+        <Button className="w-full">Learn More</Button>
       </CardFooter>
     </Card>
   ),
@@ -2234,16 +2291,20 @@ const examplePreviews: Record<string, React.ReactNode> = {
   // Aspect Ratio
   "aspect-ratio:landscape": (
     <div className="w-[450px]">
-      <AspectRatio ratio={16 / 9} className="rounded-lg overflow-hidden">
-        <Image
-          src="/cupia-logo-vertical.png"
-          alt="Landscape demo"
-          fill
-          className="object-cover"
+      <AspectRatio
+        ratio={16 / 9}
+        className="rounded-lg overflow-hidden bg-black"
+      >
+        <iframe
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          title="Video demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="h-full w-full"
         />
       </AspectRatio>
       <p className="mt-2 text-xs text-muted-foreground text-center">
-        16:9 — Video / Hero Image
+        16:9 — Embedded Video
       </p>
     </div>
   ),
@@ -3592,6 +3653,580 @@ const examplePreviews: Record<string, React.ReactNode> = {
         </PaginationItem>
       </PaginationContent>
     </Pagination>
+  ),
+
+  // Button enterprise examples
+  "button:button-group": (
+    <div className="flex">
+      <Button variant="outline" className="rounded-r-none border-r-0" size="sm">
+        <Bold className="h-4 w-4" />
+      </Button>
+      <Button variant="outline" className="rounded-none border-r-0" size="sm">
+        <Italic className="h-4 w-4" />
+      </Button>
+      <Button variant="outline" className="rounded-l-none" size="sm">
+        <Underline className="h-4 w-4" />
+      </Button>
+    </div>
+  ),
+  "button:async-action": (
+    <div className="flex gap-3 items-center">
+      <Button disabled>
+        <Spinner className="h-4 w-4 mr-2" />
+        Submitting...
+      </Button>
+      <Button>Submit Declaration</Button>
+    </div>
+  ),
+
+  // Checkbox enterprise examples
+  "checkbox:terms-agreement": (
+    <div className="space-y-4 max-w-md">
+      <div className="flex items-start space-x-3">
+        <Checkbox id="terms-agree" />
+        <Label htmlFor="terms-agree" className="text-sm leading-relaxed">
+          I agree to the Terms of Service, Privacy Policy, and consent to the
+          processing of customs declaration data in accordance with WCO
+          guidelines.
+        </Label>
+      </div>
+      <Button className="w-full" size="sm">
+        Submit Application
+      </Button>
+    </div>
+  ),
+  "checkbox:filter-checkboxes": (
+    <Card className="w-[280px]">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-sm font-medium">Filter by Status</CardTitle>
+      </CardHeader>
+      <CardContent className="grid gap-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="filter-pending" defaultChecked />
+            <Label htmlFor="filter-pending" className="text-sm">
+              Pending
+            </Label>
+          </div>
+          <span className="text-xs text-muted-foreground">(24)</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="filter-approved" defaultChecked />
+            <Label htmlFor="filter-approved" className="text-sm">
+              Approved
+            </Label>
+          </div>
+          <span className="text-xs text-muted-foreground">(156)</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="filter-rejected" />
+            <Label htmlFor="filter-rejected" className="text-sm">
+              Rejected
+            </Label>
+          </div>
+          <span className="text-xs text-muted-foreground">(8)</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Checkbox id="filter-review" defaultChecked />
+            <Label htmlFor="filter-review" className="text-sm">
+              Under Review
+            </Label>
+          </div>
+          <span className="text-xs text-muted-foreground">(12)</span>
+        </div>
+      </CardContent>
+    </Card>
+  ),
+
+  // Combobox enterprise examples
+  "combobox:country-select": (
+    <div className="w-[300px]">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" className="w-full justify-between">
+            Select country...
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[300px] p-0">
+          <Command>
+            <CommandInput placeholder="Search country..." />
+            <CommandList>
+              <CommandEmpty>No country found.</CommandEmpty>
+              <CommandGroup heading="Asia">
+                <CommandItem>🇰🇷 Korea (KR)</CommandItem>
+                <CommandItem>🇺🇿 Uzbekistan (UZ)</CommandItem>
+                <CommandItem>🇳🇵 Nepal (NP)</CommandItem>
+              </CommandGroup>
+              <CommandGroup heading="Africa">
+                <CommandItem>🇪🇹 Ethiopia (ET)</CommandItem>
+                <CommandItem>🇩🇿 Algeria (DZ)</CommandItem>
+                <CommandItem>🇬🇭 Ghana (GH)</CommandItem>
+                <CommandItem>🇨🇲 Cameroon (CM)</CommandItem>
+                <CommandItem>🇹🇿 Tanzania (TZ)</CommandItem>
+              </CommandGroup>
+              <CommandGroup heading="Americas">
+                <CommandItem>🇪🇨 Ecuador (EC)</CommandItem>
+                <CommandItem>🇬🇹 Guatemala (GT)</CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
+  ),
+  "combobox:multi-select": (
+    <div className="w-[300px] space-y-2">
+      <div className="flex flex-wrap gap-1">
+        <Badge variant="secondary" className="text-xs">
+          Korea <XIcon className="ml-1 h-3 w-3 cursor-pointer" />
+        </Badge>
+        <Badge variant="secondary" className="text-xs">
+          Ghana <XIcon className="ml-1 h-3 w-3 cursor-pointer" />
+        </Badge>
+      </div>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" className="w-full justify-between">
+            Add countries...
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[300px] p-0">
+          <Command>
+            <CommandInput placeholder="Search..." />
+            <CommandList>
+              <CommandEmpty>No results.</CommandEmpty>
+              <CommandGroup>
+                <CommandItem>
+                  <CheckIcon className="mr-2 h-4 w-4" /> Korea
+                </CommandItem>
+                <CommandItem>
+                  <CheckIcon className="mr-2 h-4 w-4" /> Ghana
+                </CommandItem>
+                <CommandItem>
+                  <span className="mr-2 w-4" /> Ecuador
+                </CommandItem>
+                <CommandItem>
+                  <span className="mr-2 w-4" /> Ethiopia
+                </CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
+  ),
+
+  // Field enterprise examples
+  "field:inline-layout": (
+    <div className="w-full max-w-lg space-y-3">
+      <div className="flex items-center gap-4">
+        <Label className="w-32 text-right text-sm shrink-0">
+          Declaration No.
+        </Label>
+        <Input placeholder="KR-2024-001234" className="flex-1" />
+      </div>
+      <div className="flex items-center gap-4">
+        <Label className="w-32 text-right text-sm shrink-0">HS Code</Label>
+        <Input placeholder="8471.30.0000" className="flex-1" />
+      </div>
+      <div className="flex items-center gap-4">
+        <Label className="w-32 text-right text-sm shrink-0">
+          Origin Country
+        </Label>
+        <Input placeholder="Korea (KR)" className="flex-1" />
+      </div>
+    </div>
+  ),
+
+  // Input enterprise examples
+  "input:search": (
+    <div className="relative w-[320px]">
+      <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <Input placeholder="Search declarations..." className="pl-9 pr-9" />
+      <button className="absolute right-3 top-1/2 -translate-y-1/2">
+        <XIcon className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+      </button>
+    </div>
+  ),
+  "input:password": (
+    <div className="w-[320px] space-y-2">
+      <Label htmlFor="pw-demo">Password</Label>
+      <div className="relative">
+        <Input
+          id="pw-demo"
+          type="password"
+          placeholder="Enter password"
+          className="pr-10"
+        />
+        <button className="absolute right-3 top-1/2 -translate-y-1/2">
+          <Eye className="h-4 w-4 text-muted-foreground" />
+        </button>
+      </div>
+    </div>
+  ),
+
+  // Input Group enterprise examples
+  "input-group:currency": (
+    <div className="flex w-[320px]">
+      <Select defaultValue="usd">
+        <SelectTrigger className="w-[100px] rounded-r-none">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="usd">USD</SelectItem>
+          <SelectItem value="krw">KRW</SelectItem>
+          <SelectItem value="eur">EUR</SelectItem>
+        </SelectContent>
+      </Select>
+      <Input placeholder="0.00" className="rounded-l-none border-l-0" />
+    </div>
+  ),
+  "input-group:url-input": (
+    <div className="flex w-[400px]">
+      <span className="inline-flex items-center rounded-l-md border border-r-0 bg-muted px-3 text-sm text-muted-foreground">
+        https://
+      </span>
+      <Input placeholder="example.com" className="rounded-l-none" />
+    </div>
+  ),
+
+  // Input OTP enterprise examples
+  "input-otp:verification": (
+    <div className="flex flex-col items-center gap-4">
+      <p className="text-sm text-muted-foreground">
+        Enter the 6-digit code sent to your email
+      </p>
+      <InputOTP maxLength={6}>
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+      <div className="flex items-center gap-2 text-sm">
+        <ClockIcon className="h-4 w-4 text-muted-foreground" />
+        <span className="text-muted-foreground">Time remaining: 2:30</span>
+      </div>
+      <Button variant="link" size="sm" className="text-xs">
+        Resend code
+      </Button>
+    </div>
+  ),
+
+  // Label enterprise examples
+  "label:form-layout": (
+    <div className="w-full max-w-md space-y-4">
+      <div className="flex items-center gap-4">
+        <Label className="w-28 text-right text-sm shrink-0">Full Name</Label>
+        <Input placeholder="John Doe" className="flex-1" />
+      </div>
+      <div className="flex items-center gap-4">
+        <Label className="w-28 text-right text-sm shrink-0">Email</Label>
+        <Input type="email" placeholder="john@example.com" className="flex-1" />
+      </div>
+      <div className="flex items-center gap-4">
+        <Label className="w-28 text-right text-sm shrink-0">Department</Label>
+        <Input placeholder="Customs Division" className="flex-1" />
+      </div>
+    </div>
+  ),
+
+  // Radio Group enterprise examples
+  "radio-group:horizontal": (
+    <div className="space-y-2">
+      <Label>Report Frequency</Label>
+      <RadioGroup defaultValue="weekly" className="flex gap-4">
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="daily" id="freq-daily" />
+          <Label htmlFor="freq-daily" className="font-normal">
+            Daily
+          </Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="weekly" id="freq-weekly" />
+          <Label htmlFor="freq-weekly" className="font-normal">
+            Weekly
+          </Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="monthly" id="freq-monthly" />
+          <Label htmlFor="freq-monthly" className="font-normal">
+            Monthly
+          </Label>
+        </div>
+      </RadioGroup>
+    </div>
+  ),
+  "radio-group:shipping-options": (
+    <RadioGroup defaultValue="standard" className="space-y-3 w-full max-w-md">
+      <div className="flex items-start space-x-3 rounded-md border p-3">
+        <RadioGroupItem value="express" id="ship-express" className="mt-0.5" />
+        <div>
+          <Label htmlFor="ship-express" className="font-medium">
+            Express Shipping
+          </Label>
+          <p className="text-xs text-muted-foreground">
+            Delivered in 1-2 business days
+          </p>
+        </div>
+      </div>
+      <div className="flex items-start space-x-3 rounded-md border p-3 border-primary">
+        <RadioGroupItem
+          value="standard"
+          id="ship-standard"
+          className="mt-0.5"
+        />
+        <div>
+          <Label htmlFor="ship-standard" className="font-medium">
+            Standard Shipping
+          </Label>
+          <p className="text-xs text-muted-foreground">
+            Delivered in 5-7 business days
+          </p>
+        </div>
+      </div>
+      <div className="flex items-start space-x-3 rounded-md border p-3">
+        <RadioGroupItem value="economy" id="ship-economy" className="mt-0.5" />
+        <div>
+          <Label htmlFor="ship-economy" className="font-medium">
+            Economy Shipping
+          </Label>
+          <p className="text-xs text-muted-foreground">
+            Delivered in 10-14 business days
+          </p>
+        </div>
+      </div>
+    </RadioGroup>
+  ),
+  "radio-group:payment-method": (
+    <RadioGroup defaultValue="credit" className="grid gap-3 w-full max-w-sm">
+      <Label className="flex items-center gap-3 rounded-md border p-3 cursor-pointer [&:has([data-state=checked])]:border-primary">
+        <RadioGroupItem value="credit" />
+        <CreditCard className="h-5 w-5 text-muted-foreground" />
+        <div>
+          <p className="text-sm font-medium">Credit Card</p>
+          <p className="text-xs text-muted-foreground">
+            Visa, Mastercard, AMEX
+          </p>
+        </div>
+      </Label>
+      <Label className="flex items-center gap-3 rounded-md border p-3 cursor-pointer [&:has([data-state=checked])]:border-primary">
+        <RadioGroupItem value="bank" />
+        <Building2 className="h-5 w-5 text-muted-foreground" />
+        <div>
+          <p className="text-sm font-medium">Bank Transfer</p>
+          <p className="text-xs text-muted-foreground">Direct bank payment</p>
+        </div>
+      </Label>
+      <Label className="flex items-center gap-3 rounded-md border p-3 cursor-pointer [&:has([data-state=checked])]:border-primary">
+        <RadioGroupItem value="debit" />
+        <Landmark className="h-5 w-5 text-muted-foreground" />
+        <div>
+          <p className="text-sm font-medium">Direct Debit</p>
+          <p className="text-xs text-muted-foreground">
+            Auto-debit from account
+          </p>
+        </div>
+      </Label>
+    </RadioGroup>
+  ),
+
+  // Select enterprise examples
+  "select:with-icons": (
+    <div className="w-[280px]">
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Select country" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="kr">🇰🇷 Korea</SelectItem>
+          <SelectItem value="ec">🇪🇨 Ecuador</SelectItem>
+          <SelectItem value="et">🇪🇹 Ethiopia</SelectItem>
+          <SelectItem value="dz">🇩🇿 Algeria</SelectItem>
+          <SelectItem value="gh">🇬🇭 Ghana</SelectItem>
+          <SelectItem value="cm">🇨🇲 Cameroon</SelectItem>
+          <SelectItem value="uz">🇺🇿 Uzbekistan</SelectItem>
+          <SelectItem value="tz">🇹🇿 Tanzania</SelectItem>
+          <SelectItem value="np">🇳🇵 Nepal</SelectItem>
+          <SelectItem value="gt">🇬🇹 Guatemala</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  ),
+  "select:form-select": (
+    <div className="w-[280px] space-y-2">
+      <Label htmlFor="decl-type">Declaration Type</Label>
+      <Select defaultValue="import">
+        <SelectTrigger id="decl-type">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="import">Import</SelectItem>
+          <SelectItem value="export">Export</SelectItem>
+          <SelectItem value="transit">Transit</SelectItem>
+          <SelectItem value="re-export">Re-export</SelectItem>
+        </SelectContent>
+      </Select>
+      <p className="text-xs text-muted-foreground">
+        Choose the type of customs declaration to file.
+      </p>
+    </div>
+  ),
+
+  // Switch enterprise examples
+  "switch:settings-group": (
+    <Card className="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle className="text-base">Notifications</CardTitle>
+        <CardDescription>Manage your notification preferences</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="sw-email" className="font-normal">
+            Email Notifications
+          </Label>
+          <Switch id="sw-email" defaultChecked />
+        </div>
+        <Separator />
+        <div className="flex items-center justify-between">
+          <Label htmlFor="sw-sms" className="font-normal">
+            SMS Alerts
+          </Label>
+          <Switch id="sw-sms" />
+        </div>
+        <Separator />
+        <div className="flex items-center justify-between">
+          <Label htmlFor="sw-push" className="font-normal">
+            Push Notifications
+          </Label>
+          <Switch id="sw-push" defaultChecked />
+        </div>
+        <Separator />
+        <div className="flex items-center justify-between">
+          <Label htmlFor="sw-auto" className="font-normal">
+            Auto-save Drafts
+          </Label>
+          <Switch id="sw-auto" defaultChecked />
+        </div>
+      </CardContent>
+    </Card>
+  ),
+  "switch:with-detail": (
+    <div className="max-w-md space-y-4">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <Label htmlFor="sw-2fa" className="font-medium">
+            Two-Factor Authentication
+          </Label>
+          <p className="text-sm text-muted-foreground mt-1">
+            Add an extra layer of security to your account by requiring a
+            verification code.
+          </p>
+        </div>
+        <Switch id="sw-2fa" />
+      </div>
+      <Separator />
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <Label htmlFor="sw-audit" className="font-medium">
+            Audit Logging
+          </Label>
+          <p className="text-sm text-muted-foreground mt-1">
+            Record all user actions for compliance and security review purposes.
+          </p>
+        </div>
+        <Switch id="sw-audit" defaultChecked />
+      </div>
+    </div>
+  ),
+
+  // Textarea enterprise examples
+  "textarea:with-counter": (
+    <div className="w-full max-w-md space-y-2">
+      <Label htmlFor="ta-remarks">Remarks</Label>
+      <Textarea
+        id="ta-remarks"
+        placeholder="Enter additional remarks for this declaration..."
+        className="min-h-[100px]"
+      />
+      <div className="flex justify-between">
+        <p className="text-xs text-muted-foreground">
+          Provide any additional notes for the customs officer.
+        </p>
+        <p className="text-xs text-muted-foreground">0 / 500</p>
+      </div>
+    </div>
+  ),
+  "textarea:auto-resize": (
+    <div className="w-full max-w-md space-y-2">
+      <Label htmlFor="ta-desc">Description of Goods</Label>
+      <Textarea
+        id="ta-desc"
+        placeholder="Describe the goods in detail..."
+        className="min-h-[80px] max-h-[200px] resize-y"
+        defaultValue="Electronic components including semiconductor chips, integrated circuits, and printed circuit boards for consumer electronics manufacturing."
+      />
+      <p className="text-xs text-muted-foreground">
+        Textarea with min/max height constraints and vertical resize.
+      </p>
+    </div>
+  ),
+
+  // Toggle enterprise examples
+  "toggle:with-state": (
+    <div className="flex items-center gap-4">
+      <Toggle aria-label="Toggle favorite" variant="outline">
+        <Star className="h-4 w-4" />
+      </Toggle>
+      <Toggle aria-label="Toggle bold" variant="outline" defaultPressed>
+        <Bold className="h-4 w-4" />
+      </Toggle>
+      <p className="text-sm text-muted-foreground">
+        Click to toggle pressed state
+      </p>
+    </div>
+  ),
+
+  // Toggle Group enterprise examples
+  "toggle-group:text-align": (
+    <ToggleGroup type="single" defaultValue="left" variant="outline">
+      <ToggleGroupItem value="left" aria-label="Align left">
+        <AlignLeft className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="center" aria-label="Align center">
+        <AlignCenter className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="right" aria-label="Align right">
+        <AlignRight className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="justify" aria-label="Justify">
+        <AlignJustify className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  ),
+  "toggle-group:view-switcher": (
+    <div className="space-y-2">
+      <Label className="text-sm">View Mode</Label>
+      <ToggleGroup type="single" defaultValue="grid" variant="outline">
+        <ToggleGroupItem value="grid" aria-label="Grid view">
+          <Grid3X3 className="h-4 w-4 mr-1" /> Grid
+        </ToggleGroupItem>
+        <ToggleGroupItem value="list" aria-label="List view">
+          <List className="h-4 w-4 mr-1" /> List
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </div>
   ),
 };
 
