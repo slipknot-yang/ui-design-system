@@ -314,6 +314,7 @@
     "type": "Tipo",
     "default": "Defecto",
     "description": "Descripción",
+    "examples": "Ejemplos",
     "usage": "Uso",
     "accessibility": "Accesibilidad",
     "relatedComponents": "Componentes Relacionados"

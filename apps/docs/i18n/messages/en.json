@@ -314,6 +314,7 @@
     "type": "Type",
     "default": "Default",
     "description": "Description",
+    "examples": "Examples",
     "usage": "Usage",
     "accessibility": "Accessibility",
     "relatedComponents": "Related Components"

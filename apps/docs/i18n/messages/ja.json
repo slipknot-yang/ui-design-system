@@ -314,6 +314,7 @@
     "type": "型",
     "default": "デフォルト",
     "description": "説明",
+    "examples": "サンプル",
     "usage": "使用法",
     "accessibility": "アクセシビリティ",
     "relatedComponents": "関連コンポーネント"

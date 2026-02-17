@@ -314,6 +314,7 @@
     "type": "النوع",
     "default": "الافتراضي",
     "description": "الوصف",
+    "examples": "أمثلة",
     "usage": "الاستخدام",
     "accessibility": "إمكانية الوصول",
     "relatedComponents": "مكونات ذات صلة"
