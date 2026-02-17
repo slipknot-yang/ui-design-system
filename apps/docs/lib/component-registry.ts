@@ -947,7 +947,7 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   <CommandInput placeholder="Search framework..." />
   <CommandList>
     <CommandEmpty>No framework found.</CommandEmpty>
-    <CommandGroup heading="Frameworks">
+    <CommandGroup heading="Frameworks" className="[&_[cmdk-item]]:py-2.5">
       <CommandItem>Next.js</CommandItem>
       <CommandItem>Remix</CommandItem>
       <CommandItem>Astro</CommandItem>
@@ -1262,18 +1262,13 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
             id: "separated",
             title: "Separated Boxes",
             description:
-              "Individual separated input boxes with separators between each slot.",
-            code: `<InputOTP maxLength={6}>
+              "Individual separated input boxes with spacing between each slot.",
+            code: `<InputOTP maxLength={6} containerClassName="gap-2">
   <InputOTPGroup><InputOTPSlot index={0} /></InputOTPGroup>
-  <InputOTPSeparator />
   <InputOTPGroup><InputOTPSlot index={1} /></InputOTPGroup>
-  <InputOTPSeparator />
   <InputOTPGroup><InputOTPSlot index={2} /></InputOTPGroup>
-  <InputOTPSeparator />
   <InputOTPGroup><InputOTPSlot index={3} /></InputOTPGroup>
-  <InputOTPSeparator />
   <InputOTPGroup><InputOTPSlot index={4} /></InputOTPGroup>
-  <InputOTPSeparator />
   <InputOTPGroup><InputOTPSlot index={5} /></InputOTPGroup>
 </InputOTP>`,
           },
@@ -2921,7 +2916,7 @@ import { Bar, BarChart, Line, LineChart, Pie, PieChart, XAxis, YAxis, CartesianG
         Make changes to your profile here. Click save when you're done.
       </SheetDescription>
     </SheetHeader>
-    <div className="grid gap-4 py-4">
+    <div className="grid gap-4 p-4">
       <div className="grid gap-2">
         <Label htmlFor="sheet-name">Name</Label>
         <Input id="sheet-name" placeholder="Your name" />
@@ -2931,7 +2926,9 @@ import { Bar, BarChart, Line, LineChart, Pie, PieChart, XAxis, YAxis, CartesianG
         <Input id="sheet-email" placeholder="you@example.com" />
       </div>
     </div>
-    <Button>Save changes</Button>
+    <SheetFooter>
+      <Button>Save changes</Button>
+    </SheetFooter>
   </SheetContent>
 </Sheet>`,
           },

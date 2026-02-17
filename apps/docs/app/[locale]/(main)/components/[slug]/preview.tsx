@@ -1586,7 +1586,7 @@ const examplePreviews: Record<string, React.ReactNode> = {
       <CommandInput placeholder="Search framework..." />
       <CommandList>
         <CommandEmpty>No framework found.</CommandEmpty>
-        <CommandGroup heading="Frameworks">
+        <CommandGroup heading="Frameworks" className="[&_[cmdk-item]]:py-2.5">
           <CommandItem>Next.js</CommandItem>
           <CommandItem>Remix</CommandItem>
           <CommandItem>Astro</CommandItem>
@@ -1710,27 +1710,22 @@ const examplePreviews: Record<string, React.ReactNode> = {
     </InputOTP>
   ),
   "input-otp:separated": (
-    <InputOTP maxLength={6}>
+    <InputOTP maxLength={6} containerClassName="gap-2">
       <InputOTPGroup>
         <InputOTPSlot index={0} />
       </InputOTPGroup>
-      <InputOTPSeparator />
       <InputOTPGroup>
         <InputOTPSlot index={1} />
       </InputOTPGroup>
-      <InputOTPSeparator />
       <InputOTPGroup>
         <InputOTPSlot index={2} />
       </InputOTPGroup>
-      <InputOTPSeparator />
       <InputOTPGroup>
         <InputOTPSlot index={3} />
       </InputOTPGroup>
-      <InputOTPSeparator />
       <InputOTPGroup>
         <InputOTPSlot index={4} />
       </InputOTPGroup>
-      <InputOTPSeparator />
       <InputOTPGroup>
         <InputOTPSlot index={5} />
       </InputOTPGroup>
@@ -2526,7 +2521,7 @@ const examplePreviews: Record<string, React.ReactNode> = {
             Make changes to your profile here. Click save when you&apos;re done.
           </SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 px-4">
+        <div className="grid gap-4 p-4">
           <div className="grid gap-2">
             <Label htmlFor="sheet-name">Name</Label>
             <Input id="sheet-name" placeholder="Your name" />
