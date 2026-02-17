@@ -65,7 +65,7 @@ export default function LoginPage() {
       </div>
 
       {/* Logo & title */}
-      <div className="mb-8 text-center">
+      <Link href="/" className="mb-8 text-center block">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
           <Shield className="h-8 w-8" />
         </div>
@@ -73,7 +73,7 @@ export default function LoginPage() {
         <p className="text-sm text-muted-foreground">
           Customs Administration System
         </p>
-      </div>
+      </Link>
 
       {/* Login card */}
       <Card className="w-full max-w-[420px] shadow-xl">

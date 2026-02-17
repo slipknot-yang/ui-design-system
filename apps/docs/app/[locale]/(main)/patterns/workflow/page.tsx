@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@workspace/ui/components/button";
 import {
   Card,
@@ -119,10 +119,16 @@ const approvalHistory = [
   },
 ];
 
-export default function WorkflowPage(): React.JSX.Element {
-  const t = useTranslations("patterns");
-  const tc = useTranslations("customs");
-  const tCommon = useTranslations("common");
+export default async function WorkflowPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("patterns");
+  const tc = await getTranslations("customs");
+  const tCommon = await getTranslations("common");
 
   return (
     <div className="space-y-6">
@@ -296,7 +302,7 @@ function WorkflowTable({
   tc,
 }: {
   items: typeof workflowData;
-  tc: ReturnType<typeof useTranslations>;
+  tc: Awaited<ReturnType<typeof getTranslations>>;
 }): React.JSX.Element {
   return (
     <Card>

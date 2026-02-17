@@ -4,6 +4,8 @@ import {
   SidebarInset,
   SidebarProvider,
 } from "@workspace/ui/components/sidebar";
+import { PreferencesProvider } from "@/lib/preferences";
+import { DashboardShell } from "@/components/dashboard-shell";
 
 export default function MainLayout({
   children,
@@ -11,12 +13,8 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <AppHeader />
-        <main className="flex-1 p-4 lg:p-6">{children}</main>
-      </SidebarInset>
-    </SidebarProvider>
+    <PreferencesProvider>
+      <DashboardShell>{children}</DashboardShell>
+    </PreferencesProvider>
   );
 }

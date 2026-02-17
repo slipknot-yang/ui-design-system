@@ -1,535 +1,409 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@workspace/ui/components/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
-  CardAction,
 } from "@workspace/ui/components/card";
 import { Badge } from "@workspace/ui/components/badge";
-import { Input } from "@workspace/ui/components/input";
 import { Separator } from "@workspace/ui/components/separator";
+import { CodeBlock } from "@/components/code-block";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@workspace/ui/components/table";
-import {
-  Search,
-  TrendingUp,
-  TrendingDown,
-  ClipboardList,
-  Clock,
-  CheckCircle2,
-  DollarSign,
+  Shield,
+  Component,
   Globe,
-  MapPin,
-  Coins,
-  BookOpen,
-  Warehouse,
-  CalendarDays,
-  FileText,
-  Archive,
+  Languages,
+  Blocks,
+  Palette,
   ArrowRight,
-  Bell,
-  CircleDot,
-  ArrowUpRight,
-  ArrowDownRight,
-  Minus,
+  Package,
+  Terminal,
+  FolderTree,
+  Code2,
+  Paintbrush,
 } from "lucide-react";
 
-/* -------------------------------------------------------------------------- */
-/*  Static sample data                                                        */
-/* -------------------------------------------------------------------------- */
-
-const summaryCards = [
-  {
-    key: "totalDeclarations" as const,
-    value: "1,247",
-    trend: "+12.5%",
-    trendUp: true,
-    icon: ClipboardList,
-    color: "text-blue-600 dark:text-blue-400",
-    bg: "bg-blue-50 dark:bg-blue-950/40",
-  },
-  {
-    key: "pendingReview" as const,
-    value: "23",
-    trend: "-3.2%",
-    trendUp: false,
-    icon: Clock,
-    color: "text-amber-600 dark:text-amber-400",
-    bg: "bg-amber-50 dark:bg-amber-950/40",
-  },
-  {
-    key: "completedToday" as const,
-    value: "89",
-    trend: "+8.1%",
-    trendUp: true,
-    icon: CheckCircle2,
-    color: "text-emerald-600 dark:text-emerald-400",
-    bg: "bg-emerald-50 dark:bg-emerald-950/40",
-  },
-  {
-    key: "totalDuty" as const,
-    value: "\u20A924\uC5B5",
-    trend: "+5.7%",
-    trendUp: true,
-    icon: DollarSign,
-    color: "text-violet-600 dark:text-violet-400",
-    bg: "bg-violet-50 dark:bg-violet-950/40",
-  },
-] as const;
-
-const notices = [
-  {
-    id: 1,
-    type: "noticeSystem" as const,
-    title: "UNI-PASS 시스템 정기 점검 안내 (02/20 02:00~06:00)",
-    date: "2026-02-15",
-    variant: "default" as const,
-  },
-  {
-    id: 2,
-    type: "noticeRegulation" as const,
-    title: "2026년 관세율표 개정에 따른 HS코드 변경 사항 안내",
-    date: "2026-02-14",
-    variant: "secondary" as const,
-  },
-  {
-    id: 3,
-    type: "noticeGeneral" as const,
-    title: "전자통관시스템 수출신고 간소화 적용 범위 확대 공지",
-    date: "2026-02-13",
-    variant: "outline" as const,
-  },
-  {
-    id: 4,
-    type: "noticeSystem" as const,
-    title: "보세구역 반출입 실시간 모니터링 기능 업데이트",
-    date: "2026-02-12",
-    variant: "default" as const,
-  },
-] as const;
-
-const exchangeRates = [
-  { pair: "USD/KRW", rate: "1,382.50", change: "+4.30", up: true },
-  { pair: "EUR/KRW", rate: "1,498.20", change: "-2.10", up: false },
-  { pair: "JPY/KRW", rate: "9.21", change: "+0.05", up: true },
-  { pair: "CNY/KRW", rate: "190.85", change: "0.00", up: null },
-] as const;
-
-const quickMenuItems = [
-  { key: "countryCode" as const, icon: Globe, href: "/base-info/country" },
-  { key: "regionCode" as const, icon: MapPin, href: "/base-info/region" },
-  { key: "currencyCode" as const, icon: Coins, href: "/base-info/currency" },
-  { key: "hsCode" as const, icon: BookOpen, href: "/base-info/hs-code" },
-  {
-    key: "warehouseInfo" as const,
-    icon: Warehouse,
-    href: "/base-info/warehouse",
-  },
-  {
-    key: "holidayCalendar" as const,
-    icon: CalendarDays,
-    href: "/base-info/calendar",
-  },
-  { key: "declarationDocument" as const, icon: FileText, href: "/declaration" },
-  { key: "documentBoxMenu" as const, icon: Archive, href: "/document-box" },
-] as const;
-
-type DeclarationStatus = "cleared" | "pending" | "underReview" | "rejected";
-type DeclarationType = "importDecl" | "exportDecl" | "transitDecl";
-
-interface Declaration {
-  id: string;
-  type: DeclarationType;
-  hsCode: string;
-  office: string;
-  status: DeclarationStatus;
-  amount: string;
-  date: string;
-}
-
-const recentDeclarations: Declaration[] = [
-  {
-    id: "D2026-ICN-00147",
-    type: "importDecl",
-    hsCode: "8471.30.0000",
-    office: "\uC778\uCC9C\uC138\uAD00",
-    status: "cleared",
-    amount: "45,230,000",
-    date: "2026-02-16",
-  },
-  {
-    id: "D2026-PUS-00089",
-    type: "exportDecl",
-    hsCode: "6109.10.0000",
-    office: "\uBD80\uC0B0\uC138\uAD00",
-    status: "pending",
-    amount: "12,780,000",
-    date: "2026-02-16",
-  },
-  {
-    id: "D2026-ICN-00146",
-    type: "importDecl",
-    hsCode: "8517.12.0000",
-    office: "\uC778\uCC9C\uC138\uAD00",
-    status: "underReview",
-    amount: "128,500,000",
-    date: "2026-02-15",
-  },
-  {
-    id: "D2026-SEL-00034",
-    type: "transitDecl",
-    hsCode: "2204.21.0000",
-    office: "\uC11C\uC6B8\uC138\uAD00",
-    status: "cleared",
-    amount: "8,920,000",
-    date: "2026-02-15",
-  },
-  {
-    id: "D2026-PUS-00088",
-    type: "importDecl",
-    hsCode: "3926.90.0000",
-    office: "\uBD80\uC0B0\uC138\uAD00",
-    status: "rejected",
-    amount: "67,150,000",
-    date: "2026-02-14",
-  },
+const techStackItems = [
+  "Next.js 16",
+  "shadcn/ui",
+  "Tailwind CSS v4",
+  "Radix UI",
+  "TypeScript",
+  "Turborepo",
 ];
 
-const statusStyles: Record<DeclarationStatus, string> = {
-  cleared:
-    "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400",
-  pending:
-    "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400",
-  underReview:
-    "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400",
-  rejected: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400",
-};
+const featureCards = [
+  { key: "components" as const, value: "51", icon: Component },
+  { key: "countryThemes" as const, value: "10", icon: Globe },
+  { key: "languages" as const, value: "7", icon: Languages },
+  { key: "uiPatterns" as const, value: "7", icon: Blocks },
+];
 
-const typeStyles: Record<DeclarationType, string> = {
-  importDecl: "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-400",
-  exportDecl:
-    "bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-400",
-  transitDecl:
-    "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400",
-};
+const patternLinks = [
+  { key: "searchTable", href: "/patterns/search-table" },
+  { key: "advancedSearch", href: "/patterns/advanced-search" },
+  { key: "masterDetail", href: "/patterns/master-detail" },
+  { key: "complexForm", href: "/patterns/complex-form" },
+  { key: "calendar", href: "/patterns/calendar" },
+  { key: "workflow", href: "/patterns/workflow" },
+  { key: "dashboard", href: "/patterns/dashboard" },
+] as const;
 
-/* -------------------------------------------------------------------------- */
-/*  Page component (server)                                                   */
-/* -------------------------------------------------------------------------- */
+const installCode = `# Clone repository
+git clone https://github.com/slipknot-yang/ui-design-system.git
+cd ui-design-system
 
-export default function HomePage() {
+# Install dependencies
+pnpm install
+
+# Run dev server
+pnpm dev --filter docs
+
+# Build
+pnpm turbo build`;
+
+const structureCode = `ui-design-system/
+\u251C\u2500\u2500 apps/docs/              # Next.js docs site
+\u2502   \u251C\u2500\u2500 app/[locale]/       # Locale-based routing
+\u2502   \u251C\u2500\u2500 components/         # App components
+\u2502   \u2514\u2500\u2500 i18n/messages/      # Translation files (7 languages)
+\u251C\u2500\u2500 packages/ui/            # @workspace/ui component library
+\u2502   \u251C\u2500\u2500 src/components/     # 51 shadcn components
+\u2502   \u2514\u2500\u2500 src/styles/         # globals.css (OKLCh themes)
+\u2514\u2500\u2500 package.json            # pnpm workspace root`;
+
+const importCode = `import { Button } from "@workspace/ui/components/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@workspace/ui/components/card";
+import { Input } from "@workspace/ui/components/input";
+import { Badge } from "@workspace/ui/components/badge";`;
+
+const usageCode = `import { Button } from "@workspace/ui/components/button";
+import {
+  Card, CardHeader, CardTitle, CardContent,
+} from "@workspace/ui/components/card";
+import { Badge } from "@workspace/ui/components/badge";
+
+export function DeclarationCard() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Import Declaration</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary">HS 8471.30</Badge>
+          <Badge>Cleared</Badge>
+        </div>
+        <Button className="w-full">View Details</Button>
+      </CardContent>
+    </Card>
+  );
+}`;
+
+const themeCode = `:root {
+  --background: 0 0% 100%;        /* oklch(1 0 0) */
+  --foreground: 240 10% 3.9%;     /* oklch(0.145 0.017 285.823) */
+  --primary: 240 5.9% 10%;        /* oklch(0.205 0.015 285.823) */
+  --secondary: 240 4.8% 95.9%;    /* oklch(0.97 0.001 285.823) */
+  --accent: 240 4.8% 95.9%;       /* oklch(0.97 0.001 285.823) */
+  --radius: 0.625rem;
+}
+
+/* Country theme example */
+[data-country-theme="ec"] {
+  --primary: 221 83% 53%;         /* Ecuador blue */
+}`;
+
+const i18nCode = `import { useTranslations } from "next-intl";
+
+export function SearchForm() {
+  const t = useTranslations("common");
   const tc = useTranslations("customs");
-  const td = useTranslations("dashboard");
-  const tCommon = useTranslations("common");
 
   return (
-    <div className="space-y-6">
-      {/* ------ Page header ------ */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">
-          {td("portalTitle")}
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          {td("portalDescription")}
-        </p>
+    <form className="space-y-4">
+      <Input placeholder={t("searchPlaceholder")} />
+      <Button>{t("search")}</Button>
+      <p>{tc("declarationNo")}</p>
+    </form>
+  );
+}`;
+
+const i18nJsonCode = `// apps/docs/i18n/messages/ko.json
+{
+  "common": {
+    "search": "\uAC80\uC0C9",
+    "save": "\uC800\uC7A5",
+    "delete": "\uC0AD\uC81C"
+  },
+  "customs": {
+    "declarationNo": "\uC2E0\uACE0\uBC88\uD638",
+    "hsCode": "HS \uCF54\uB4DC"
+  }
+}`;
+
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations("guide");
+  const tNav = await getTranslations("nav");
+  const tPatterns = await getTranslations("patterns");
+
+  return (
+    <div className="space-y-8">
+      {/* ================================================================== */}
+      {/*  Hero Section                                                       */}
+      {/* ================================================================== */}
+      <div className="relative overflow-hidden rounded-xl border bg-gradient-to-br from-primary/5 via-background to-accent/5 px-6 py-12 text-center sm:px-12 sm:py-16">
+        <div className="mx-auto max-w-2xl space-y-4">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
+            <Shield className="h-8 w-8" />
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            {t("heroTitle")}
+          </h1>
+          <p className="text-muted-foreground text-base sm:text-lg">
+            {t("heroDescription")}
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+            {techStackItems.map((item) => (
+              <Badge key={item} variant="secondary" className="text-xs">
+                {item}
+              </Badge>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+            <Button asChild>
+              <Link href="/components">
+                <Component className="mr-2 h-4 w-4" />
+                {t("exploreComponents")}
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/dashboard">
+                {tNav("dashboard")}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* ================================================================== */}
-      {/*  1. Summary Cards                                                  */}
+      {/*  Key Features                                                       */}
       {/* ================================================================== */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {summaryCards.map(
-          ({ key, value, trend, trendUp, icon: Icon, color, bg }) => (
-            <Card key={key} size="sm">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardDescription className="text-xs font-medium uppercase tracking-wide">
-                    {tc(key)}
-                  </CardDescription>
-                  <div className={`rounded-lg p-2 ${bg}`}>
-                    <Icon className={`h-4 w-4 ${color}`} />
-                  </div>
-                </div>
-                <div className="mt-1 flex items-end gap-2">
-                  <span className="text-2xl font-bold tracking-tight">
-                    {value}
-                  </span>
-                  <span
-                    className={`mb-0.5 inline-flex items-center gap-0.5 text-xs font-medium ${
-                      trendUp
-                        ? "text-emerald-600 dark:text-emerald-400"
-                        : "text-red-600 dark:text-red-400"
-                    }`}
-                  >
-                    {trendUp ? (
-                      <TrendingUp className="h-3 w-3" />
-                    ) : (
-                      <TrendingDown className="h-3 w-3" />
-                    )}
-                    {trend}
-                  </span>
-                </div>
-                <p className="text-muted-foreground text-[11px]">
-                  {td("vsYesterday")}
-                </p>
-              </CardHeader>
-            </Card>
-          ),
-        )}
-      </div>
-
-      {/* ================================================================== */}
-      {/*  2. Cargo Tracking + 3. Recent Notices (side by side)              */}
-      {/* ================================================================== */}
-      <div className="grid gap-4 lg:grid-cols-5">
-        {/* --- Cargo Tracking Search --- */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Search className="h-4 w-4 text-muted-foreground" />
-              {td("cargoTrackingTitle")}
-            </CardTitle>
-            <CardDescription className="text-xs">
-              {td("cargoTrackingDescription")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Radio-like toggle using static buttons */}
-            <div className="flex gap-2">
-              <div className="flex-1">
-                <div className="bg-primary text-primary-foreground flex h-8 items-center justify-center rounded-lg text-xs font-medium">
-                  <CircleDot className="mr-1.5 h-3 w-3" />
-                  {td("searchByCrn")}
-                </div>
+        {featureCards.map(({ key, value, icon: Icon }) => (
+          <Card key={key}>
+            <CardHeader className="flex flex-row items-center gap-3 pb-2">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Icon className="h-5 w-5 text-primary" />
               </div>
-              <div className="flex-1">
-                <div className="bg-muted text-muted-foreground flex h-8 items-center justify-center rounded-lg text-xs font-medium">
-                  {td("searchByBl")}
-                </div>
+              <div>
+                <p className="text-2xl font-bold">{value}</p>
+                <p className="text-xs text-muted-foreground">{t(key)}</p>
               </div>
-            </div>
-            <div className="flex gap-2">
-              <Input
-                placeholder={td("searchPlaceholderCrn")}
-                className="flex-1"
-              />
-              <Button size="default">
-                <Search className="h-4 w-4" />
-                {tCommon("search")}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* --- Recent Notices --- */}
-        <Card className="lg:col-span-3">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bell className="h-4 w-4 text-muted-foreground" />
-              {td("notices")}
-            </CardTitle>
-            <CardAction>
-              <Button variant="ghost" size="sm" className="text-xs">
-                {td("viewAll")}
-                <ArrowRight className="ml-1 h-3 w-3" />
-              </Button>
-            </CardAction>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-0">
-              {notices.map((notice, idx) => (
-                <div key={notice.id}>
-                  <div className="flex items-start gap-3 py-2.5">
-                    <Badge
-                      variant={notice.variant}
-                      className="mt-0.5 shrink-0 text-[10px]"
-                    >
-                      {td(notice.type)}
-                    </Badge>
-                    <p className="text-sm leading-snug line-clamp-1 flex-1">
-                      {notice.title}
-                    </p>
-                    <span className="text-muted-foreground shrink-0 text-xs tabular-nums">
-                      {notice.date}
-                    </span>
-                  </div>
-                  {idx < notices.length - 1 && <Separator />}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+            </CardHeader>
+          </Card>
+        ))}
       </div>
 
-      {/* ================================================================== */}
-      {/*  4. Exchange Rates + 5. Quick Menu (side by side)                  */}
-      {/* ================================================================== */}
-      <div className="grid gap-4 lg:grid-cols-5">
-        {/* --- Exchange Rates --- */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Coins className="h-4 w-4 text-muted-foreground" />
-              {tc("exchangeRate")}
-            </CardTitle>
-            <CardDescription className="text-xs">
-              2026-02-16 {td("baseRate")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-0">
-              {exchangeRates.map((rate, idx) => (
-                <div key={rate.pair}>
-                  <div className="flex items-center justify-between py-2.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold tracking-wide">
-                        {rate.pair}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-mono text-sm font-semibold tabular-nums">
-                        {rate.rate}
-                      </span>
-                      <span
-                        className={`inline-flex items-center gap-0.5 font-mono text-xs tabular-nums ${
-                          rate.up === true
-                            ? "text-red-600 dark:text-red-400"
-                            : rate.up === false
-                              ? "text-blue-600 dark:text-blue-400"
-                              : "text-muted-foreground"
-                        }`}
-                      >
-                        {rate.up === true && (
-                          <ArrowUpRight className="h-3 w-3" />
-                        )}
-                        {rate.up === false && (
-                          <ArrowDownRight className="h-3 w-3" />
-                        )}
-                        {rate.up === null && <Minus className="h-3 w-3" />}
-                        {rate.change}
-                      </span>
-                    </div>
-                  </div>
-                  {idx < exchangeRates.length - 1 && <Separator />}
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* --- Quick Menu --- */}
-        <Card className="lg:col-span-3">
-          <CardHeader>
-            <CardTitle>{tc("quickMenu")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-4 gap-3">
-              {quickMenuItems.map(({ key, icon: Icon, href }) => (
-                <Link key={key} href={href}>
-                  <div className="hover:bg-muted/80 flex flex-col items-center gap-2 rounded-xl p-3 transition-colors">
-                    <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-xl">
-                      <Icon className="text-foreground/70 h-5 w-5" />
-                    </div>
-                    <span className="text-center text-[11px] font-medium leading-tight">
-                      {key === "declarationDocument" ||
-                      key === "documentBoxMenu"
-                        ? td(key)
-                        : tc(key)}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <Separator />
 
       {/* ================================================================== */}
-      {/*  6. Recent Declarations Table                                      */}
+      {/*  1. Introduction                                                    */}
       {/* ================================================================== */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="h-4 w-4 text-muted-foreground" />
-            {tc("recentDeclarations")}
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Shield className="h-4 w-4 text-muted-foreground" />
+            {t("introTitle")}
           </CardTitle>
-          <CardAction>
-            <Button variant="ghost" size="sm" className="text-xs">
-              {td("viewAll")}
-              <ArrowRight className="ml-1 h-3 w-3" />
-            </Button>
-          </CardAction>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{tc("declarationNo")}</TableHead>
-                <TableHead>{tc("declarationType")}</TableHead>
-                <TableHead>{tc("hsCode")}</TableHead>
-                <TableHead>{tc("customsOffice")}</TableHead>
-                <TableHead>{tc("status")}</TableHead>
-                <TableHead className="text-right">
-                  {tc("amount")} (KRW)
-                </TableHead>
-                <TableHead>{td("date")}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentDeclarations.map((decl) => (
-                <TableRow key={decl.id}>
-                  <TableCell>
-                    <Link
-                      href={`/declaration/${decl.id}`}
-                      className="text-primary hover:underline font-mono text-xs font-medium"
-                    >
-                      {decl.id}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <span
-                      className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium ${typeStyles[decl.type]}`}
-                    >
-                      {tc(decl.type)}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="font-mono text-xs">{decl.hsCode}</span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-xs">{decl.office}</span>
-                  </TableCell>
-                  <TableCell>
-                    <span
-                      className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium ${statusStyles[decl.status]}`}
-                    >
-                      {tc(decl.status)}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <span className="font-mono text-xs tabular-nums">
-                      {decl.amount}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-muted-foreground text-xs tabular-nums">
-                      {decl.date}
-                    </span>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {t("introDescription")}
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* ================================================================== */}
+      {/*  2. Installation                                                    */}
+      {/* ================================================================== */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Terminal className="h-4 w-4 text-muted-foreground" />
+            {t("installationTitle")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="space-y-1">
+            <p className="text-xs font-medium text-muted-foreground">
+              {t("prerequisitesTitle")}: Node.js 18+, pnpm 9+
+            </p>
+          </div>
+          <CodeBlock code={installCode} lang="bash" />
+        </CardContent>
+      </Card>
+
+      {/* ================================================================== */}
+      {/*  3. Project Structure                                               */}
+      {/* ================================================================== */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <FolderTree className="h-4 w-4 text-muted-foreground" />
+            {t("projectStructureTitle")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CodeBlock code={structureCode} lang="plaintext" />
+        </CardContent>
+      </Card>
+
+      {/* ================================================================== */}
+      {/*  4. Component Usage                                                 */}
+      {/* ================================================================== */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Code2 className="h-4 w-4 text-muted-foreground" />
+            {t("componentUsageTitle")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <p className="mb-2 text-xs font-medium text-muted-foreground">
+              {t("importPatternTitle")}
+            </p>
+            <CodeBlock code={importCode} lang="tsx" />
+          </div>
+          <div>
+            <p className="mb-2 text-xs font-medium text-muted-foreground">
+              {t("componentExample")}
+            </p>
+            <CodeBlock code={usageCode} lang="tsx" />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Separator />
+
+      {/* ================================================================== */}
+      {/*  5. Theming                                                         */}
+      {/* ================================================================== */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Paintbrush className="h-4 w-4 text-muted-foreground" />
+            {t("themingTitle")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {t("themingDescription")}
+          </p>
+          <CodeBlock code={themeCode} lang="css" />
+        </CardContent>
+      </Card>
+
+      {/* ================================================================== */}
+      {/*  6. i18n                                                            */}
+      {/* ================================================================== */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Languages className="h-4 w-4 text-muted-foreground" />
+            {t("i18nTitle")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {t("i18nDescription")}
+          </p>
+          <CodeBlock code={i18nCode} lang="tsx" />
+          <CodeBlock code={i18nJsonCode} lang="json" />
+        </CardContent>
+      </Card>
+
+      <Separator />
+
+      {/* ================================================================== */}
+      {/*  7. UI Patterns                                                     */}
+      {/* ================================================================== */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Blocks className="h-4 w-4 text-muted-foreground" />
+            {t("patternsTitle")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-4 text-sm text-muted-foreground">
+            {t("patternsDescription")}
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {patternLinks.map(({ key, href }) => (
+              <Link key={key} href={href}>
+                <div className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-muted/50">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium">
+                      {tPatterns(`${key}.title`)}
+                    </p>
+                    <p className="text-xs text-muted-foreground line-clamp-1">
+                      {tPatterns(`${key}.description`)}
+                    </p>
+                  </div>
+                  <ArrowRight className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ================================================================== */}
+      {/*  8. Next Steps                                                      */}
+      {/* ================================================================== */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">{t("nextStepsTitle")}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Button variant="outline" className="h-auto py-3" asChild>
+              <Link href="/components">
+                <Package className="mr-2 h-4 w-4" />
+                {t("exploreComponents")}
+              </Link>
+            </Button>
+            <Button variant="outline" className="h-auto py-3" asChild>
+              <Link href="/themes">
+                <Palette className="mr-2 h-4 w-4" />
+                {t("exploreThemes")}
+              </Link>
+            </Button>
+            <Button variant="outline" className="h-auto py-3" asChild>
+              <Link href="/i18n">
+                <Languages className="mr-2 h-4 w-4" />
+                {t("exploreI18n")}
+              </Link>
+            </Button>
+            <Button variant="outline" className="h-auto py-3" asChild>
+              <Link href="/patterns/search-table">
+                <Blocks className="mr-2 h-4 w-4" />
+                {t("explorePatterns")}
+              </Link>
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

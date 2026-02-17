@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent } from "@workspace/ui/components/card";
 import { Input } from "@workspace/ui/components/input";
@@ -226,8 +226,14 @@ function typeBadge(type: DeclarationRow["type"]) {
 // Page component (Server Component)
 // ---------------------------------------------------------------------------
 
-export default function SearchTablePage(): React.JSX.Element {
-  const t = useTranslations("patterns");
+export default async function SearchTablePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("patterns");
 
   return (
     <div className="space-y-6">

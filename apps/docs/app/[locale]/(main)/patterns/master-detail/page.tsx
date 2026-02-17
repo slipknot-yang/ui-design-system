@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@workspace/ui/components/button";
 import {
   Card,
@@ -65,10 +65,16 @@ const selectedDetail = {
   status: "Active",
 };
 
-export default function MasterDetailPage(): React.JSX.Element {
-  const t = useTranslations("patterns");
-  const tc = useTranslations("customs");
-  const tCommon = useTranslations("common");
+export default async function MasterDetailPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("patterns");
+  const tc = await getTranslations("customs");
+  const tCommon = await getTranslations("common");
 
   return (
     <div className="space-y-6">

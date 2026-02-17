@@ -2,16 +2,25 @@
 
 import { type LucideIcon } from "lucide-react";
 import {
-  Globe,
-  FileText,
-  Package,
-  ShieldCheck,
-  Banknote,
-  Settings,
+  Home,
+  Component,
+  LayoutGrid,
+  FormInput,
+  BarChart3,
+  MessageSquare,
+  Navigation,
+  Blocks,
+  Palette,
+  Languages,
+  LogIn,
   ChevronRight,
   Shield,
+  ChevronsUpDown,
+  User,
+  Settings,
+  LogOut,
+  LayoutDashboard,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
 
@@ -23,6 +32,7 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
@@ -31,10 +41,23 @@ import {
   SidebarSeparator,
 } from "@workspace/ui/components/sidebar";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@workspace/ui/components/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu";
+import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@workspace/ui/components/collapsible";
+import { componentCategories } from "@/lib/component-registry";
 
 interface NavItem {
   title: string;
@@ -47,185 +70,241 @@ interface NavSection {
   items: NavItem[];
 }
 
-export function AppSidebar() {
-  const t = useTranslations("nav");
+const categoryIcons: Record<string, LucideIcon> = {
+  Layout: LayoutGrid,
+  Forms: FormInput,
+  "Data Display": BarChart3,
+  Feedback: MessageSquare,
+  Navigation: Navigation,
+};
+
+const patternItems: NavItem[] = [
+  { title: "Search + Table", href: "/patterns/search-table" },
+  { title: "Advanced Search", href: "/patterns/advanced-search" },
+  { title: "Master-Detail", href: "/patterns/master-detail" },
+  { title: "Complex Form", href: "/patterns/complex-form" },
+  { title: "Calendar", href: "/patterns/calendar" },
+  { title: "Workflow", href: "/patterns/workflow" },
+  { title: "Dashboard", href: "/patterns/dashboard" },
+];
+
+interface AppSidebarProps {
+  variant?: "sidebar" | "floating" | "inset";
+  collapsible?: "offcanvas" | "icon" | "none";
+}
+
+export function AppSidebar({
+  variant = "sidebar",
+  collapsible = "offcanvas",
+}: AppSidebarProps) {
   const pathname = usePathname();
 
-  const portalSection: NavSection = {
-    label: t("portal"),
-    icon: Globe,
-    items: [
-      { title: t("dashboard"), href: "/" },
-      { title: t("myPage"), href: "/patterns/complex-form" },
-      { title: t("documentBox"), href: "/patterns/master-detail" },
-      { title: t("companyMgmt"), href: "/patterns/search-table" },
-    ],
-  };
+  const componentSections: NavSection[] = componentCategories.map((cat) => ({
+    label: `${cat.category} (${cat.items.length})`,
+    icon: categoryIcons[cat.category] || Component,
+    items: cat.items.map((item) => ({
+      title: item.name,
+      href: `/components/${item.slug}`,
+    })),
+  }));
 
-  const declarationSection: NavSection = {
-    label: t("declaration"),
-    icon: FileText,
-    items: [
-      { title: t("newDeclaration"), href: "/patterns/complex-form" },
-      { title: t("declarationQuery"), href: "/patterns/search-table" },
-      { title: t("declarationList"), href: "/patterns/advanced-search" },
-    ],
+  const patternSection: NavSection = {
+    label: "UI Patterns",
+    icon: Blocks,
+    items: patternItems,
   };
-
-  const cargoSection: NavSection = {
-    label: t("cargo"),
-    icon: Package,
-    items: [
-      { title: t("cargoTracking"), href: "/patterns/search-table" },
-      { title: t("cargoDeclaration"), href: "/patterns/complex-form" },
-      { title: t("warehouse"), href: "/patterns/master-detail" },
-      { title: t("unloadLoad"), href: "/patterns/search-table" },
-    ],
-  };
-
-  const clearanceSection: NavSection = {
-    label: t("clearanceMenu"),
-    icon: ShieldCheck,
-    items: [
-      { title: t("clearanceDecl"), href: "/patterns/search-table" },
-      { title: t("pricing"), href: "/patterns/complex-form" },
-      { title: t("security"), href: "/patterns/master-detail" },
-    ],
-  };
-
-  const collectionSection: NavSection = {
-    label: t("collection"),
-    icon: Banknote,
-    items: [
-      { title: t("taxNotice"), href: "/patterns/search-table" },
-      { title: t("finesMgmt"), href: "/patterns/search-table" },
-      { title: t("deposit"), href: "/patterns/master-detail" },
-    ],
-  };
-
-  const systemSection: NavSection = {
-    label: t("system"),
-    icon: Settings,
-    items: [
-      { title: t("components"), href: "/components" },
-      { title: t("themes"), href: "/themes" },
-      { title: t("i18n"), href: "/i18n" },
-      { title: t("login"), href: "/login" },
-    ],
-  };
-
-  const mainSections: NavSection[] = [
-    portalSection,
-    declarationSection,
-    cargoSection,
-    clearanceSection,
-    collectionSection,
-  ];
 
   function isSectionActive(section: NavSection): boolean {
     return section.items.some((item) => pathname === item.href);
   }
 
+  function renderCollapsibleSection(section: NavSection) {
+    return (
+      <SidebarGroup key={section.label}>
+        <Collapsible
+          defaultOpen={isSectionActive(section)}
+          className="group/collapsible"
+        >
+          <SidebarGroupLabel asChild>
+            <CollapsibleTrigger className="flex w-full items-center gap-2">
+              <section.icon className="h-4 w-4" />
+              <span className="flex-1 text-left">{section.label}</span>
+              <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+            </CollapsibleTrigger>
+          </SidebarGroupLabel>
+          <CollapsibleContent>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {section.items.map((item) => (
+                  <SidebarMenuItem key={`${section.label}-${item.title}`}>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton
+                          asChild
+                          isActive={pathname === item.href}
+                        >
+                          <Link href={item.href}>
+                            <span>{item.title}</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    </SidebarMenuSub>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </CollapsibleContent>
+        </Collapsible>
+      </SidebarGroup>
+    );
+  }
+
   return (
-    <Sidebar>
+    <Sidebar variant={variant} collapsible={collapsible}>
       <SidebarHeader className="border-b px-4 py-3">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Shield className="h-4 w-4" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-semibold tracking-tight">CUPIA</span>
+            <span className="text-sm font-semibold tracking-tight">
+              CUPIA Design System
+            </span>
             <span className="text-[10px] text-muted-foreground">
-              Customs Administration
+              UI Component Library
             </span>
           </div>
-        </div>
+        </Link>
       </SidebarHeader>
 
       <SidebarContent>
-        {mainSections.map((section) => (
-          <SidebarGroup key={section.label}>
-            <Collapsible
-              defaultOpen={isSectionActive(section)}
-              className="group/collapsible"
-            >
-              <SidebarGroupLabel asChild>
-                <CollapsibleTrigger className="flex w-full items-center gap-2">
-                  <section.icon className="h-4 w-4" />
-                  <span className="flex-1 text-left">{section.label}</span>
-                  <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                </CollapsibleTrigger>
-              </SidebarGroupLabel>
-              <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {section.items.map((item) => (
-                      <SidebarMenuItem key={`${section.label}-${item.title}`}>
-                        <SidebarMenuSub>
-                          <SidebarMenuSubItem>
-                            <SidebarMenuSubButton
-                              asChild
-                              isActive={pathname === item.href}
-                            >
-                              <Link href={item.href}>
-                                <span>{item.title}</span>
-                              </Link>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        </SidebarMenuSub>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </Collapsible>
-          </SidebarGroup>
-        ))}
+        {/* Home */}
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === "/"}>
+                  <Link href="/">
+                    <Home className="h-4 w-4" />
+                    <span>Home</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
+                  <Link href="/dashboard">
+                    <LayoutDashboard className="h-4 w-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === "/components"}
+                >
+                  <Link href="/components">
+                    <Component className="h-4 w-4" />
+                    <span>Components</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
 
         <SidebarSeparator />
 
+        {/* Component categories */}
+        {componentSections.map((section) => renderCollapsibleSection(section))}
+
+        <SidebarSeparator />
+
+        {/* UI Patterns */}
+        {renderCollapsibleSection(patternSection)}
+
+        <SidebarSeparator />
+
+        {/* Utility pages */}
         <SidebarGroup>
-          <Collapsible defaultOpen className="group/collapsible">
-            <SidebarGroupLabel asChild>
-              <CollapsibleTrigger className="flex w-full items-center gap-2">
-                <Settings className="h-4 w-4" />
-                <span className="flex-1 text-left">{systemSection.label}</span>
-                <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {systemSection.items.map((item) => (
-                    <SidebarMenuItem key={`system-${item.title}`}>
-                      <SidebarMenuSub>
-                        <SidebarMenuSubItem>
-                          <SidebarMenuSubButton
-                            asChild
-                            isActive={pathname === item.href}
-                          >
-                            <Link href={item.href}>
-                              <span>{item.title}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      </SidebarMenuSub>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === "/themes"}>
+                  <Link href="/themes">
+                    <Palette className="h-4 w-4" />
+                    <span>Themes</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === "/i18n"}>
+                  <Link href="/i18n">
+                    <Languages className="h-4 w-4" />
+                    <span>i18n</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === "/login"}>
+                  <Link href="/login">
+                    <LogIn className="h-4 w-4" />
+                    <span>Login (Demo)</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t px-4 py-3">
-        <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">&copy; 2026 CUPIA</p>
-          <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
-            v1.0.0
-          </span>
-        </div>
+      <SidebarFooter className="border-t">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size="lg"
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                >
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    <AvatarImage src="" alt="Admin" />
+                    <AvatarFallback className="rounded-lg text-xs">
+                      AD
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">Admin User</span>
+                    <span className="truncate text-xs text-muted-foreground">
+                      admin@cupia.or.kr
+                    </span>
+                  </div>
+                  <ChevronsUpDown className="ml-auto h-4 w-4" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                side="top"
+                align="end"
+                sideOffset={4}
+              >
+                <DropdownMenuItem>
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
   );

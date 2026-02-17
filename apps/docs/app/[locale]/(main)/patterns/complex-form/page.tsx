@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@workspace/ui/components/button";
 import {
   Card,
@@ -123,10 +123,16 @@ const documentItems = [
  * Page Component
  * -------------------------------------------------------------------------*/
 
-export default function ComplexFormPage(): React.JSX.Element {
-  const t = useTranslations("patterns");
-  const _tc = useTranslations("customs");
-  const _tCommon = useTranslations("common");
+export default async function ComplexFormPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("patterns");
+  const _tc = await getTranslations("customs");
+  const _tCommon = await getTranslations("common");
 
   return (
     <div className="space-y-6">

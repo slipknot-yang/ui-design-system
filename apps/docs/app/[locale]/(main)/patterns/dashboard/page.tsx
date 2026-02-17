@@ -1,21 +1,23 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@workspace/ui/components/table";
-import { Badge } from "@workspace/ui/components/badge";
 import { Progress } from "@workspace/ui/components/progress";
 import { Separator } from "@workspace/ui/components/separator";
+import {
+  ClipboardList,
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  Clock,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
+import { DeclarationTrendChart } from "@/components/charts/declaration-trend-chart";
+import { ActivityTable } from "@/components/activity-table";
 
 const summaryCards = [
   {
@@ -23,24 +25,36 @@ const summaryCards = [
     value: "12,847",
     change: "+3.2%",
     positive: true,
+    icon: ClipboardList,
+    color: "text-blue-600 dark:text-blue-400",
+    bg: "bg-blue-50 dark:bg-blue-950/40",
   },
   {
     label: "Import Clearance",
     value: "8,234",
     change: "+5.1%",
     positive: true,
+    icon: ArrowDownToLine,
+    color: "text-emerald-600 dark:text-emerald-400",
+    bg: "bg-emerald-50 dark:bg-emerald-950/40",
   },
   {
     label: "Export Clearance",
     value: "4,613",
     change: "-1.4%",
     positive: false,
+    icon: ArrowUpFromLine,
+    color: "text-teal-600 dark:text-teal-400",
+    bg: "bg-teal-50 dark:bg-teal-950/40",
   },
   {
     label: "Pending Review",
     value: "156",
     change: "-12.3%",
     positive: true,
+    icon: Clock,
+    color: "text-amber-600 dark:text-amber-400",
+    bg: "bg-amber-50 dark:bg-amber-950/40",
   },
 ];
 
@@ -72,70 +86,16 @@ const topHsCodes = [
   },
 ];
 
-const recentActivity = [
-  {
-    id: 1,
-    time: "14:32",
-    event: "Import declaration D2026-0523 cleared",
-    office: "Incheon",
-    status: "Cleared",
-  },
-  {
-    id: 2,
-    time: "14:15",
-    event: "Export declaration E2026-0891 submitted",
-    office: "Busan",
-    status: "Submitted",
-  },
-  {
-    id: 3,
-    time: "13:58",
-    event: "Inspection scheduled for D2026-0518",
-    office: "Seoul",
-    status: "Inspection",
-  },
-  {
-    id: 4,
-    time: "13:40",
-    event: "Tariff review completed for D2026-0510",
-    office: "Incheon",
-    status: "Completed",
-  },
-  {
-    id: 5,
-    time: "13:22",
-    event: "Declaration D2026-0507 rejected - missing docs",
-    office: "Gimpo",
-    status: "Rejected",
-  },
-  {
-    id: 6,
-    time: "12:55",
-    event: "Bulk import batch B2026-0045 processed",
-    office: "Busan",
-    status: "Processed",
-  },
-];
-
-function activityVariant(status: string) {
-  switch (status) {
-    case "Cleared":
-    case "Completed":
-    case "Processed":
-      return "default" as const;
-    case "Rejected":
-      return "destructive" as const;
-    case "Inspection":
-      return "outline" as const;
-    default:
-      return "secondary" as const;
-  }
-}
-
-export default function DashboardPage(): React.JSX.Element {
-  const t = useTranslations("patterns");
-  const tDash = useTranslations("dashboard");
-  const tc = useTranslations("customs");
+export default async function DashboardPatternPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("patterns");
+  const tDash = await getTranslations("dashboard");
+  const tc = await getTranslations("customs");
 
   return (
     <div className="space-y-6">
@@ -151,59 +111,46 @@ export default function DashboardPage(): React.JSX.Element {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {summaryCards.map((card) => (
-          <Card key={card.label}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {card.label}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-bold">{card.value}</span>
-                <Badge variant={card.positive ? "default" : "destructive"}>
-                  {card.change}
-                </Badge>
+          <Card key={card.label} size="sm">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardDescription className="text-xs font-medium uppercase tracking-wide">
+                  {card.label}
+                </CardDescription>
+                <div className={`rounded-lg p-2 ${card.bg}`}>
+                  <card.icon className={`h-4 w-4 ${card.color}`} />
+                </div>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">
+              <div className="mt-1 flex items-end gap-2">
+                <span className="text-2xl font-bold tracking-tight">
+                  {card.value}
+                </span>
+                <span
+                  className={`mb-0.5 inline-flex items-center gap-0.5 text-xs font-medium ${
+                    card.positive
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-red-600 dark:text-red-400"
+                  }`}
+                >
+                  {card.positive ? (
+                    <TrendingUp className="h-3 w-3" />
+                  ) : (
+                    <TrendingDown className="h-3 w-3" />
+                  )}
+                  {card.change}
+                </span>
+              </div>
+              <p className="text-muted-foreground text-[11px]">
                 vs. previous month
               </p>
-            </CardContent>
+            </CardHeader>
           </Card>
         ))}
       </div>
 
-      {/* Charts placeholder + Top HS Codes */}
+      {/* Charts + Top HS Codes */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Chart Placeholder */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">
-              Monthly Declaration Trend
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex h-48 items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25">
-              <div className="text-center text-muted-foreground">
-                <div className="text-4xl mb-2">
-                  {/* ASCII chart placeholder */}
-                  <svg
-                    viewBox="0 0 200 80"
-                    className="h-16 w-48 mx-auto"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <polyline points="10,60 40,45 70,50 100,30 130,35 160,20 190,25" />
-                  </svg>
-                </div>
-                <p className="text-sm">Chart component placeholder</p>
-                <p className="text-xs">
-                  Integrate with @workspace/ui/components/chart
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <DeclarationTrendChart />
 
         {/* Top HS Codes */}
         <Card>
@@ -240,30 +187,9 @@ export default function DashboardPage(): React.JSX.Element {
         <CardHeader>
           <CardTitle className="text-base">{tDash("recentActivity")}</CardTitle>
         </CardHeader>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-20">Time</TableHead>
-              <TableHead>Event</TableHead>
-              <TableHead>{tc("customsOffice")}</TableHead>
-              <TableHead>{tc("status")}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {recentActivity.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell className="font-mono text-sm">{row.time}</TableCell>
-                <TableCell>{row.event}</TableCell>
-                <TableCell>{row.office}</TableCell>
-                <TableCell>
-                  <Badge variant={activityVariant(row.status)}>
-                    {row.status}
-                  </Badge>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <CardContent>
+          <ActivityTable />
+        </CardContent>
       </Card>
     </div>
   );

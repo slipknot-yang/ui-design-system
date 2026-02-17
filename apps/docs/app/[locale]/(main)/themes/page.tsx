@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   Card,
   CardContent,
@@ -71,8 +71,15 @@ const radiusTokens = [
   { name: "radius-xl", value: "calc(var(--radius) + 4px)" },
 ];
 
-export default function ThemesPage(): React.JSX.Element {
-  const tNav = useTranslations("nav");
+export default async function ThemesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const tNav = await getTranslations("nav");
 
   return (
     <div className="space-y-6">

@@ -1,4 +1,4 @@
-import { useTranslations, useLocale } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   Card,
   CardContent,
@@ -54,11 +54,17 @@ const translationNamespaces = [
   },
 ];
 
-export default function I18nPage(): React.JSX.Element {
-  const tNav = useTranslations("nav");
-  const tCommon = useTranslations("common");
-  const tc = useTranslations("customs");
-  const locale = useLocale();
+export default async function I18nPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: localeParam } = await params;
+  setRequestLocale(localeParam);
+  const tNav = await getTranslations("nav");
+  const tCommon = await getTranslations("common");
+  const tc = await getTranslations("customs");
+  const locale = localeParam;
 
   const currentLocaleInfo = supportedLocales.find((l) => l.code === locale);
 

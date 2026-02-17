@@ -1,4 +1,5 @@
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import {
   Card,
   CardContent,
@@ -7,93 +8,17 @@ import {
 } from "@workspace/ui/components/card";
 import { Badge } from "@workspace/ui/components/badge";
 import { Separator } from "@workspace/ui/components/separator";
+import { componentCategories, totalComponents } from "@/lib/component-registry";
+import { CodeBlock } from "@/components/code-block";
 
-const componentCategories = [
-  {
-    category: "Layout",
-    items: [
-      { name: "Accordion", path: "accordion" },
-      { name: "Aspect Ratio", path: "aspect-ratio" },
-      { name: "Card", path: "card" },
-      { name: "Collapsible", path: "collapsible" },
-      { name: "Resizable", path: "resizable" },
-      { name: "Scroll Area", path: "scroll-area" },
-      { name: "Separator", path: "separator" },
-      { name: "Tabs", path: "tabs" },
-    ],
-  },
-  {
-    category: "Forms",
-    items: [
-      { name: "Button", path: "button" },
-      { name: "Calendar", path: "calendar" },
-      { name: "Checkbox", path: "checkbox" },
-      { name: "Combobox", path: "combobox" },
-      { name: "Field", path: "field" },
-      { name: "Input", path: "input" },
-      { name: "Input Group", path: "input-group" },
-      { name: "Input OTP", path: "input-otp" },
-      { name: "Label", path: "label" },
-      { name: "Radio Group", path: "radio-group" },
-      { name: "Select", path: "select" },
-      { name: "Switch", path: "switch" },
-      { name: "Textarea", path: "textarea" },
-      { name: "Toggle", path: "toggle" },
-      { name: "Toggle Group", path: "toggle-group" },
-    ],
-  },
-  {
-    category: "Data Display",
-    items: [
-      { name: "Avatar", path: "avatar" },
-      { name: "Badge", path: "badge" },
-      { name: "Chart", path: "chart" },
-      { name: "Empty", path: "empty" },
-      { name: "Item", path: "item" },
-      { name: "Kbd", path: "kbd" },
-      { name: "Progress", path: "progress" },
-      { name: "Skeleton", path: "skeleton" },
-      { name: "Spinner", path: "spinner" },
-      { name: "Table", path: "table" },
-    ],
-  },
-  {
-    category: "Feedback",
-    items: [
-      { name: "Alert", path: "alert" },
-      { name: "Alert Dialog", path: "alert-dialog" },
-      { name: "Dialog", path: "dialog" },
-      { name: "Drawer", path: "drawer" },
-      { name: "Popover", path: "popover" },
-      { name: "Sheet", path: "sheet" },
-      { name: "Sonner (Toast)", path: "sonner" },
-      { name: "Tooltip", path: "tooltip" },
-    ],
-  },
-  {
-    category: "Navigation",
-    items: [
-      { name: "Breadcrumb", path: "breadcrumb" },
-      { name: "Carousel", path: "carousel" },
-      { name: "Command", path: "command" },
-      { name: "Context Menu", path: "context-menu" },
-      { name: "Dropdown Menu", path: "dropdown-menu" },
-      { name: "Hover Card", path: "hover-card" },
-      { name: "Menubar", path: "menubar" },
-      { name: "Navigation Menu", path: "navigation-menu" },
-      { name: "Pagination", path: "pagination" },
-      { name: "Sidebar", path: "sidebar" },
-    ],
-  },
-];
-
-const totalComponents = componentCategories.reduce(
-  (sum, cat) => sum + cat.items.length,
-  0,
-);
-
-export default function ComponentsPage(): React.JSX.Element {
-  const tNav = useTranslations("nav");
+export default async function ComponentsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const tNav = await getTranslations("nav");
 
   return (
     <div className="space-y-6">
@@ -124,16 +49,17 @@ export default function ComponentsPage(): React.JSX.Element {
             <CardContent>
               <div className="grid grid-cols-2 gap-2">
                 {cat.items.map((item) => (
-                  <div
-                    key={item.path}
-                    className="flex items-center gap-2 rounded-md border p-2 text-sm hover:bg-muted/50 transition-colors"
+                  <Link
+                    key={item.slug}
+                    href={`/components/${item.slug}`}
+                    className="flex items-center gap-2 rounded-md border p-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
                   >
                     <div className="h-2 w-2 rounded-full bg-primary" />
                     <span className="font-medium">{item.name}</span>
                     <code className="ml-auto text-xs text-muted-foreground font-mono hidden sm:inline">
-                      {item.path}
+                      {item.slug}
                     </code>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </CardContent>
@@ -148,12 +74,13 @@ export default function ComponentsPage(): React.JSX.Element {
           <CardTitle className="text-base">Import Example</CardTitle>
         </CardHeader>
         <CardContent>
-          <pre className="rounded-lg bg-muted p-4 text-sm font-mono overflow-x-auto">
-            {`import { Button } from "@workspace/ui/components/button";
+          <CodeBlock
+            code={`import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@workspace/ui/components/card";
 import { Input } from "@workspace/ui/components/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@workspace/ui/components/table";`}
-          </pre>
+            lang="typescript"
+          />
         </CardContent>
       </Card>
     </div>
