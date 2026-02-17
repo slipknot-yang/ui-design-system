@@ -169,7 +169,7 @@ export function AppSidebar({
 
   return (
     <Sidebar variant={variant} collapsible={collapsible}>
-      <SidebarHeader className="border-b px-4 py-3">
+      <SidebarHeader className="border-b px-4 h-14 flex items-center justify-center">
         <Link
           href="/"
           className="flex items-center gap-2"

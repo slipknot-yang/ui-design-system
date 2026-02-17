@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { usePathname } from "@/i18n/navigation";
 import { SidebarTrigger } from "@workspace/ui/components/sidebar";
 import { Separator } from "@workspace/ui/components/separator";
 import {
@@ -24,8 +25,54 @@ interface AppHeaderProps {
   navbarBehavior?: "sticky" | "scroll";
 }
 
+function useBreadcrumbs() {
+  const pathname = usePathname();
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
+
+  const labelMap: Record<string, string> = {
+    "/": tNav("home"),
+    "/dashboard": tNav("dashboard"),
+    "/components": tNav("components"),
+    "/themes": tNav("themes"),
+    "/i18n": tNav("i18n"),
+    "/login": tNav("login"),
+    "/patterns": tNav("patterns"),
+    "/patterns/search-table": tNav("searchTable"),
+    "/patterns/advanced-search": tNav("advancedSearch"),
+    "/patterns/master-detail": tNav("masterDetail"),
+    "/patterns/complex-form": tNav("complexForm"),
+    "/patterns/calendar": tNav("calendar"),
+    "/patterns/workflow": tNav("workflow"),
+    "/patterns/dashboard": tNav("dashboardPattern"),
+  };
+
+  if (pathname === "/") {
+    return [{ label: tNav("home"), href: undefined }];
+  }
+
+  const segments = pathname.split("/").filter(Boolean);
+  const crumbs: { label: string; href: string | undefined }[] = [];
+
+  let accumulated = "";
+  for (let i = 0; i < segments.length; i++) {
+    accumulated += `/${segments[i]}`;
+    const isLast = i === segments.length - 1;
+    const seg = segments[i] ?? "";
+    const label =
+      labelMap[accumulated] ||
+      seg
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+    crumbs.push({ label, href: isLast ? undefined : accumulated });
+  }
+
+  return crumbs;
+}
+
 export function AppHeader({ navbarBehavior = "sticky" }: AppHeaderProps) {
-  const t = useTranslations("common");
+  const breadcrumbs = useBreadcrumbs();
 
   return (
     <header
@@ -38,13 +85,16 @@ export function AppHeader({ navbarBehavior = "sticky" }: AppHeaderProps) {
       <Separator orientation="vertical" className="me-2 hidden sm:block h-4" />
       <Breadcrumb className="hidden md:flex">
         <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">{t("appName")}</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{t("appName")}</BreadcrumbPage>
-          </BreadcrumbItem>
+          {breadcrumbs.map((crumb, i) => (
+            <BreadcrumbItem key={i}>
+              {i > 0 && <BreadcrumbSeparator className="me-1.5" />}
+              {crumb.href ? (
+                <BreadcrumbLink href={crumb.href}>{crumb.label}</BreadcrumbLink>
+              ) : (
+                <BreadcrumbPage>{crumb.label}</BreadcrumbPage>
+              )}
+            </BreadcrumbItem>
+          ))}
         </BreadcrumbList>
       </Breadcrumb>
       <div className="ms-auto flex items-center gap-1 sm:gap-2">
