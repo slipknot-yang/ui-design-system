@@ -92,17 +92,52 @@ export default async function ComponentDetailPage({
         </CardContent>
       </Card>
 
-      {/* Live Preview */}
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base">{tDetail("preview")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="rounded-lg border bg-background p-6 flex items-center justify-center min-h-[120px]">
-            <ComponentPreview slug={slug} />
-          </div>
-        </CardContent>
-      </Card>
+      {/* ================================================================== */}
+      {/*  Examples                                                           */}
+      {/* ================================================================== */}
+      {component.examples && component.examples.length > 0 ? (
+        <>
+          <h2 className="text-lg font-semibold">{tDetail("examples")}</h2>
+          {component.examples.map((example) => (
+            <Card key={example.id}>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">{example.title}</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  {example.description}
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="rounded-lg border bg-background p-6 flex items-center justify-center min-h-[120px]">
+                  <ComponentPreview slug={slug} exampleId={example.id} />
+                </div>
+                <CodeBlock code={example.code} />
+              </CardContent>
+            </Card>
+          ))}
+        </>
+      ) : (
+        <>
+          {/* Fallback: single preview + code for components without examples */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base">{tDetail("preview")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-lg border bg-background p-6 flex items-center justify-center min-h-[120px]">
+                <ComponentPreview slug={slug} />
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base">{tDetail("usage")}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CodeBlock code={component.codeExample} />
+            </CardContent>
+          </Card>
+        </>
+      )}
 
       {/* Variants */}
       {component.variants && component.variants.length > 0 && (
@@ -187,16 +222,6 @@ export default async function ComponentDetailPage({
           </CardContent>
         </Card>
       )}
-
-      {/* Code Example */}
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base">{tDetail("usage")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CodeBlock code={component.codeExample} />
-        </CardContent>
-      </Card>
 
       {/* Accessibility */}
       {component.accessibility && (

@@ -1,5 +1,15 @@
 "use client";
 
+import {
+  Search as SearchIcon,
+  Mail as MailIcon,
+  Download as DownloadIcon,
+  Check as CheckIcon,
+  Clock as ClockIcon,
+  X as XIcon,
+  Info as InfoIcon,
+  AlertCircle as AlertCircleIcon,
+} from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
 import { Input } from "@workspace/ui/components/input";
@@ -17,6 +27,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
@@ -60,6 +71,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -761,8 +773,410 @@ const previews: Record<string, React.ReactNode> = {
   ),
 };
 
-export function ComponentPreview({ slug }: { slug: string }) {
-  const preview = previews[slug];
+/* ────────────────────────────────────────────────────────────────────────────
+ *  Example previews — keyed by "slug:exampleId"
+ * ──────────────────────────────────────────────────────────────────────────── */
+const examplePreviews: Record<string, React.ReactNode> = {
+  // Button
+  "button:variants": (
+    <div className="flex flex-wrap gap-2">
+      <Button>Default</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="link">Link</Button>
+    </div>
+  ),
+  "button:sizes": (
+    <div className="flex items-center gap-2">
+      <Button size="sm">Small</Button>
+      <Button size="default">Default</Button>
+      <Button size="lg">Large</Button>
+      <Button size="icon">
+        <SearchIcon className="h-4 w-4" />
+      </Button>
+    </div>
+  ),
+  "button:with-icon": (
+    <div className="flex gap-2">
+      <Button>
+        <MailIcon className="mr-2 h-4 w-4" /> Login with Email
+      </Button>
+      <Button variant="outline">
+        Download <DownloadIcon className="ml-2 h-4 w-4" />
+      </Button>
+    </div>
+  ),
+  "button:loading": (
+    <Button disabled>
+      <Spinner className="mr-2 h-4 w-4" />
+      Please wait
+    </Button>
+  ),
+  "button:as-link": (
+    <Button asChild>
+      <a href="#">Go to Dashboard</a>
+    </Button>
+  ),
+
+  // Badge
+  "badge:variants": (
+    <div className="flex gap-2">
+      <Badge>Default</Badge>
+      <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="outline">Outline</Badge>
+      <Badge variant="destructive">Destructive</Badge>
+    </div>
+  ),
+  "badge:status-indicator": (
+    <div className="flex gap-2">
+      <Badge className="bg-green-500/10 text-green-600 border-green-200">
+        <span className="mr-1 h-1.5 w-1.5 rounded-full bg-green-500 inline-block" />
+        Active
+      </Badge>
+      <Badge className="bg-yellow-500/10 text-yellow-600 border-yellow-200">
+        <span className="mr-1 h-1.5 w-1.5 rounded-full bg-yellow-500 inline-block" />
+        Pending
+      </Badge>
+      <Badge className="bg-red-500/10 text-red-600 border-red-200">
+        <span className="mr-1 h-1.5 w-1.5 rounded-full bg-red-500 inline-block" />
+        Error
+      </Badge>
+    </div>
+  ),
+  "badge:with-icon": (
+    <div className="flex gap-2">
+      <Badge>
+        <CheckIcon className="mr-1 h-3 w-3" /> Verified
+      </Badge>
+      <Badge variant="secondary">
+        <ClockIcon className="mr-1 h-3 w-3" /> In Progress
+      </Badge>
+      <Badge variant="destructive">
+        <XIcon className="mr-1 h-3 w-3" /> Rejected
+      </Badge>
+    </div>
+  ),
+
+  // Card
+  "card:basic": (
+    <Card className="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>Card Description</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">Card content goes here.</p>
+      </CardContent>
+      <CardFooter>
+        <p className="text-sm text-muted-foreground">Card Footer</p>
+      </CardFooter>
+    </Card>
+  ),
+  "card:with-form": (
+    <Card className="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>Create project</CardTitle>
+        <CardDescription>Deploy your new project in one-click.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="card-name">Name</Label>
+            <Input id="card-name" placeholder="My Project" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="card-fw">Framework</Label>
+            <Select>
+              <SelectTrigger id="card-fw">
+                <SelectValue placeholder="Select" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="next">Next.js</SelectItem>
+                <SelectItem value="remix">Remix</SelectItem>
+                <SelectItem value="astro">Astro</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button variant="outline">Cancel</Button>
+        <Button>Deploy</Button>
+      </CardFooter>
+    </Card>
+  ),
+  "card:stats": (
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+      <Card>
+        <CardHeader className="pb-2">
+          <CardDescription>Total Revenue</CardDescription>
+          <CardTitle className="text-2xl">$45,231.89</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardDescription>Active Users</CardDescription>
+          <CardTitle className="text-2xl">+2,350</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-xs text-muted-foreground">+12.4% from last month</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardDescription>Pending Orders</CardDescription>
+          <CardTitle className="text-2xl">12</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-xs text-muted-foreground">-3 since yesterday</p>
+        </CardContent>
+      </Card>
+    </div>
+  ),
+
+  // Alert
+  "alert:default": (
+    <Alert className="max-w-md">
+      <InfoIcon className="h-4 w-4" />
+      <AlertTitle>Heads up!</AlertTitle>
+      <AlertDescription>
+        You can add components to your app using the CLI.
+      </AlertDescription>
+    </Alert>
+  ),
+  "alert:destructive": (
+    <Alert variant="destructive" className="max-w-md">
+      <AlertCircleIcon className="h-4 w-4" />
+      <AlertTitle>Error</AlertTitle>
+      <AlertDescription>
+        Your session has expired. Please log in again.
+      </AlertDescription>
+    </Alert>
+  ),
+  "alert:with-action": (
+    <Alert className="max-w-md">
+      <AlertTitle>Update available</AlertTitle>
+      <AlertDescription className="flex items-center justify-between">
+        <span>A new version (v2.1.0) is available.</span>
+        <Button size="sm" variant="outline" className="ml-4 shrink-0">
+          Update
+        </Button>
+      </AlertDescription>
+    </Alert>
+  ),
+
+  // Input
+  "input:default": (
+    <div className="grid w-full max-w-sm gap-1.5">
+      <Label htmlFor="ex-email">Email</Label>
+      <Input type="email" id="ex-email" placeholder="Email" />
+    </div>
+  ),
+  "input:disabled": (
+    <Input disabled placeholder="Disabled input" className="max-w-sm" />
+  ),
+  "input:with-helper": (
+    <div className="grid w-full max-w-sm gap-1.5">
+      <Label htmlFor="ex-username">Username</Label>
+      <Input id="ex-username" placeholder="johndoe" />
+      <p className="text-xs text-muted-foreground">
+        This is your public display name.
+      </p>
+    </div>
+  ),
+  "input:file": (
+    <div className="grid w-full max-w-sm gap-1.5">
+      <Label htmlFor="ex-doc">Document</Label>
+      <Input id="ex-doc" type="file" />
+    </div>
+  ),
+
+  // Tabs
+  "tabs:default": (
+    <Tabs defaultValue="account" className="w-full max-w-md">
+      <TabsList>
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account" className="text-sm text-muted-foreground">
+        Account settings here.
+      </TabsContent>
+      <TabsContent value="password" className="text-sm text-muted-foreground">
+        Password settings here.
+      </TabsContent>
+    </Tabs>
+  ),
+  "tabs:with-cards": (
+    <Tabs defaultValue="account" className="w-full max-w-md">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">
+        <Card>
+          <CardHeader>
+            <CardTitle>Account</CardTitle>
+            <CardDescription>Make changes to your account.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="space-y-1">
+              <Label htmlFor="tab-name">Name</Label>
+              <Input id="tab-name" defaultValue="Pedro Duarte" />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button>Save changes</Button>
+          </CardFooter>
+        </Card>
+      </TabsContent>
+      <TabsContent value="password">
+        <Card>
+          <CardHeader>
+            <CardTitle>Password</CardTitle>
+            <CardDescription>Change your password here.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="space-y-1">
+              <Label htmlFor="tab-cur">Current password</Label>
+              <Input id="tab-cur" type="password" />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="tab-new">New password</Label>
+              <Input id="tab-new" type="password" />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button>Save password</Button>
+          </CardFooter>
+        </Card>
+      </TabsContent>
+    </Tabs>
+  ),
+
+  // Dialog
+  "dialog:basic": (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          <DialogDescription>
+            Make changes to your profile here.
+          </DialogDescription>
+        </DialogHeader>
+        <Input placeholder="Name" />
+      </DialogContent>
+    </Dialog>
+  ),
+  "dialog:with-form": (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>New Event</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create event</DialogTitle>
+          <DialogDescription>Add a new event to your calendar.</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid gap-2">
+            <Label htmlFor="dlg-name">Event name</Label>
+            <Input id="dlg-name" placeholder="Team standup" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="dlg-date">Date</Label>
+            <Input id="dlg-date" type="date" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="dlg-desc">Description</Label>
+            <Textarea id="dlg-desc" placeholder="Optional description..." />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline">Cancel</Button>
+          <Button type="submit">Create</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+  "dialog:confirmation": (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="destructive">Delete Account</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline">Cancel</Button>
+          <Button variant="destructive">Yes, delete my account</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+
+  // Select
+  "select:default": (
+    <Select>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Theme" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="light">Light</SelectItem>
+        <SelectItem value="dark">Dark</SelectItem>
+        <SelectItem value="system">System</SelectItem>
+      </SelectContent>
+    </Select>
+  ),
+  "select:with-label": (
+    <div className="grid w-full max-w-sm gap-1.5">
+      <Label htmlFor="ex-country">Country</Label>
+      <Select>
+        <SelectTrigger id="ex-country">
+          <SelectValue placeholder="Select a country" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="kr">South Korea</SelectItem>
+          <SelectItem value="us">United States</SelectItem>
+          <SelectItem value="jp">Japan</SelectItem>
+          <SelectItem value="cn">China</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  ),
+  "select:disabled": (
+    <Select disabled>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Disabled" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="a">Option A</SelectItem>
+      </SelectContent>
+    </Select>
+  ),
+};
+
+export function ComponentPreview({
+  slug,
+  exampleId,
+}: {
+  slug: string;
+  exampleId?: string;
+}) {
+  const key = exampleId ? `${slug}:${exampleId}` : null;
+  const preview = key ? examplePreviews[key] : previews[slug];
 
   if (!preview) {
     return (

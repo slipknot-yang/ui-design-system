@@ -6,12 +6,20 @@ export interface PropDef {
   description: string;
 }
 
+export interface ExampleDef {
+  id: string;
+  title: string;
+  description: string;
+  code: string;
+}
+
 export interface ComponentMeta {
   name: string;
   slug: string;
   description: string;
   importExample: string;
   codeExample: string;
+  examples?: ExampleDef[];
   props?: PropDef[];
   variants?: string[];
   accessibility?: string;
@@ -140,6 +148,95 @@ export const componentCategories: ComponentCategory[] = [
             required: true,
             description:
               "Card content, typically composed of CardHeader, CardContent, and CardFooter sub-components.",
+          },
+        ],
+        examples: [
+          {
+            id: "basic",
+            title: "Basic",
+            description: "A simple card with header, description, and content area.",
+            code: `<Card>
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card Description</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Card Content</p>
+  </CardContent>
+  <CardFooter>
+    <p>Card Footer</p>
+  </CardFooter>
+</Card>`,
+          },
+          {
+            id: "with-form",
+            title: "With Form",
+            description: "Card containing a form layout for settings or data entry.",
+            code: `<Card className="w-[380px]">
+  <CardHeader>
+    <CardTitle>Create project</CardTitle>
+    <CardDescription>Deploy your new project in one-click.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <form className="grid gap-4">
+      <div className="grid gap-2">
+        <Label htmlFor="name">Name</Label>
+        <Input id="name" placeholder="My Project" />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="framework">Framework</Label>
+        <Select>
+          <SelectTrigger id="framework">
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="next">Next.js</SelectItem>
+            <SelectItem value="remix">Remix</SelectItem>
+            <SelectItem value="astro">Astro</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </form>
+  </CardContent>
+  <CardFooter className="flex justify-between">
+    <Button variant="outline">Cancel</Button>
+    <Button>Deploy</Button>
+  </CardFooter>
+</Card>`,
+          },
+          {
+            id: "stats",
+            title: "Stats Card",
+            description: "Compact stat cards for dashboard KPIs.",
+            code: `<div className="grid grid-cols-3 gap-4">
+  <Card>
+    <CardHeader className="pb-2">
+      <CardDescription>Total Revenue</CardDescription>
+      <CardTitle className="text-2xl">$45,231.89</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-xs text-muted-foreground">+20.1% from last month</p>
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader className="pb-2">
+      <CardDescription>Active Users</CardDescription>
+      <CardTitle className="text-2xl">+2,350</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-xs text-muted-foreground">+12.4% from last month</p>
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader className="pb-2">
+      <CardDescription>Pending Orders</CardDescription>
+      <CardTitle className="text-2xl">12</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-xs text-muted-foreground">-3 since yesterday</p>
+    </CardContent>
+  </Card>
+</div>`,
           },
         ],
         accessibility:
@@ -279,6 +376,70 @@ export const componentCategories: ComponentCategory[] = [
               'When "manual", tabs are activated only on Enter/Space rather than on focus.',
           },
         ],
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic horizontal tabs with text content.",
+            code: `<Tabs defaultValue="account">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Account settings here.</TabsContent>
+  <TabsContent value="password">Password settings here.</TabsContent>
+</Tabs>`,
+          },
+          {
+            id: "with-cards",
+            title: "With Cards",
+            description: "Tabs with card-based content for richer layouts like a settings page.",
+            code: `<Tabs defaultValue="account" className="w-[400px]">
+  <TabsList className="grid w-full grid-cols-2">
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">
+    <Card>
+      <CardHeader>
+        <CardTitle>Account</CardTitle>
+        <CardDescription>Make changes to your account.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <div className="space-y-1">
+          <Label htmlFor="name">Name</Label>
+          <Input id="name" defaultValue="Pedro Duarte" />
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button>Save changes</Button>
+      </CardFooter>
+    </Card>
+  </TabsContent>
+  <TabsContent value="password">
+    <Card>
+      <CardHeader>
+        <CardTitle>Password</CardTitle>
+        <CardDescription>Change your password here.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <div className="space-y-1">
+          <Label htmlFor="current">Current password</Label>
+          <Input id="current" type="password" />
+        </div>
+        <div className="space-y-1">
+          <Label htmlFor="new">New password</Label>
+          <Input id="new" type="password" />
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button>Save password</Button>
+      </CardFooter>
+    </Card>
+  </TabsContent>
+</Tabs>`,
+          },
+        ],
         accessibility:
           "Implements WAI-ARIA Tabs pattern with Arrow key navigation between triggers and automatic focus management.",
         relatedComponents: ["accordion", "card", "separator"],
@@ -352,6 +513,62 @@ export const componentCategories: ComponentCategory[] = [
           "outline",
           "ghost",
           "link",
+        ],
+        examples: [
+          {
+            id: "variants",
+            title: "Variants",
+            description: "All six built-in visual variants for different intent levels.",
+            code: `<div className="flex flex-wrap gap-2">
+  <Button>Default</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="destructive">Destructive</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="link">Link</Button>
+</div>`,
+          },
+          {
+            id: "sizes",
+            title: "Sizes",
+            description: "Available size options: sm, default, lg, and icon for icon-only buttons.",
+            code: `<div className="flex items-center gap-2">
+  <Button size="sm">Small</Button>
+  <Button size="default">Default</Button>
+  <Button size="lg">Large</Button>
+  <Button size="icon"><SearchIcon className="h-4 w-4" /></Button>
+</div>`,
+          },
+          {
+            id: "with-icon",
+            title: "With Icon",
+            description: "Buttons with leading or trailing icons for added context.",
+            code: `<div className="flex gap-2">
+  <Button>
+    <MailIcon className="mr-2 h-4 w-4" /> Login with Email
+  </Button>
+  <Button variant="outline">
+    Download <DownloadIcon className="ml-2 h-4 w-4" />
+  </Button>
+</div>`,
+          },
+          {
+            id: "loading",
+            title: "Loading",
+            description: "Disabled button with a spinner to indicate an in-progress action.",
+            code: `<Button disabled>
+  <Spinner className="mr-2 h-4 w-4" />
+  Please wait
+</Button>`,
+          },
+          {
+            id: "as-link",
+            title: "As Link",
+            description: "Use asChild to render an anchor tag styled as a button for navigation.",
+            code: `<Button asChild>
+  <a href="/dashboard">Go to Dashboard</a>
+</Button>`,
+          },
         ],
         accessibility:
           "Renders a native <button> element with full keyboard support; use asChild with an <a> for navigation links.",
@@ -485,6 +702,44 @@ export const componentCategories: ComponentCategory[] = [
             type: "(event: React.ChangeEvent<HTMLInputElement>) => void",
             description:
               "Callback invoked on every keystroke, receiving the native change event.",
+          },
+        ],
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic text input with a label.",
+            code: `<div className="grid w-full max-w-sm gap-1.5">
+  <Label htmlFor="email">Email</Label>
+  <Input type="email" id="email" placeholder="Email" />
+</div>`,
+          },
+          {
+            id: "disabled",
+            title: "Disabled",
+            description: "Input in a disabled state with a muted visual style.",
+            code: `<Input disabled placeholder="Disabled input" className="max-w-sm" />`,
+          },
+          {
+            id: "with-helper",
+            title: "With Helper Text",
+            description: "Input paired with a description text below for guidance.",
+            code: `<div className="grid w-full max-w-sm gap-1.5">
+  <Label htmlFor="username">Username</Label>
+  <Input id="username" placeholder="johndoe" />
+  <p className="text-xs text-muted-foreground">
+    This is your public display name.
+  </p>
+</div>`,
+          },
+          {
+            id: "file",
+            title: "File",
+            description: "File input for uploading documents or images.",
+            code: `<div className="grid w-full max-w-sm gap-1.5">
+  <Label htmlFor="document">Document</Label>
+  <Input id="document" type="file" />
+</div>`,
           },
         ],
         accessibility:
@@ -625,6 +880,55 @@ export const componentCategories: ComponentCategory[] = [
               "Marks the select as required for native form validation before submission.",
           },
         ],
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Basic select dropdown with a few options.",
+            code: `<Select>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Theme" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="light">Light</SelectItem>
+    <SelectItem value="dark">Dark</SelectItem>
+    <SelectItem value="system">System</SelectItem>
+  </SelectContent>
+</Select>`,
+          },
+          {
+            id: "with-label",
+            title: "With Label",
+            description: "Select paired with a label for form layouts.",
+            code: `<div className="grid w-full max-w-sm gap-1.5">
+  <Label htmlFor="country">Country</Label>
+  <Select>
+    <SelectTrigger id="country">
+      <SelectValue placeholder="Select a country" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="kr">South Korea</SelectItem>
+      <SelectItem value="us">United States</SelectItem>
+      <SelectItem value="jp">Japan</SelectItem>
+      <SelectItem value="cn">China</SelectItem>
+    </SelectContent>
+  </Select>
+</div>`,
+          },
+          {
+            id: "disabled",
+            title: "Disabled",
+            description: "Select in a disabled state.",
+            code: `<Select disabled>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Disabled" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="a">Option A</SelectItem>
+  </SelectContent>
+</Select>`,
+          },
+        ],
         accessibility:
           "Implements WAI-ARIA Listbox pattern with full keyboard navigation; Arrow keys browse items, Enter selects.",
         relatedComponents: ["combobox", "radio-group", "label"],
@@ -761,6 +1065,48 @@ export const componentCategories: ComponentCategory[] = [
           },
         ],
         variants: ["default", "secondary", "destructive", "outline"],
+        examples: [
+          {
+            id: "variants",
+            title: "Variants",
+            description: "Four built-in styles to convey different meanings: default, secondary, outline, and destructive.",
+            code: `<div className="flex gap-2">
+  <Badge>Default</Badge>
+  <Badge variant="secondary">Secondary</Badge>
+  <Badge variant="outline">Outline</Badge>
+  <Badge variant="destructive">Destructive</Badge>
+</div>`,
+          },
+          {
+            id: "status-indicator",
+            title: "Status Indicator",
+            description: "Use badges as colored status indicators in tables or lists.",
+            code: `<div className="flex gap-2">
+  <Badge className="bg-green-500/10 text-green-600 border-green-200">
+    <span className="mr-1 h-1.5 w-1.5 rounded-full bg-green-500 inline-block" />
+    Active
+  </Badge>
+  <Badge className="bg-yellow-500/10 text-yellow-600 border-yellow-200">
+    <span className="mr-1 h-1.5 w-1.5 rounded-full bg-yellow-500 inline-block" />
+    Pending
+  </Badge>
+  <Badge className="bg-red-500/10 text-red-600 border-red-200">
+    <span className="mr-1 h-1.5 w-1.5 rounded-full bg-red-500 inline-block" />
+    Error
+  </Badge>
+</div>`,
+          },
+          {
+            id: "with-icon",
+            title: "With Icon",
+            description: "Combine badges with Lucide icons for richer labeling.",
+            code: `<div className="flex gap-2">
+  <Badge><CheckIcon className="mr-1 h-3 w-3" /> Verified</Badge>
+  <Badge variant="secondary"><ClockIcon className="mr-1 h-3 w-3" /> In Progress</Badge>
+  <Badge variant="destructive"><XIcon className="mr-1 h-3 w-3" /> Rejected</Badge>
+</div>`,
+          },
+        ],
         accessibility:
           "Renders as an inline <div>; for status indicators, add an aria-label or sr-only text describing the meaning.",
         relatedComponents: ["button", "card", "table"],
@@ -942,6 +1288,44 @@ export const componentCategories: ComponentCategory[] = [
           },
         ],
         variants: ["default", "destructive"],
+        examples: [
+          {
+            id: "default",
+            title: "Default",
+            description: "Informational alert for general notices.",
+            code: `<Alert>
+  <InfoIcon className="h-4 w-4" />
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription>
+    You can add components to your app using the CLI.
+  </AlertDescription>
+</Alert>`,
+          },
+          {
+            id: "destructive",
+            title: "Destructive",
+            description: "Error or warning alert to draw attention to critical issues.",
+            code: `<Alert variant="destructive">
+  <AlertCircleIcon className="h-4 w-4" />
+  <AlertTitle>Error</AlertTitle>
+  <AlertDescription>
+    Your session has expired. Please log in again.
+  </AlertDescription>
+</Alert>`,
+          },
+          {
+            id: "with-action",
+            title: "With Action",
+            description: "Alert with an action button for user response.",
+            code: `<Alert>
+  <AlertTitle>Update available</AlertTitle>
+  <AlertDescription className="flex items-center justify-between">
+    <span>A new version (v2.1.0) is available.</span>
+    <Button size="sm" variant="outline" className="ml-4">Update</Button>
+  </AlertDescription>
+</Alert>`,
+          },
+        ],
         accessibility:
           'Renders with role="alert" so screen readers announce the content immediately when it appears in the DOM.',
         relatedComponents: ["alert-dialog", "badge", "sonner"],
@@ -1017,6 +1401,82 @@ export const componentCategories: ComponentCategory[] = [
             default: "false",
             description:
               "The default open state when initially rendered in uncontrolled mode.",
+          },
+        ],
+        examples: [
+          {
+            id: "basic",
+            title: "Basic",
+            description: "Simple dialog with a title, description, and an input field.",
+            code: `<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="outline">Open Dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>Make changes to your profile here.</DialogDescription>
+    </DialogHeader>
+    <Input placeholder="Name" />
+  </DialogContent>
+</Dialog>`,
+          },
+          {
+            id: "with-form",
+            title: "With Form",
+            description: "Dialog containing a complete form with footer actions.",
+            code: `<Dialog>
+  <DialogTrigger asChild>
+    <Button>New Event</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Create event</DialogTitle>
+      <DialogDescription>Add a new event to your calendar.</DialogDescription>
+    </DialogHeader>
+    <div className="grid gap-4 py-4">
+      <div className="grid gap-2">
+        <Label htmlFor="event-name">Event name</Label>
+        <Input id="event-name" placeholder="Team standup" />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="event-date">Date</Label>
+        <Input id="event-date" type="date" />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="event-desc">Description</Label>
+        <Textarea id="event-desc" placeholder="Optional description..." />
+      </div>
+    </div>
+    <DialogFooter>
+      <Button variant="outline">Cancel</Button>
+      <Button type="submit">Create</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`,
+          },
+          {
+            id: "confirmation",
+            title: "Confirmation",
+            description: "Confirmation dialog before performing a destructive action.",
+            code: `<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="destructive">Delete Account</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <Button variant="outline">Cancel</Button>
+      <Button variant="destructive">Yes, delete my account</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`,
           },
         ],
         accessibility:

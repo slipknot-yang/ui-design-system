@@ -314,6 +314,7 @@
     "type": "타입",
     "default": "기본값",
     "description": "설명",
+    "examples": "예제",
     "usage": "사용법",
     "accessibility": "접근성",
     "relatedComponents": "관련 컴포넌트"

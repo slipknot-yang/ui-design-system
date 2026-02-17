@@ -314,6 +314,7 @@
     "type": "类型",
     "default": "默认值",
     "description": "描述",
+    "examples": "示例",
     "usage": "用法",
     "accessibility": "无障碍",
     "relatedComponents": "相关组件"
