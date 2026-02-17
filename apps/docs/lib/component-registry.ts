@@ -1258,6 +1258,25 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
   </InputOTPGroup>
 </InputOTP>`,
           },
+          {
+            id: "separated",
+            title: "Separated Boxes",
+            description:
+              "Individual separated input boxes with separators between each slot.",
+            code: `<InputOTP maxLength={6}>
+  <InputOTPGroup><InputOTPSlot index={0} /></InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup><InputOTPSlot index={1} /></InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup><InputOTPSlot index={2} /></InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup><InputOTPSlot index={3} /></InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup><InputOTPSlot index={4} /></InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup><InputOTPSlot index={5} /></InputOTPGroup>
+</InputOTP>`,
+          },
         ],
       },
       {
@@ -1890,10 +1909,76 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         name: "Chart",
         slug: "chart",
         description: "Beautiful, responsive charts built with Recharts.",
-        importExample: `import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@workspace/ui/components/chart";`,
-        codeExample: `<ChartContainer config={{ desktop: { label: "Desktop", color: "var(--chart-1)" } }}>
-  {/* Recharts components here */}
+        importExample: `import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@workspace/ui/components/chart";
+import { Bar, BarChart, Line, LineChart, Pie, PieChart, XAxis, YAxis, CartesianGrid } from "recharts";`,
+        codeExample: `<ChartContainer config={{ revenue: { label: "Revenue", color: "var(--chart-1)" } }} className="h-[250px] w-full">
+  <BarChart data={[{ month: "Jan", revenue: 186 }, { month: "Feb", revenue: 305 }]}>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="month" tickLine={false} axisLine={false} />
+    <YAxis tickLine={false} axisLine={false} />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Bar dataKey="revenue" fill="var(--chart-1)" radius={4} />
+  </BarChart>
 </ChartContainer>`,
+        examples: [
+          {
+            id: "bar",
+            title: "Bar Chart",
+            description: "Vertical bar chart with monthly revenue data.",
+            code: `<ChartContainer config={{ revenue: { label: "Revenue", color: "var(--chart-1)" } }} className="h-[250px] w-full">
+  <BarChart data={[
+    { month: "Jan", revenue: 186 },
+    { month: "Feb", revenue: 305 },
+    { month: "Mar", revenue: 237 },
+    { month: "Apr", revenue: 273 },
+    { month: "May", revenue: 209 },
+    { month: "Jun", revenue: 314 },
+  ]}>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="month" tickLine={false} axisLine={false} />
+    <YAxis tickLine={false} axisLine={false} />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Bar dataKey="revenue" fill="var(--chart-1)" radius={4} />
+  </BarChart>
+</ChartContainer>`,
+          },
+          {
+            id: "line",
+            title: "Line Chart",
+            description: "Line chart with data points.",
+            code: `<ChartContainer config={{ value: { label: "Declarations", color: "var(--chart-2)" } }} className="h-[250px] w-full">
+  <LineChart data={[
+    { month: "Jan", value: 120 },
+    { month: "Feb", value: 180 },
+    { month: "Mar", value: 150 },
+    { month: "Apr", value: 220 },
+    { month: "May", value: 190 },
+    { month: "Jun", value: 280 },
+  ]}>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="month" tickLine={false} axisLine={false} />
+    <YAxis tickLine={false} axisLine={false} />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Line type="monotone" dataKey="value" stroke="var(--chart-2)" strokeWidth={2} dot={{ r: 4 }} />
+  </LineChart>
+</ChartContainer>`,
+          },
+          {
+            id: "pie",
+            title: "Pie Chart",
+            description: "Pie/donut chart showing status distribution.",
+            code: `<ChartContainer config={{ cleared: { label: "Cleared", color: "var(--chart-1)" }, pending: { label: "Pending", color: "var(--chart-3)" }, rejected: { label: "Rejected", color: "var(--chart-5)" } }} className="h-[250px] w-full">
+  <PieChart>
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Pie data={[
+      { name: "cleared", value: 65, fill: "var(--chart-1)" },
+      { name: "pending", value: 25, fill: "var(--chart-3)" },
+      { name: "rejected", value: 10, fill: "var(--chart-5)" },
+    ]} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={50} />
+  </PieChart>
+</ChartContainer>`,
+          },
+        ],
       },
       {
         name: "Empty",
@@ -2156,6 +2241,192 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
       <TableCell><Badge variant="destructive">Overdue</Badge></TableCell>
       <TableCell>PayPal</TableCell>
       <TableCell className="text-right">$350.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`,
+          },
+          {
+            id: "with-checkbox",
+            title: "Table with Checkboxes",
+            description: "Table with row selection checkboxes.",
+            code: `<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead className="w-[40px]"><Checkbox /></TableHead>
+      <TableHead>Invoice</TableHead>
+      <TableHead>Status</TableHead>
+      <TableHead className="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell><Checkbox /></TableCell>
+      <TableCell className="font-medium">INV001</TableCell>
+      <TableCell><Badge variant="outline">Paid</Badge></TableCell>
+      <TableCell className="text-right">$250.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><Checkbox /></TableCell>
+      <TableCell className="font-medium">INV002</TableCell>
+      <TableCell><Badge variant="secondary">Pending</Badge></TableCell>
+      <TableCell className="text-right">$150.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell><Checkbox /></TableCell>
+      <TableCell className="font-medium">INV003</TableCell>
+      <TableCell><Badge variant="destructive">Overdue</Badge></TableCell>
+      <TableCell className="text-right">$350.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`,
+          },
+          {
+            id: "with-sorting",
+            title: "Sortable Table",
+            description: "Table with column sorting indicators.",
+            code: `<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>
+        <button className="flex items-center gap-1 hover:text-foreground">
+          Invoice <ArrowUpDown className="h-3 w-3" />
+        </button>
+      </TableHead>
+      <TableHead>
+        <button className="flex items-center gap-1 hover:text-foreground">
+          Status <ArrowUpDown className="h-3 w-3" />
+        </button>
+      </TableHead>
+      <TableHead>
+        <button className="flex items-center gap-1 hover:text-foreground">
+          Date <ArrowUpDown className="h-3 w-3" />
+        </button>
+      </TableHead>
+      <TableHead className="text-right">
+        <button className="flex items-center gap-1 ml-auto hover:text-foreground">
+          Amount <ArrowUpDown className="h-3 w-3" />
+        </button>
+      </TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell className="font-medium">INV001</TableCell>
+      <TableCell><Badge variant="outline">Paid</Badge></TableCell>
+      <TableCell>2024-01-15</TableCell>
+      <TableCell className="text-right">$250.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-medium">INV002</TableCell>
+      <TableCell><Badge variant="secondary">Pending</Badge></TableCell>
+      <TableCell>2024-01-20</TableCell>
+      <TableCell className="text-right">$150.00</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-medium">INV003</TableCell>
+      <TableCell><Badge variant="destructive">Overdue</Badge></TableCell>
+      <TableCell>2024-01-10</TableCell>
+      <TableCell className="text-right">$350.00</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`,
+          },
+          {
+            id: "with-actions",
+            title: "Table with Actions",
+            description: "Table with row action buttons.",
+            code: `<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Email</TableHead>
+      <TableHead>Role</TableHead>
+      <TableHead className="w-[80px]">Actions</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell className="font-medium">John Doe</TableCell>
+      <TableCell>john@example.com</TableCell>
+      <TableCell><Badge>Admin</Badge></TableCell>
+      <TableCell>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem><Pencil className="mr-2 h-3 w-3" /> Edit</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive"><Trash2 className="mr-2 h-3 w-3" /> Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-medium">Jane Smith</TableCell>
+      <TableCell>jane@example.com</TableCell>
+      <TableCell><Badge variant="secondary">Editor</Badge></TableCell>
+      <TableCell>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem><Pencil className="mr-2 h-3 w-3" /> Edit</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive"><Trash2 className="mr-2 h-3 w-3" /> Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
+  </TableBody>
+</Table>`,
+          },
+          {
+            id: "striped",
+            title: "Striped Table",
+            description: "Table with alternating row colors.",
+            code: `<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Code</TableHead>
+      <TableHead>Description</TableHead>
+      <TableHead>Category</TableHead>
+      <TableHead className="text-right">Rate (%)</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow className="bg-muted/50">
+      <TableCell className="font-mono text-xs">0101.21</TableCell>
+      <TableCell>Live horses</TableCell>
+      <TableCell><Badge variant="outline">Animals</Badge></TableCell>
+      <TableCell className="text-right">5.0</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-mono text-xs">0201.10</TableCell>
+      <TableCell>Bovine meat, fresh</TableCell>
+      <TableCell><Badge variant="outline">Meat</Badge></TableCell>
+      <TableCell className="text-right">12.5</TableCell>
+    </TableRow>
+    <TableRow className="bg-muted/50">
+      <TableCell className="font-mono text-xs">0301.11</TableCell>
+      <TableCell>Live ornamental fish</TableCell>
+      <TableCell><Badge variant="outline">Fish</Badge></TableCell>
+      <TableCell className="text-right">0.0</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell className="font-mono text-xs">0401.10</TableCell>
+      <TableCell>Milk, cream</TableCell>
+      <TableCell><Badge variant="outline">Dairy</Badge></TableCell>
+      <TableCell className="text-right">8.0</TableCell>
+    </TableRow>
+    <TableRow className="bg-muted/50">
+      <TableCell className="font-mono text-xs">0501.00</TableCell>
+      <TableCell>Human hair</TableCell>
+      <TableCell><Badge variant="outline">Other</Badge></TableCell>
+      <TableCell className="text-right">3.0</TableCell>
     </TableRow>
   </TableBody>
 </Table>`,

@@ -11,6 +11,10 @@ import {
   Info as InfoIcon,
   AlertCircle as AlertCircleIcon,
   ChevronsUpDown,
+  ArrowUpDown,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
@@ -82,6 +86,7 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -159,6 +164,13 @@ import {
   DrawerTrigger,
 } from "@workspace/ui/components/drawer";
 import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@workspace/ui/components/carousel";
+import {
   Command,
   CommandEmpty,
   CommandGroup,
@@ -167,13 +179,37 @@ import {
   CommandList,
 } from "@workspace/ui/components/command";
 import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@workspace/ui/components/context-menu";
+import {
   InputOTP,
   InputOTPGroup,
+  InputOTPSeparator,
   InputOTPSlot,
 } from "@workspace/ui/components/input-otp";
 import { Calendar } from "@workspace/ui/components/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@workspace/ui/components/chart";
+import {
+  Bar,
+  BarChart,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts";
 
 /* ── Calendar helper components (stateful) ─────────────────────────── */
 
@@ -467,16 +503,16 @@ const previews: Record<string, React.ReactNode> = {
   ),
 
   "input-otp": (
-    <div className="flex gap-2">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <div
-          key={i}
-          className="w-10 h-12 rounded-md border flex items-center justify-center text-lg font-mono"
-        >
-          {i < 3 ? String(i + 1) : ""}
-        </div>
-      ))}
-    </div>
+    <InputOTP maxLength={6}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
   ),
 
   label: (
@@ -568,9 +604,27 @@ const previews: Record<string, React.ReactNode> = {
   ),
 
   chart: (
-    <div className="text-sm text-muted-foreground border rounded-md p-4 w-full max-w-sm">
-      Chart — Recharts integration (see Dashboard pattern)
-    </div>
+    <ChartContainer
+      config={{ revenue: { label: "Revenue", color: "var(--chart-1)" } }}
+      className="h-[250px] w-full max-w-md"
+    >
+      <BarChart
+        data={[
+          { month: "Jan", revenue: 186 },
+          { month: "Feb", revenue: 305 },
+          { month: "Mar", revenue: 237 },
+          { month: "Apr", revenue: 273 },
+          { month: "May", revenue: 209 },
+          { month: "Jun", revenue: 314 },
+        ]}
+      >
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="month" tickLine={false} axisLine={false} />
+        <YAxis tickLine={false} axisLine={false} />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Bar dataKey="revenue" fill="var(--chart-1)" radius={4} />
+      </BarChart>
+    </ChartContainer>
   ),
 
   empty: (
@@ -742,8 +796,23 @@ const previews: Record<string, React.ReactNode> = {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>Make changes to your profile.</SheetDescription>
+          <SheetDescription>
+            Make changes to your profile here. Click save when you&apos;re done.
+          </SheetDescription>
         </SheetHeader>
+        <div className="grid gap-4 px-4">
+          <div className="grid gap-2">
+            <Label htmlFor="sheet-name">Name</Label>
+            <Input id="sheet-name" placeholder="Your name" />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="sheet-email">Email</Label>
+            <Input id="sheet-email" placeholder="you@example.com" />
+          </div>
+        </div>
+        <SheetFooter>
+          <Button>Save changes</Button>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   ),
@@ -787,15 +856,24 @@ const previews: Record<string, React.ReactNode> = {
   ),
 
   carousel: (
-    <div className="flex gap-4 overflow-hidden w-full max-w-sm">
-      {[1, 2, 3].map((i) => (
-        <div
-          key={i}
-          className="min-w-[200px] h-32 rounded-md border flex items-center justify-center text-muted-foreground"
-        >
-          Slide {i}
-        </div>
-      ))}
+    <div className="w-full max-w-sm px-10">
+      <Carousel>
+        <CarouselContent>
+          {[1, 2, 3, 4, 5].map((i) => (
+            <CarouselItem key={i}>
+              <div className="p-1">
+                <Card>
+                  <CardContent className="flex aspect-square items-center justify-center p-6">
+                    <span className="text-3xl font-semibold">{i}</span>
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </div>
   ),
 
@@ -814,9 +892,19 @@ const previews: Record<string, React.ReactNode> = {
   ),
 
   "context-menu": (
-    <div className="flex h-[100px] w-[200px] items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
-      Right click here
-    </div>
+    <ContextMenu>
+      <ContextMenuTrigger className="flex h-[120px] w-[250px] items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+        Right click here
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-48">
+        <ContextMenuItem>Back</ContextMenuItem>
+        <ContextMenuItem>Forward</ContextMenuItem>
+        <ContextMenuItem>Reload</ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem>View Source</ContextMenuItem>
+        <ContextMenuItem>Inspect</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   ),
 
   "dropdown-menu": (
@@ -1621,6 +1709,33 @@ const examplePreviews: Record<string, React.ReactNode> = {
       </InputOTPGroup>
     </InputOTP>
   ),
+  "input-otp:separated": (
+    <InputOTP maxLength={6}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={1} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={2} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={3} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={4} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  ),
 
   // Label
   "label:with-input": (
@@ -1884,6 +1999,309 @@ const examplePreviews: Record<string, React.ReactNode> = {
       </TableBody>
     </Table>
   ),
+  "table:with-checkbox": (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[40px]">
+            <Checkbox />
+          </TableHead>
+          <TableHead>Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>
+            <Checkbox />
+          </TableCell>
+          <TableCell className="font-medium">INV001</TableCell>
+          <TableCell>
+            <Badge variant="outline">Paid</Badge>
+          </TableCell>
+          <TableCell className="text-right">$250.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>
+            <Checkbox />
+          </TableCell>
+          <TableCell className="font-medium">INV002</TableCell>
+          <TableCell>
+            <Badge variant="secondary">Pending</Badge>
+          </TableCell>
+          <TableCell className="text-right">$150.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>
+            <Checkbox />
+          </TableCell>
+          <TableCell className="font-medium">INV003</TableCell>
+          <TableCell>
+            <Badge variant="destructive">Overdue</Badge>
+          </TableCell>
+          <TableCell className="text-right">$350.00</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  ),
+  "table:with-sorting": (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>
+            <button className="flex items-center gap-1 hover:text-foreground">
+              Invoice <ArrowUpDown className="h-3 w-3" />
+            </button>
+          </TableHead>
+          <TableHead>
+            <button className="flex items-center gap-1 hover:text-foreground">
+              Status <ArrowUpDown className="h-3 w-3" />
+            </button>
+          </TableHead>
+          <TableHead>
+            <button className="flex items-center gap-1 hover:text-foreground">
+              Date <ArrowUpDown className="h-3 w-3" />
+            </button>
+          </TableHead>
+          <TableHead className="text-right">
+            <button className="flex items-center gap-1 ml-auto hover:text-foreground">
+              Amount <ArrowUpDown className="h-3 w-3" />
+            </button>
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell className="font-medium">INV001</TableCell>
+          <TableCell>
+            <Badge variant="outline">Paid</Badge>
+          </TableCell>
+          <TableCell>2024-01-15</TableCell>
+          <TableCell className="text-right">$250.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="font-medium">INV002</TableCell>
+          <TableCell>
+            <Badge variant="secondary">Pending</Badge>
+          </TableCell>
+          <TableCell>2024-01-20</TableCell>
+          <TableCell className="text-right">$150.00</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="font-medium">INV003</TableCell>
+          <TableCell>
+            <Badge variant="destructive">Overdue</Badge>
+          </TableCell>
+          <TableCell>2024-01-10</TableCell>
+          <TableCell className="text-right">$350.00</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  ),
+  "table:with-actions": (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Role</TableHead>
+          <TableHead className="w-[80px]">Actions</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell className="font-medium">John Doe</TableCell>
+          <TableCell>john@example.com</TableCell>
+          <TableCell>
+            <Badge>Admin</Badge>
+          </TableCell>
+          <TableCell>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>
+                  <Pencil className="mr-2 h-3 w-3" /> Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive">
+                  <Trash2 className="mr-2 h-3 w-3" /> Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="font-medium">Jane Smith</TableCell>
+          <TableCell>jane@example.com</TableCell>
+          <TableCell>
+            <Badge variant="secondary">Editor</Badge>
+          </TableCell>
+          <TableCell>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>
+                  <Pencil className="mr-2 h-3 w-3" /> Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive">
+                  <Trash2 className="mr-2 h-3 w-3" /> Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  ),
+  "table:striped": (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Code</TableHead>
+          <TableHead>Description</TableHead>
+          <TableHead>Category</TableHead>
+          <TableHead className="text-right">Rate (%)</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {[
+          {
+            code: "0101.21",
+            desc: "Live horses",
+            cat: "Animals",
+            rate: "5.0",
+          },
+          {
+            code: "0201.10",
+            desc: "Bovine meat, fresh",
+            cat: "Meat",
+            rate: "12.5",
+          },
+          {
+            code: "0301.11",
+            desc: "Live ornamental fish",
+            cat: "Fish",
+            rate: "0.0",
+          },
+          {
+            code: "0401.10",
+            desc: "Milk, cream",
+            cat: "Dairy",
+            rate: "8.0",
+          },
+          {
+            code: "0501.00",
+            desc: "Human hair",
+            cat: "Other",
+            rate: "3.0",
+          },
+        ].map((item, i) => (
+          <TableRow
+            key={item.code}
+            className={i % 2 === 0 ? "bg-muted/50" : ""}
+          >
+            <TableCell className="font-mono text-xs">{item.code}</TableCell>
+            <TableCell>{item.desc}</TableCell>
+            <TableCell>
+              <Badge variant="outline">{item.cat}</Badge>
+            </TableCell>
+            <TableCell className="text-right">{item.rate}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  ),
+
+  // Chart
+  "chart:bar": (
+    <ChartContainer
+      config={{ revenue: { label: "Revenue", color: "var(--chart-1)" } }}
+      className="h-[250px] w-full max-w-md"
+    >
+      <BarChart
+        data={[
+          { month: "Jan", revenue: 186 },
+          { month: "Feb", revenue: 305 },
+          { month: "Mar", revenue: 237 },
+          { month: "Apr", revenue: 273 },
+          { month: "May", revenue: 209 },
+          { month: "Jun", revenue: 314 },
+        ]}
+      >
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="month" tickLine={false} axisLine={false} />
+        <YAxis tickLine={false} axisLine={false} />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Bar dataKey="revenue" fill="var(--chart-1)" radius={4} />
+      </BarChart>
+    </ChartContainer>
+  ),
+  "chart:line": (
+    <ChartContainer
+      config={{
+        value: { label: "Declarations", color: "var(--chart-2)" },
+      }}
+      className="h-[250px] w-full max-w-md"
+    >
+      <LineChart
+        data={[
+          { month: "Jan", value: 120 },
+          { month: "Feb", value: 180 },
+          { month: "Mar", value: 150 },
+          { month: "Apr", value: 220 },
+          { month: "May", value: 190 },
+          { month: "Jun", value: 280 },
+        ]}
+      >
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="month" tickLine={false} axisLine={false} />
+        <YAxis tickLine={false} axisLine={false} />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Line
+          type="monotone"
+          dataKey="value"
+          stroke="var(--chart-2)"
+          strokeWidth={2}
+          dot={{ r: 4 }}
+        />
+      </LineChart>
+    </ChartContainer>
+  ),
+  "chart:pie": (
+    <ChartContainer
+      config={{
+        cleared: { label: "Cleared", color: "var(--chart-1)" },
+        pending: { label: "Pending", color: "var(--chart-3)" },
+        rejected: { label: "Rejected", color: "var(--chart-5)" },
+      }}
+      className="h-[250px] w-full max-w-sm"
+    >
+      <PieChart>
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Pie
+          data={[
+            { name: "cleared", value: 65, fill: "var(--chart-1)" },
+            { name: "pending", value: 25, fill: "var(--chart-3)" },
+            { name: "rejected", value: 10, fill: "var(--chart-5)" },
+          ]}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={80}
+          innerRadius={50}
+        />
+      </PieChart>
+    </ChartContainer>
+  ),
 
   // Alert Dialog
   "alert-dialog:default": (
@@ -2108,7 +2526,7 @@ const examplePreviews: Record<string, React.ReactNode> = {
             Make changes to your profile here. Click save when you&apos;re done.
           </SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 px-4">
           <div className="grid gap-2">
             <Label htmlFor="sheet-name">Name</Label>
             <Input id="sheet-name" placeholder="Your name" />
@@ -2118,7 +2536,9 @@ const examplePreviews: Record<string, React.ReactNode> = {
             <Input id="sheet-email" placeholder="you@example.com" />
           </div>
         </div>
-        <Button>Save changes</Button>
+        <SheetFooter>
+          <Button>Save changes</Button>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   ),
