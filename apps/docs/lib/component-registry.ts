@@ -578,9 +578,184 @@ export const componentCategories: ComponentCategory[] = [
         name: "Calendar",
         slug: "calendar",
         description:
-          "A date field component that allows users to enter and edit dates.",
+          "A date field component that allows users to enter and edit dates. Built on react-day-picker with support for single, range, and multiple date selection.",
         importExample: `import { Calendar } from "@workspace/ui/components/calendar";`,
         codeExample: `<Calendar mode="single" className="rounded-md border" />`,
+        examples: [
+          {
+            id: "single",
+            title: "Single Date Selection",
+            description:
+              "Basic calendar with single date selection. Click a date to select it.",
+            code: `const [date, setDate] = React.useState<Date | undefined>(new Date());
+
+<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+  className="rounded-md border"
+/>`,
+          },
+          {
+            id: "range",
+            title: "Date Range Selection",
+            description:
+              "Select a range of dates by clicking a start and end date. Use numberOfMonths to display multiple months side by side.",
+            code: `import { DateRange } from "react-day-picker";
+
+const [range, setRange] = React.useState<DateRange | undefined>({
+  from: new Date(),
+  to: new Date(Date.now() + 5 * 86400000),
+});
+
+<Calendar
+  mode="range"
+  selected={range}
+  onSelect={setRange}
+  numberOfMonths={2}
+  className="rounded-md border"
+/>`,
+          },
+          {
+            id: "multiple",
+            title: "Multiple Date Selection",
+            description:
+              "Allow users to select multiple individual dates. Useful for scheduling or marking multiple events.",
+            code: `const [dates, setDates] = React.useState<Date[]>([
+  new Date(),
+  new Date(Date.now() + 2 * 86400000),
+  new Date(Date.now() + 4 * 86400000),
+]);
+
+<Calendar
+  mode="multiple"
+  selected={dates}
+  onSelect={setDates}
+  className="rounded-md border"
+/>`,
+          },
+          {
+            id: "disabled-dates",
+            title: "Disabled Dates",
+            description:
+              "Disable past dates or specific dates using the disabled prop with a matcher function.",
+            code: `const today = new Date();
+
+<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+  disabled={(date) =>
+    date < new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  }
+  className="rounded-md border"
+/>`,
+          },
+          {
+            id: "date-picker",
+            title: "Date Picker (with Popover)",
+            description:
+              "Combine Calendar with Popover and Button to create a dropdown date picker — the most common pattern in real applications.",
+            code: `import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@workspace/ui/components/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover";
+import { Button } from "@workspace/ui/components/button";
+
+const [date, setDate] = React.useState<Date | undefined>(new Date());
+
+<Popover>
+  <PopoverTrigger asChild>
+    <Button
+      variant="outline"
+      className={\`w-[260px] justify-start text-left font-normal \${
+        !date ? "text-muted-foreground" : ""
+      }\`}
+    >
+      <CalendarIcon className="mr-2 h-4 w-4" />
+      {date ? format(date, "PPP") : "Pick a date"}
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-auto p-0" align="start">
+    <Calendar mode="single" selected={date} onSelect={setDate} />
+  </PopoverContent>
+</Popover>`,
+          },
+        ],
+        props: [
+          {
+            name: "mode",
+            type: '"single" | "range" | "multiple"',
+            description:
+              "The selection mode. Determines whether one date, a range, or multiple dates can be selected.",
+          },
+          {
+            name: "selected",
+            type: "Date | DateRange | Date[]",
+            description:
+              "The currently selected date(s). Type depends on the mode prop.",
+          },
+          {
+            name: "onSelect",
+            type: "(date: ...) => void",
+            description:
+              "Callback fired when a date is selected. The argument type matches the mode.",
+          },
+          {
+            name: "numberOfMonths",
+            type: "number",
+            default: "1",
+            description: "The number of months to display side by side.",
+          },
+          {
+            name: "showOutsideDays",
+            type: "boolean",
+            default: "true",
+            description:
+              "Whether to show days from the previous/next month to fill the grid.",
+          },
+          {
+            name: "disabled",
+            type: "Matcher | Matcher[]",
+            description:
+              "A matcher or array of matchers to disable specific dates. Can be a function, date, date range, or day of week.",
+          },
+          {
+            name: "locale",
+            type: "Locale",
+            description:
+              "A date-fns locale object to localize month/day names and formatting.",
+          },
+          {
+            name: "captionLayout",
+            type: '"label" | "dropdown"',
+            default: '"label"',
+            description:
+              'Layout of the month/year caption. Use "dropdown" to allow quick month/year navigation.',
+          },
+          {
+            name: "buttonVariant",
+            type: '"ghost" | "outline" | ...',
+            default: '"ghost"',
+            description:
+              "The variant of the navigation buttons (previous/next month).",
+          },
+          {
+            name: "className",
+            type: "string",
+            description: "Additional CSS classes to apply to the calendar root.",
+          },
+          {
+            name: "classNames",
+            type: "Partial<ClassNames>",
+            description:
+              "Override default class names for individual calendar parts (day, month, weekday, etc.).",
+          },
+        ],
+        variants: ["single", "range", "multiple"],
+        accessibility:
+          "Calendar is fully keyboard navigable: Arrow keys move between dates, Enter/Space selects a date, Home/End jump to start/end of the week, PageUp/PageDown navigate between months. The component uses proper ARIA roles (grid, gridcell) and labels for screen readers. Use the locale prop to ensure correct date localization for your users.",
+        relatedComponents: ["button", "popover", "input", "dialog"],
       },
       {
         name: "Checkbox",

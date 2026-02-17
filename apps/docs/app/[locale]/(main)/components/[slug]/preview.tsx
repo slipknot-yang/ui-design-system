@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import {
   Search as SearchIcon,
   Mail as MailIcon,
@@ -161,6 +162,92 @@ import {
   CommandItem,
   CommandList,
 } from "@workspace/ui/components/command";
+import { Calendar } from "@workspace/ui/components/calendar";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+
+/* ── Calendar helper components (stateful) ─────────────────────────── */
+
+function CalendarPreview() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  return (
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      className="rounded-md border"
+    />
+  );
+}
+
+function CalendarRangePreview() {
+  const [range, setRange] = React.useState<{
+    from: Date | undefined;
+    to?: Date | undefined;
+  }>({
+    from: new Date(),
+    to: new Date(Date.now() + 5 * 86400000),
+  });
+  return (
+    <Calendar
+      mode="range"
+      selected={range}
+      onSelect={(r) => r && setRange(r)}
+      numberOfMonths={2}
+      className="rounded-md border"
+    />
+  );
+}
+
+function CalendarMultiplePreview() {
+  const [dates, setDates] = React.useState<Date[]>([
+    new Date(),
+    new Date(Date.now() + 2 * 86400000),
+    new Date(Date.now() + 4 * 86400000),
+  ]);
+  return (
+    <Calendar
+      mode="multiple"
+      selected={dates}
+      onSelect={(d) => d && setDates(d)}
+      className="rounded-md border"
+    />
+  );
+}
+
+function CalendarDisabledPreview() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const today = new Date();
+  return (
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      disabled={(d) => d < new Date(today.getFullYear(), today.getMonth(), today.getDate())}
+      className="rounded-md border"
+    />
+  );
+}
+
+function CalendarDatePickerPreview() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className={`w-[260px] justify-start text-left font-normal ${!date ? "text-muted-foreground" : ""}`}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? format(date, "PPP") : "Pick a date"}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar mode="single" selected={date} onSelect={setDate} />
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 const previews: Record<string, React.ReactNode> = {
   // Layout
@@ -287,11 +374,7 @@ const previews: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  calendar: (
-    <div className="text-sm text-muted-foreground border rounded-md p-4">
-      Calendar component (requires date-fns setup)
-    </div>
-  ),
+  calendar: <CalendarPreview />,
 
   checkbox: (
     <div className="flex items-center space-x-2">
@@ -1166,6 +1249,13 @@ const examplePreviews: Record<string, React.ReactNode> = {
       </SelectContent>
     </Select>
   ),
+
+  // Calendar
+  "calendar:single": <CalendarPreview />,
+  "calendar:range": <CalendarRangePreview />,
+  "calendar:multiple": <CalendarMultiplePreview />,
+  "calendar:disabled-dates": <CalendarDisabledPreview />,
+  "calendar:date-picker": <CalendarDatePickerPreview />,
 };
 
 export function ComponentPreview({
