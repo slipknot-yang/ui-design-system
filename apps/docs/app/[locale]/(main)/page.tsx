@@ -26,7 +26,7 @@ import {
   Folder,
   FileText,
 } from "lucide-react";
-import { CupiaLogo } from "@/components/cupia-logo";
+import { CupiaLogoHero } from "@/components/cupia-logo";
 
 const techStackItems = [
   "Next.js 16",
@@ -85,7 +85,11 @@ const structureItems = [
     children: [
       { name: "app/[locale]/", desc: "Locale-based routing", isFolder: true },
       { name: "components/", desc: "App components", isFolder: true },
-      { name: "i18n/messages/", desc: "Translation files (7 languages)", isFolder: true },
+      {
+        name: "i18n/messages/",
+        desc: "Translation files (7 languages)",
+        isFolder: true,
+      },
     ],
   },
   {
@@ -94,7 +98,11 @@ const structureItems = [
     isFolder: true,
     children: [
       { name: "src/components/", desc: "51 shadcn components", isFolder: true },
-      { name: "src/styles/", desc: "globals.css (OKLCh themes)", isFolder: true },
+      {
+        name: "src/styles/",
+        desc: "globals.css (OKLCh themes)",
+        isFolder: true,
+      },
     ],
   },
   { name: "package.json", desc: "pnpm workspace root", isFolder: false },
@@ -189,10 +197,7 @@ export default async function HomePage({
       {/* ================================================================== */}
       <div className="relative overflow-hidden rounded-xl border bg-gradient-to-br from-primary/5 via-background to-accent/5 px-6 py-12 text-center sm:px-12 sm:py-16">
         <div className="mx-auto max-w-2xl space-y-4">
-          <CupiaLogo
-            size="lg"
-            className="mx-auto h-16 w-16 rounded-2xl shadow-lg"
-          />
+          <CupiaLogoHero className="mx-auto h-24 w-auto" />
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
             {t("heroTitle")}
           </h1>
@@ -312,12 +317,17 @@ export default async function HomePage({
                       )}
                       {item.name}
                     </span>
-                    <span className="text-xs text-muted-foreground">{item.desc}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {item.desc}
+                    </span>
                   </div>
                   {"children" in item && item.children && (
                     <ul className="mt-1 space-y-1 border-s border-border ps-4 ms-[7px]">
                       {item.children.map((child) => (
-                        <li key={child.name} className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                        <li
+                          key={child.name}
+                          className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5"
+                        >
                           <span className="flex shrink-0 items-center gap-1.5 text-foreground">
                             {child.isFolder ? (
                               <Folder className="h-3.5 w-3.5 text-primary/70" />
@@ -326,7 +336,9 @@ export default async function HomePage({
                             )}
                             {child.name}
                           </span>
-                          <span className="text-xs text-muted-foreground">{child.desc}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {child.desc}
+                          </span>
                         </li>
                       ))}
                     </ul>

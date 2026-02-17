@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@workspace/ui/lib/utils";
 
 interface CupiaLogoProps {
@@ -6,107 +7,69 @@ interface CupiaLogoProps {
 }
 
 /**
- * CUPIA icon logo - circular badge with "C" on brand blue background.
- * Used in sidebar header and other compact icon placements.
+ * CUPIA emblem logo (circular seal) for compact placements like sidebar icon mode.
  */
 export function CupiaLogo({ className, size = "md" }: CupiaLogoProps) {
   const sizes = {
-    sm: "h-6 w-6",
-    md: "h-8 w-8",
-    lg: "h-10 w-10",
+    sm: 24,
+    md: 32,
+    lg: 40,
   };
 
+  const px = sizes[size];
+
   return (
-    <div
-      className={cn(
-        "flex items-center justify-center rounded-md bg-[#1B6DB5] text-white font-bold",
-        sizes[size],
-        className,
-      )}
-    >
-      <svg
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-full w-full p-1"
-      >
-        <text
-          x="16"
-          y="22"
-          textAnchor="middle"
-          fill="currentColor"
-          fontSize="16"
-          fontWeight="700"
-          fontFamily="system-ui, -apple-system, sans-serif"
-        >
-          C
-        </text>
-      </svg>
-    </div>
+    <Image
+      src="/cupia-emblem.png"
+      alt="CUPIA"
+      width={px}
+      height={px}
+      className={cn("shrink-0 object-contain", className)}
+      priority
+    />
   );
 }
 
 /**
- * Full CUPIA wordmark logo matching the official branding:
- * Blue "CUP" + "A" with orange dot on the lowercase "i".
+ * Full CUPIA wordmark + subtitle for sidebar header (expanded state).
+ * Switches to white version in dark mode.
  */
 export function CupiaLogoFull({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 100 28"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={cn("h-6", className)}
-      aria-label="CUPIA"
-    >
-      {/* C */}
-      <text
-        x="0"
-        y="22"
-        fill="#1B6DB5"
-        fontSize="24"
-        fontWeight="700"
-        fontFamily="system-ui, -apple-system, sans-serif"
-      >
-        C
-      </text>
-      {/* U */}
-      <text
-        x="17"
-        y="22"
-        fill="#1B6DB5"
-        fontSize="24"
-        fontWeight="700"
-        fontFamily="system-ui, -apple-system, sans-serif"
-      >
-        U
-      </text>
-      {/* P */}
-      <text
-        x="37"
-        y="22"
-        fill="#1B6DB5"
-        fontSize="24"
-        fontWeight="700"
-        fontFamily="system-ui, -apple-system, sans-serif"
-      >
-        P
-      </text>
-      {/* i (stem only, no dot) */}
-      <rect x="55" y="10" width="4" height="12" rx="1" fill="#1B6DB5" />
-      {/* i orange dot */}
-      <circle cx="57" cy="5" r="3" fill="#E87A2B" />
-      {/* A */}
-      <text
-        x="63"
-        y="22"
-        fill="#1B6DB5"
-        fontSize="24"
-        fontWeight="700"
-        fontFamily="system-ui, -apple-system, sans-serif"
-      >
-        A
-      </text>
-    </svg>
+    <>
+      <Image
+        src="/cupia-logo.png"
+        alt="CUPIA"
+        width={100}
+        height={30}
+        className={cn("h-6 w-auto object-contain dark:hidden", className)}
+        priority
+      />
+      <Image
+        src="/cupia-logo-white.png"
+        alt="CUPIA"
+        width={100}
+        height={30}
+        className={cn("h-6 w-auto object-contain hidden dark:block", className)}
+        priority
+      />
+    </>
+  );
+}
+
+/**
+ * Large CUPIA vertical logo for homepage hero section.
+ * CUPIA wordmark with "Customs Uni-Pass International Agency" subtitle.
+ */
+export function CupiaLogoHero({ className }: { className?: string }) {
+  return (
+    <Image
+      src="/cupia-logo-vertical.png"
+      alt="CUPIA - Customs Uni-Pass International Agency"
+      width={400}
+      height={200}
+      className={cn("object-contain", className)}
+      priority
+    />
   );
 }

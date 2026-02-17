@@ -177,13 +177,11 @@ export function AppSidebar({
           className="flex items-center gap-2"
           onClick={() => setOpenMobile(false)}
         >
-          <CupiaLogo className="shrink-0" />
-          <div className="flex flex-col overflow-hidden group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-semibold tracking-tight truncate">
-              {tCommon("appName")}
-            </span>
-            <span className="text-[10px] text-muted-foreground truncate">
-              {tCommon("appSubtitle")}
+          <CupiaLogo className="shrink-0 group-data-[collapsible=icon]:h-6 group-data-[collapsible=icon]:w-6" />
+          <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+            <span className="truncate font-semibold">CUPIA</span>
+            <span className="truncate text-xs text-muted-foreground">
+              Design System
             </span>
           </div>
         </Link>
