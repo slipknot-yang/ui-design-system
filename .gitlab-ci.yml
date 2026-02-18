@@ -1,0 +1,48 @@
+image: node:22
+
+stages:
+  - build
+  - deploy
+
+variables:
+  PNPM_VERSION: "10.4.1"
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .pnpm-store/
+    - node_modules/
+    - apps/docs/.next/cache/
+
+before_script:
+  - corepack enable
+  - corepack prepare pnpm@$PNPM_VERSION --activate
+  - pnpm config set store-dir .pnpm-store
+
+build:
+  stage: build
+  script:
+    - pnpm install --frozen-lockfile
+    - rm -f apps/docs/middleware.ts
+    - pnpm turbo build --filter=docs
+  environment:
+    name: production
+  variables:
+    STATIC_EXPORT: "true"
+  artifacts:
+    paths:
+      - apps/docs/out
+    expire_in: 1 hour
+
+pages:
+  stage: deploy
+  script:
+    - rm -rf public
+    - mv apps/docs/out public
+  artifacts:
+    paths:
+      - public
+  dependencies:
+    - build
+  only:
+    - main

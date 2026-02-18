@@ -2,14 +2,15 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
-const isGithubPages = process.env.GITHUB_PAGES === "true";
+const isStaticExport = process.env.STATIC_EXPORT === "true";
+const basePath = process.env.BASE_PATH || "";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@workspace/ui"],
-  ...(isGithubPages && {
+  ...(isStaticExport && {
     output: "export",
-    basePath: "/ui-design-system",
+    ...(basePath && { basePath }),
     images: { unoptimized: true },
   }),
 };
