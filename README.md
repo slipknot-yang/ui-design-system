@@ -63,8 +63,8 @@ ui-design-system/
 
 ```bash
 # Clone
-git clone https://git.cupia-framework.64bit.kr/cupia/framework/cupia-design-system.git
-cd cupia-design-system
+git clone https://github.com/slipknot-yang/ui-design-system.git
+cd ui-design-system
 
 # Install dependencies
 pnpm install
