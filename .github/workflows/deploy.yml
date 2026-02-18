@@ -35,8 +35,7 @@ jobs:
       - name: Build docs
         run: pnpm turbo build --filter=docs
         env:
-          STATIC_EXPORT: "true"
-          BASE_PATH: "/ui-design-system"
+          GITHUB_PAGES: "true"
 
       - uses: actions/upload-pages-artifact@v3
         with:
