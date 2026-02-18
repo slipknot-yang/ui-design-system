@@ -10,6 +10,7 @@ import {
   MessageSquare,
   Navigation,
   Blocks,
+  LayoutList,
   Palette,
   Languages,
   LogIn,
@@ -116,10 +117,20 @@ export function AppSidebar({
     })),
   }));
 
+  const pattern2Items: NavItem[] = [
+    { title: tNav("govSearchDetail"), href: "/patterns2/search-detail" },
+  ];
+
   const patternSection: NavSection = {
     label: tNav("patterns"),
     icon: Blocks,
     items: patternItems,
+  };
+
+  const pattern2Section: NavSection = {
+    label: tNav("patterns2"),
+    icon: LayoutList,
+    items: pattern2Items,
   };
 
   function isSectionActive(section: NavSection): boolean {
@@ -296,6 +307,9 @@ export function AppSidebar({
 
         {/* UI Patterns */}
         {renderCollapsibleSection(patternSection)}
+
+        {/* UI Patterns 2 */}
+        {renderCollapsibleSection(pattern2Section)}
 
         <SidebarSeparator />
 

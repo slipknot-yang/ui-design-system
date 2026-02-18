@@ -7,6 +7,7 @@ import { Checkbox } from "@workspace/ui/components/checkbox";
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
 import { Card, CardContent } from "@workspace/ui/components/card";
+import { DateRangePicker } from "@workspace/ui/components/date-range-picker";
 import {
   Table,
   TableBody,
@@ -328,19 +329,15 @@ export function DeclarationsDataTable() {
                 </div>
                 <div className="space-y-2">
                   <Label>Date Range</Label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="date"
-                      defaultValue="2026-02-01"
-                      className="flex-1"
-                    />
-                    <span className="text-muted-foreground text-sm">~</span>
-                    <Input
-                      type="date"
-                      defaultValue="2026-02-16"
-                      className="flex-1"
-                    />
-                  </div>
+                  <DateRangePicker
+                    value={{
+                      from: new Date(2026, 1, 1),
+                      to: new Date(2026, 1, 16),
+                    }}
+                    numberOfMonths={2}
+                    className="w-full"
+                    placeholder="Select date range"
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Customs Office</Label>

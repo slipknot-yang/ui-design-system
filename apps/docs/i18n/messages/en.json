@@ -120,6 +120,8 @@
     "workflow": "Workflow",
     "dashboardPattern": "Dashboard",
     "treeDetail": "Tree + Detail",
+    "patterns2": "UI Patterns 2",
+    "govSearchDetail": "Search + Detail (Gov Admin)",
     "newDeclaration": "New Declaration",
     "declarationQuery": "Declaration Query",
     "declarationList": "Declaration List",
@@ -225,6 +227,10 @@
     "treeDetail": {
       "title": "Tree + Detail",
       "description": "Hierarchical tree navigation with detail view for HS code management"
+    },
+    "govSearchDetail": {
+      "title": "Search + Detail (Gov Admin Style)",
+      "description": "UNI-PASS style Label|Field grid and full-bordered table"
     }
   },
   "customs": {

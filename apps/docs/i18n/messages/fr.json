@@ -120,6 +120,8 @@
     "workflow": "Flux de travail",
     "dashboardPattern": "Tableau de bord",
     "treeDetail": "Arbre + Détail",
+    "patterns2": "Modèles d'UI 2",
+    "govSearchDetail": "Recherche + Détail (Admin. Gov.)",
     "newDeclaration": "Nouvelle déclaration",
     "declarationQuery": "Recherche de déclaration",
     "declarationList": "Liste des déclarations",
@@ -225,6 +227,10 @@
     "treeDetail": {
       "title": "Arbre + Détail",
       "description": "Navigation arborescente hiérarchique avec vue détaillée pour la gestion des codes SH"
+    },
+    "govSearchDetail": {
+      "title": "Recherche + Détail (Style Admin. Gov.)",
+      "description": "Grille Label|Champ style UNI-PASS et tableau à bordures complètes"
     }
   },
   "customs": {

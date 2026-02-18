@@ -1331,6 +1331,179 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         relatedComponents: ["button", "popover", "input", "dialog"],
       },
       {
+        name: "Date Picker",
+        slug: "date-picker",
+        description:
+          "A composite date picker that lets users select a start and end date from a calendar popover. Supports configurable preset buttons (e.g. Today, 1 Month, 1 Year) for quick date range selection. Click the input to open. Built on Calendar + Popover.",
+        importExample: `import { DateRangePicker } from "@workspace/ui/components/date-range-picker";
+import type { DateRange } from "@workspace/ui/components/date-range-picker";`,
+        codeExample: `const [range, setRange] = React.useState<DateRange | undefined>({
+  from: new Date(),
+  to: new Date(Date.now() + 7 * 86400000),
+});
+
+<DateRangePicker value={range} onChange={setRange} presets />`,
+        examples: [
+          {
+            id: "basic",
+            title: "Basic Date Range",
+            description:
+              "Click the input to open the calendar and select a date range.",
+            code: `const [range, setRange] = React.useState<DateRange | undefined>({
+  from: new Date(),
+  to: new Date(Date.now() + 7 * 86400000),
+});
+
+<DateRangePicker value={range} onChange={setRange} />`,
+          },
+          {
+            id: "with-presets",
+            title: "With Preset Buttons",
+            description:
+              "Pass presets={true} to show default preset buttons (당일, 1개월, 3개월, 1년, 전체) to the right of the date input.",
+            code: `const [range, setRange] = React.useState<DateRange | undefined>();
+
+<DateRangePicker value={range} onChange={setRange} presets />`,
+          },
+          {
+            id: "custom-presets",
+            title: "Custom Presets",
+            description:
+              "Define your own preset buttons with custom labels and date ranges.",
+            code: `const [range, setRange] = React.useState<DateRange | undefined>();
+
+const myPresets = [
+  { key: "week", label: "This Week", getRange: () => {
+    const to = new Date(); to.setHours(0,0,0,0);
+    const from = new Date(to);
+    from.setDate(from.getDate() - from.getDay());
+    return { from, to };
+  }},
+  { key: "month", label: "This Month", getRange: () => {
+    const to = new Date(); to.setHours(0,0,0,0);
+    return { from: new Date(to.getFullYear(), to.getMonth(), 1), to };
+  }},
+  { key: "quarter", label: "This Quarter", getRange: () => {
+    const to = new Date(); to.setHours(0,0,0,0);
+    const q = Math.floor(to.getMonth() / 3) * 3;
+    return { from: new Date(to.getFullYear(), q, 1), to };
+  }},
+];
+
+<DateRangePicker value={range} onChange={setRange} presets={myPresets} />`,
+          },
+          {
+            id: "single-month",
+            title: "Single Month View",
+            description:
+              "Compact version showing only one month. Good for narrow layouts.",
+            code: `const [range, setRange] = React.useState<DateRange | undefined>();
+
+<DateRangePicker
+  value={range}
+  onChange={setRange}
+  numberOfMonths={1}
+  placeholder="Select period"
+/>`,
+          },
+          {
+            id: "custom-format",
+            title: "Custom Date Format",
+            description:
+              "Display dates in a different format using date-fns format strings.",
+            code: `const [range, setRange] = React.useState<DateRange | undefined>({
+  from: new Date(),
+  to: new Date(Date.now() + 14 * 86400000),
+});
+
+<DateRangePicker
+  value={range}
+  onChange={setRange}
+  dateFormat="MM/dd/yyyy"
+/>`,
+          },
+          {
+            id: "disabled",
+            title: "Disabled",
+            description:
+              "A disabled date picker that cannot be interacted with.",
+            code: `<DateRangePicker
+  value={{ from: new Date(), to: new Date(Date.now() + 7 * 86400000) }}
+  disabled
+  presets
+/>`,
+          },
+        ],
+        props: [
+          {
+            name: "value",
+            type: "DateRange | undefined",
+            description:
+              "The selected date range. DateRange is { from?: Date; to?: Date } from react-day-picker.",
+          },
+          {
+            name: "onChange",
+            type: "(range: DateRange | undefined) => void",
+            description: "Callback when the date range changes.",
+          },
+          {
+            name: "presets",
+            type: "DateRangePreset[] | boolean",
+            default: "undefined",
+            description:
+              "Preset buttons for quick date selection. Pass true for defaults (당일, 1개월, 3개월, 1년, 전체) or an array of custom presets with { key, label, getRange }.",
+          },
+          {
+            name: "placeholder",
+            type: "string",
+            default: '"Select date range"',
+            description: "Placeholder text shown when no range is selected.",
+          },
+          {
+            name: "numberOfMonths",
+            type: "number",
+            default: "2",
+            description:
+              "Number of months to display side-by-side in the calendar popover.",
+          },
+          {
+            name: "dateFormat",
+            type: "string",
+            default: '"yyyy-MM-dd"',
+            description: "Date format string (date-fns compatible).",
+          },
+          {
+            name: "align",
+            type: '"start" | "center" | "end"',
+            default: '"start"',
+            description: "Alignment of the popover relative to the trigger.",
+          },
+          {
+            name: "disabled",
+            type: "boolean",
+            default: "false",
+            description: "Whether the picker and preset buttons are disabled.",
+          },
+          {
+            name: "locale",
+            type: "Partial<Locale>",
+            description:
+              "Locale object from date-fns for internationalization.",
+          },
+        ],
+        variants: [
+          "default",
+          "with-presets",
+          "custom-presets",
+          "single-month",
+          "custom-format",
+          "disabled",
+        ],
+        accessibility:
+          "The trigger button is focusable and opens the calendar popover on Enter/Space. Preset buttons are individually focusable and selectable via keyboard. Calendar navigation follows the same keyboard patterns as the Calendar component. The popover closes on Escape.",
+        relatedComponents: ["calendar", "popover", "button", "input"],
+      },
+      {
         name: "Checkbox",
         slug: "checkbox",
         description:

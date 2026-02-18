@@ -120,6 +120,8 @@
     "workflow": "ワークフロー",
     "dashboardPattern": "ダッシュボード",
     "treeDetail": "ツリー + 詳細",
+    "patterns2": "UIパターン 2",
+    "govSearchDetail": "検索 + 詳細 (行政スタイル)",
     "newDeclaration": "申告書作成",
     "declarationQuery": "申告書照会",
     "declarationList": "申告書一覧",
@@ -225,6 +227,10 @@
     "treeDetail": {
       "title": "ツリー + 詳細",
       "description": "HSコード管理のための階層ツリーナビゲーションと詳細ビュー"
+    },
+    "govSearchDetail": {
+      "title": "検索 + 詳細 (行政管理スタイル)",
+      "description": "UNI-PASSスタイルのラベル|フィールドグリッドと全罫線テーブル"
     }
   },
   "customs": {

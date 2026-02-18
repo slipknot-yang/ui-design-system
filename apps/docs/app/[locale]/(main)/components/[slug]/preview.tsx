@@ -267,6 +267,10 @@ import {
 } from "@workspace/ui/components/navigation-menu";
 import { toast } from "sonner";
 import { Calendar } from "@workspace/ui/components/calendar";
+import {
+  DateRangePicker,
+  type DateRange,
+} from "@workspace/ui/components/date-range-picker";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import {
@@ -374,6 +378,105 @@ function CalendarDatePickerPreview() {
         <Calendar mode="single" selected={date} onSelect={setDate} />
       </PopoverContent>
     </Popover>
+  );
+}
+
+/* ── DatePicker helper components (stateful) ───────────────────────── */
+
+function DatePickerBasicPreview() {
+  const [range, setRange] = React.useState<DateRange | undefined>({
+    from: new Date(),
+    to: new Date(Date.now() + 7 * 86400000),
+  });
+  return <DateRangePicker value={range} onChange={setRange} />;
+}
+
+function DatePickerWithPresetsPreview() {
+  const [range, setRange] = React.useState<DateRange | undefined>();
+  return <DateRangePicker value={range} onChange={setRange} presets />;
+}
+
+function DatePickerCustomPresetsPreview() {
+  const [range, setRange] = React.useState<DateRange | undefined>();
+  const myPresets = React.useMemo(
+    () => [
+      {
+        key: "week",
+        label: "This Week",
+        getRange: () => {
+          const to = new Date();
+          to.setHours(0, 0, 0, 0);
+          const from = new Date(to);
+          from.setDate(from.getDate() - from.getDay());
+          return { from, to } as DateRange;
+        },
+      },
+      {
+        key: "month",
+        label: "This Month",
+        getRange: () => {
+          const to = new Date();
+          to.setHours(0, 0, 0, 0);
+          return {
+            from: new Date(to.getFullYear(), to.getMonth(), 1),
+            to,
+          } as DateRange;
+        },
+      },
+      {
+        key: "quarter",
+        label: "This Quarter",
+        getRange: () => {
+          const to = new Date();
+          to.setHours(0, 0, 0, 0);
+          const q = Math.floor(to.getMonth() / 3) * 3;
+          return {
+            from: new Date(to.getFullYear(), q, 1),
+            to,
+          } as DateRange;
+        },
+      },
+    ],
+    [],
+  );
+  return (
+    <DateRangePicker value={range} onChange={setRange} presets={myPresets} />
+  );
+}
+
+function DatePickerSingleMonthPreview() {
+  const [range, setRange] = React.useState<DateRange | undefined>();
+  return (
+    <DateRangePicker
+      value={range}
+      onChange={setRange}
+      numberOfMonths={1}
+      placeholder="Select period"
+    />
+  );
+}
+
+function DatePickerCustomFormatPreview() {
+  const [range, setRange] = React.useState<DateRange | undefined>({
+    from: new Date(),
+    to: new Date(Date.now() + 14 * 86400000),
+  });
+  return (
+    <DateRangePicker
+      value={range}
+      onChange={setRange}
+      dateFormat="MM/dd/yyyy"
+    />
+  );
+}
+
+function DatePickerDisabledPreview() {
+  return (
+    <DateRangePicker
+      value={{ from: new Date(), to: new Date(Date.now() + 7 * 86400000) }}
+      disabled
+      presets
+    />
   );
 }
 
@@ -2175,6 +2278,15 @@ const examplePreviews: Record<string, React.ReactNode> = {
   "calendar:multiple": <CalendarMultiplePreview />,
   "calendar:disabled-dates": <CalendarDisabledPreview />,
   "calendar:date-picker": <CalendarDatePickerPreview />,
+
+  // Date Picker
+  "date-picker": <DatePickerWithPresetsPreview />,
+  "date-picker:basic": <DatePickerBasicPreview />,
+  "date-picker:with-presets": <DatePickerWithPresetsPreview />,
+  "date-picker:custom-presets": <DatePickerCustomPresetsPreview />,
+  "date-picker:single-month": <DatePickerSingleMonthPreview />,
+  "date-picker:custom-format": <DatePickerCustomFormatPreview />,
+  "date-picker:disabled": <DatePickerDisabledPreview />,
 
   // Checkbox
   "checkbox:default": (

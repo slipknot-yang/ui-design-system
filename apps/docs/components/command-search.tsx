@@ -7,6 +7,7 @@ import {
   Search,
   Home,
   Blocks,
+  LayoutList,
   Palette,
   Languages,
   LogIn,
@@ -63,6 +64,11 @@ export function CommandSearch() {
     { label: tNav("calendar"), href: "/patterns/calendar" },
     { label: tNav("workflow"), href: "/patterns/workflow" },
     { label: tNav("dashboardPattern"), href: "/patterns/dashboard" },
+    { label: tNav("treeDetail"), href: "/patterns/tree-detail" },
+  ];
+
+  const pattern2Items = [
+    { label: tNav("govSearchDetail"), href: "/patterns2/search-detail" },
   ];
 
   return (
@@ -99,6 +105,15 @@ export function CommandSearch() {
             {patternItems.map((item) => (
               <CommandItem key={item.href} onSelect={() => navigate(item.href)}>
                 <Blocks className="me-2 h-4 w-4" />
+                {item.label}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+
+          <CommandGroup heading={tNav("patterns2")}>
+            {pattern2Items.map((item) => (
+              <CommandItem key={item.href} onSelect={() => navigate(item.href)}>
+                <LayoutList className="me-2 h-4 w-4" />
                 {item.label}
               </CommandItem>
             ))}
