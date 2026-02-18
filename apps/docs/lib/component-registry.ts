@@ -1335,14 +1335,10 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         slug: "date-picker",
         description:
           "A versatile date picker supporting both single date and date range selection. Type dates directly in the input (with format validation) or pick from a calendar popover. Supports configurable preset buttons (e.g. Today, 1 Month, 1 Year) for quick selection.",
-        importExample: `import { DatePicker } from "@workspace/ui/components/date-picker";
-import type { DateRange } from "@workspace/ui/components/date-picker";`,
-        codeExample: `const [range, setRange] = React.useState<DateRange | undefined>({
-  from: new Date(),
-  to: new Date(Date.now() + 7 * 86400000),
-});
+        importExample: `import { DatePicker } from "@workspace/ui/components/date-picker";`,
+        codeExample: `const [date, setDate] = React.useState<Date | undefined>(new Date());
 
-<DatePicker mode="range" value={range} onChange={setRange} presets />`,
+<DatePicker value={date} onChange={setDate} />`,
         examples: [
           {
             id: "single",
