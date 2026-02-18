@@ -27,7 +27,7 @@ function formatDate(date: Date): string {
 
 type PresetKey = "today" | "1month" | "1year" | "all";
 
-interface DateRangePickerProps {
+interface DatePickerProps {
   from?: string;
   to?: string;
   onChange?: (from: string, to: string) => void;
@@ -35,13 +35,13 @@ interface DateRangePickerProps {
   showPresets?: boolean;
 }
 
-export function DateRangePicker({
+export function DatePicker({
   from,
   to,
   onChange,
   className,
   showPresets = true,
-}: DateRangePickerProps) {
+}: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const [activePreset, setActivePreset] = useState<PresetKey | null>(null);
 
