@@ -121,7 +121,7 @@
     "dashboardPattern": "Panel de control",
     "treeDetail": "Árbol + Detalle",
     "patterns2": "Patrones de UI 2",
-    "govSearchDetail": "Búsqueda + Detalle (Admin. Gov.)",
+    "govSearchDetail": "Búsqueda + Detalle",
     "newDeclaration": "Nueva declaración",
     "declarationQuery": "Consulta de declaración",
     "declarationList": "Lista de declaraciones",
@@ -229,7 +229,7 @@
       "description": "Navegación de árbol jerárquico con vista de detalle para gestión de códigos SA"
     },
     "govSearchDetail": {
-      "title": "Búsqueda + Detalle (Estilo Admin. Gov.)",
+      "title": "Búsqueda + Detalle",
       "description": "Grilla Label|Campo estilo UNI-PASS y tabla con bordes completos"
     }
   },

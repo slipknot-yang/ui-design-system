@@ -268,9 +268,9 @@ import {
 import { toast } from "sonner";
 import { Calendar } from "@workspace/ui/components/calendar";
 import {
-  DateRangePicker,
+  DatePicker,
   type DateRange,
-} from "@workspace/ui/components/date-range-picker";
+} from "@workspace/ui/components/date-picker";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import {
@@ -388,12 +388,12 @@ function DatePickerBasicPreview() {
     from: new Date(),
     to: new Date(Date.now() + 7 * 86400000),
   });
-  return <DateRangePicker value={range} onChange={setRange} />;
+  return <DatePicker mode="range" value={range} onChange={setRange} />;
 }
 
 function DatePickerWithPresetsPreview() {
   const [range, setRange] = React.useState<DateRange | undefined>();
-  return <DateRangePicker value={range} onChange={setRange} presets />;
+  return <DatePicker mode="range" value={range} onChange={setRange} presets />;
 }
 
 function DatePickerCustomPresetsPreview() {
@@ -440,14 +440,20 @@ function DatePickerCustomPresetsPreview() {
     [],
   );
   return (
-    <DateRangePicker value={range} onChange={setRange} presets={myPresets} />
+    <DatePicker
+      mode="range"
+      value={range}
+      onChange={setRange}
+      presets={myPresets}
+    />
   );
 }
 
 function DatePickerSingleMonthPreview() {
   const [range, setRange] = React.useState<DateRange | undefined>();
   return (
-    <DateRangePicker
+    <DatePicker
+      mode="range"
       value={range}
       onChange={setRange}
       numberOfMonths={1}
@@ -462,7 +468,8 @@ function DatePickerCustomFormatPreview() {
     to: new Date(Date.now() + 14 * 86400000),
   });
   return (
-    <DateRangePicker
+    <DatePicker
+      mode="range"
       value={range}
       onChange={setRange}
       dateFormat="MM/dd/yyyy"
@@ -470,9 +477,20 @@ function DatePickerCustomFormatPreview() {
   );
 }
 
+function DatePickerSinglePreview() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  return <DatePicker mode="single" value={date} onChange={setDate} />;
+}
+
+function DatePickerSingleWithPresetsPreview() {
+  const [date, setDate] = React.useState<Date | undefined>();
+  return <DatePicker mode="single" value={date} onChange={setDate} presets />;
+}
+
 function DatePickerDisabledPreview() {
   return (
-    <DateRangePicker
+    <DatePicker
+      mode="range"
       value={{ from: new Date(), to: new Date(Date.now() + 7 * 86400000) }}
       disabled
       presets
@@ -2281,6 +2299,8 @@ const examplePreviews: Record<string, React.ReactNode> = {
 
   // Date Picker
   "date-picker": <DatePickerWithPresetsPreview />,
+  "date-picker:single": <DatePickerSinglePreview />,
+  "date-picker:single-with-presets": <DatePickerSingleWithPresetsPreview />,
   "date-picker:basic": <DatePickerBasicPreview />,
   "date-picker:with-presets": <DatePickerWithPresetsPreview />,
   "date-picker:custom-presets": <DatePickerCustomPresetsPreview />,

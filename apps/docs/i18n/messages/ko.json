@@ -121,7 +121,7 @@
     "dashboardPattern": "대시보드",
     "treeDetail": "트리 + 상세",
     "patterns2": "UI 패턴 2",
-    "govSearchDetail": "검색 + 상세 (관세행정)",
+    "govSearchDetail": "검색 + 상세",
     "newDeclaration": "신고서 작성",
     "declarationQuery": "신고서 조회",
     "declarationList": "신고서 목록",
@@ -229,7 +229,7 @@
       "description": "계층 구조 트리와 상세 뷰가 결합된 HS 코드 관리 패턴"
     },
     "govSearchDetail": {
-      "title": "검색 + 상세 (관세행정 스타일)",
+      "title": "검색 + 상세",
       "description": "UNI-PASS 스타일의 Label|Field 그리드와 Full-bordered 테이블"
     }
   },

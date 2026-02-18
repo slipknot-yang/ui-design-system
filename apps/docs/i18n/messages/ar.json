@@ -121,7 +121,7 @@
     "dashboardPattern": "لوحة المعلومات",
     "treeDetail": "شجرة + تفصيل",
     "patterns2": "أنماط واجهة المستخدم 2",
-    "govSearchDetail": "بحث + تفصيل (إدارة حكومية)",
+    "govSearchDetail": "بحث + تفصيل",
     "newDeclaration": "بيان جديد",
     "declarationQuery": "استعلام البيان",
     "declarationList": "قائمة البيانات",
@@ -229,7 +229,7 @@
       "description": "تنقل شجري هرمي مع عرض تفصيلي لإدارة رموز النظام المنسق"
     },
     "govSearchDetail": {
-      "title": "بحث + تفصيل (نمط الإدارة الحكومية)",
+      "title": "بحث + تفصيل",
       "description": "شبكة تسمية|حقل بأسلوب UNI-PASS وجدول بحدود كاملة"
     }
   },

@@ -121,7 +121,7 @@
     "dashboardPattern": "Dashboard",
     "treeDetail": "Tree + Detail",
     "patterns2": "UI Patterns 2",
-    "govSearchDetail": "Search + Detail (Gov Admin)",
+    "govSearchDetail": "Search + Detail",
     "newDeclaration": "New Declaration",
     "declarationQuery": "Declaration Query",
     "declarationList": "Declaration List",
@@ -229,7 +229,7 @@
       "description": "Hierarchical tree navigation with detail view for HS code management"
     },
     "govSearchDetail": {
-      "title": "Search + Detail (Gov Admin Style)",
+      "title": "Search + Detail",
       "description": "UNI-PASS style Label|Field grid and full-bordered table"
     }
   },

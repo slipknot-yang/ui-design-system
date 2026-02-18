@@ -121,7 +121,7 @@
     "dashboardPattern": "仪表盘",
     "treeDetail": "树形 + 详情",
     "patterns2": "UI模式 2",
-    "govSearchDetail": "搜索 + 详情 (政府行政)",
+    "govSearchDetail": "搜索 + 详情",
     "newDeclaration": "新建申报",
     "declarationQuery": "申报查询",
     "declarationList": "申报列表",
@@ -229,7 +229,7 @@
       "description": "层级树形导航与详情视图相结合的HS编码管理模式"
     },
     "govSearchDetail": {
-      "title": "搜索 + 详情 (政府行政风格)",
+      "title": "搜索 + 详情",
       "description": "UNI-PASS风格的标签|字段网格和全边框表格"
     }
   },

@@ -10,7 +10,7 @@ import {
 } from "@workspace/ui/components/popover";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
-import type { DateRange } from "@workspace/ui/components/date-range-picker";
+import type { DateRange } from "@workspace/ui/components/date-picker";
 
 function parseDate(str: string): Date | undefined {
   if (!str) return undefined;

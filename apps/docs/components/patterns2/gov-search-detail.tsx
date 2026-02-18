@@ -21,9 +21,9 @@ import {
 } from "@workspace/ui/components/select";
 import { Separator } from "@workspace/ui/components/separator";
 import {
-  DateRangePicker,
+  DatePicker,
   type DateRange,
-} from "@workspace/ui/components/date-range-picker";
+} from "@workspace/ui/components/date-picker";
 import {
   Search,
   RotateCcw,
@@ -419,7 +419,8 @@ export function GovSearchDetail() {
         <FormGridRow>
           <FormGridLabel>Period</FormGridLabel>
           <FormGridCell>
-            <DateRangePicker
+            <DatePicker
+              mode="range"
               value={dateRange}
               onChange={setDateRange}
               numberOfMonths={2}
@@ -549,7 +550,7 @@ export function GovSearchDetail() {
                     <TableCell className="border dark:border-foreground/15 text-center text-muted-foreground">
                       {page * rowsPerPage + idx + 1}
                     </TableCell>
-                    <TableCell className="border dark:border-foreground/15 font-mono text-xs font-medium text-primary underline underline-offset-2 decoration-primary/40 hover:decoration-primary">
+                    <TableCell className="border dark:border-foreground/15 text-center font-mono text-xs font-medium text-primary underline underline-offset-2 decoration-primary/40 hover:decoration-primary">
                       {row.declarationNo}
                     </TableCell>
                     <TableCell className="border dark:border-foreground/15 text-center">

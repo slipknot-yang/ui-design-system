@@ -1334,27 +1334,45 @@ const [date, setDate] = React.useState<Date | undefined>(new Date());
         name: "Date Picker",
         slug: "date-picker",
         description:
-          "A composite date picker that lets users select a start and end date from a calendar popover. Supports configurable preset buttons (e.g. Today, 1 Month, 1 Year) for quick date range selection. Click the input to open. Built on Calendar + Popover.",
-        importExample: `import { DateRangePicker } from "@workspace/ui/components/date-range-picker";
-import type { DateRange } from "@workspace/ui/components/date-range-picker";`,
+          "A versatile date picker supporting both single date and date range selection. Type dates directly in the input (with format validation) or pick from a calendar popover. Supports configurable preset buttons (e.g. Today, 1 Month, 1 Year) for quick selection.",
+        importExample: `import { DatePicker } from "@workspace/ui/components/date-picker";
+import type { DateRange } from "@workspace/ui/components/date-picker";`,
         codeExample: `const [range, setRange] = React.useState<DateRange | undefined>({
   from: new Date(),
   to: new Date(Date.now() + 7 * 86400000),
 });
 
-<DateRangePicker value={range} onChange={setRange} presets />`,
+<DatePicker mode="range" value={range} onChange={setRange} presets />`,
         examples: [
           {
-            id: "basic",
-            title: "Basic Date Range",
+            id: "single",
+            title: "Single Date",
             description:
-              "Click the input to open the calendar and select a date range.",
+              "Single date selection. Type a date directly or click the calendar icon.",
+            code: `const [date, setDate] = React.useState<Date | undefined>(new Date());
+
+<DatePicker mode="single" value={date} onChange={setDate} />`,
+          },
+          {
+            id: "single-with-presets",
+            title: "Single Date + Presets",
+            description:
+              "Single date mode combined with preset buttons for quick selection.",
+            code: `const [date, setDate] = React.useState<Date | undefined>();
+
+<DatePicker mode="single" value={date} onChange={setDate} presets />`,
+          },
+          {
+            id: "basic",
+            title: "Date Range",
+            description:
+              "Date range selection. Type dates directly in from/to fields or pick from calendar.",
             code: `const [range, setRange] = React.useState<DateRange | undefined>({
   from: new Date(),
   to: new Date(Date.now() + 7 * 86400000),
 });
 
-<DateRangePicker value={range} onChange={setRange} />`,
+<DatePicker mode="range" value={range} onChange={setRange} />`,
           },
           {
             id: "with-presets",
@@ -1363,7 +1381,7 @@ import type { DateRange } from "@workspace/ui/components/date-range-picker";`,
               "Pass presets={true} to show default preset buttons (당일, 1개월, 3개월, 1년, 전체) to the right of the date input.",
             code: `const [range, setRange] = React.useState<DateRange | undefined>();
 
-<DateRangePicker value={range} onChange={setRange} presets />`,
+<DatePicker mode="range" value={range} onChange={setRange} presets />`,
           },
           {
             id: "custom-presets",
@@ -1390,7 +1408,7 @@ const myPresets = [
   }},
 ];
 
-<DateRangePicker value={range} onChange={setRange} presets={myPresets} />`,
+<DatePicker mode="range" value={range} onChange={setRange} presets={myPresets} />`,
           },
           {
             id: "single-month",
@@ -1399,7 +1417,8 @@ const myPresets = [
               "Compact version showing only one month. Good for narrow layouts.",
             code: `const [range, setRange] = React.useState<DateRange | undefined>();
 
-<DateRangePicker
+<DatePicker
+  mode="range"
   value={range}
   onChange={setRange}
   numberOfMonths={1}
@@ -1416,7 +1435,8 @@ const myPresets = [
   to: new Date(Date.now() + 14 * 86400000),
 });
 
-<DateRangePicker
+<DatePicker
+  mode="range"
   value={range}
   onChange={setRange}
   dateFormat="MM/dd/yyyy"
@@ -1427,7 +1447,8 @@ const myPresets = [
             title: "Disabled",
             description:
               "A disabled date picker that cannot be interacted with.",
-            code: `<DateRangePicker
+            code: `<DatePicker
+  mode="range"
   value={{ from: new Date(), to: new Date(Date.now() + 7 * 86400000) }}
   disabled
   presets
@@ -1490,8 +1511,17 @@ const myPresets = [
             description:
               "Locale object from date-fns for internationalization.",
           },
+          {
+            name: "mode",
+            type: '"single" | "range"',
+            default: '"range"',
+            description:
+              'Selection mode. "single" for one date, "range" for start~end date.',
+          },
         ],
         variants: [
+          "single",
+          "single-with-presets",
           "default",
           "with-presets",
           "custom-presets",
