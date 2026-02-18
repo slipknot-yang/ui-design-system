@@ -2,7 +2,7 @@
 
 CUPIA 관세행정시스템(Customs Administration System)을 위한 UI 컴포넌트 라이브러리 및 디자인 시스템 문서 사이트.
 
-**Live Demo:** [slipknot-yang.github.io/ui-design-system](https://slipknot-yang.github.io/ui-design-system)
+![CUPIA Design System - Main Page](docs/screenshots/main-page.png)
 
 ## Tech Stack
 
@@ -63,8 +63,8 @@ ui-design-system/
 
 ```bash
 # Clone
-git clone https://github.com/slipknot-yang/ui-design-system.git
-cd ui-design-system
+git clone https://git.cupia-framework.64bit.kr/cupia/framework/cupia-design-system.git
+cd cupia-design-system
 
 # Install dependencies
 pnpm install
